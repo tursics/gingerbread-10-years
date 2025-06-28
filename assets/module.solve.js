@@ -26,16 +26,16 @@ var solve = (function () {
     }
 
     function getCols(data) {
-        return Array.from(data.cleaned[0]).length;
+        return Array.from(new Intl.Segmenter().segment(data.cleaned[0])).length;
     }
 
     function getItem(data, x, y) {
-        return Array.from(data.cleaned[y])[x];
+        return Array.from(new Intl.Segmenter().segment(data.cleaned[y]))[x].segment;
     }
 
     function cleanItem(data, x, y) {
-        var line = Array.from(data.cleaned[y]);
-        line[x] = 'x';
+        var line = Array.from(new Intl.Segmenter().segment(data.cleaned[y]), s => s.segment);
+        line[x] = '⬜️';
         data.cleaned[y] = line.join('');
     }
 
@@ -60,7 +60,6 @@ var solve = (function () {
     {
         var rows = getRows(data);
         var cols = getCols(data);
-console.log(rows ,cols);
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
@@ -69,7 +68,6 @@ console.log(rows ,cols);
                     cleanItem(data, x, y + 0);
                     cleanItem(data, x, y + 1);
                     cleanItem(data, x, y + 2);
-console.log(data.cleaned[y]);
                 }
             }
         }

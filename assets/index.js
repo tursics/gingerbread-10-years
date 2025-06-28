@@ -4,10 +4,11 @@ var config = {
 
 function selfTest() {
     var repository = level.getDebug();
-    console.log(repository.design);
 
     var ret = solve.board(repository);
-    console.log(ret);
+
+    console.table(ret.initial);
+    console.table(ret.cleaned);
 }
 
 window.onload = function() {
