@@ -40,9 +40,13 @@ var solve = (function () {
     }
 
     function countSameItem(data, startX, startY, diffX, diffY) {
+        var item = getItem(data, startX, startY);
+        if ((item === '⬜️') || (item === '🅾️')) {
+            return 0;
+        }
+
         var rows = getRows(data);
         var cols = getCols(data);
-        var item = getItem(data, startX, startY);
         var x = startX + diffX;
         var y = startY + diffY;
         var count = 0;
