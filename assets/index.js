@@ -9,6 +9,7 @@ function selfTest() {
 
     console.table(ret.initial);
     console.table(ret.cleaned);
+    console.table(ret.animate);
 }
 
 window.onload = function() {

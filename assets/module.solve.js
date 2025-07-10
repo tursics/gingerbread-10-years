@@ -16,8 +16,8 @@ var solve = (function () {
 //        solveFuncs.push( this.solveTBottom);
 //        solveFuncs.push( this.solveTLeft);
 //        solveFuncs.push( this.solve4row);
-//        solveFuncs.push( this.solve4col);
-//        solveFuncs.push( this.solve3row);
+        solveFuncs.push(solve4col);
+        solveFuncs.push(solve3row);
         solveFuncs.push(solve3col);
     }
 
@@ -37,11 +37,74 @@ var solve = (function () {
         var line = Array.from(new Intl.Segmenter().segment(data.cleaned[y]), s => s.segment);
         line[x] = '⬜️';
         data.cleaned[y] = line.join('');
+
+        line = Array.from(new Intl.Segmenter().segment(data.animate[y]), s => s.segment);
+        line[x] = '🆓';
+        data.animate[y] = line.join('');
+    }
+
+    function changeItem(data, x, y, face) {
+        var line = Array.from(new Intl.Segmenter().segment(data.cleaned[y]), s => s.segment);
+        line[x] = face;
+        data.cleaned[y] = line.join('');
+
+        line = Array.from(new Intl.Segmenter().segment(data.animate[y]), s => s.segment);
+        line[x] = '🔄';
+        data.animate[y] = line.join('');
+    }
+
+    function animateItem(data, startX, startY, targetX, targetY) {
+        var line = Array.from(new Intl.Segmenter().segment(data.cleaned[startY]), s => s.segment);
+        line[startX] = '⬜️';
+        data.cleaned[startY] = line.join('');
+
+        line = Array.from(new Intl.Segmenter().segment(data.animate[startY]), s => s.segment);
+        if (startX === targetX) {
+            var diff = startY - targetY;
+            line[startX] = diff === 2 ? '⏫️' : diff === 1 ? '🔼' : diff === -1 ? '🔽' : diff === -2 ? '⏬️' : '*️⃣';
+        } else if (startY === targetY) {
+            var diff = startX - targetX;
+            line[startX] = diff === -2 ? '⏪️' : diff === -1 ? '◀️' : diff === 1 ? '▶️' : diff === 2 ? '⏩️' : '*️⃣';
+        } else {
+            line[startX] = '*️⃣';
+        }
+        data.animate[startY] = line.join('');
+    }
+
+    function isItemMovable(item) {
+        return (item !== '⬜️') && (item !== '🅾️') && (item !== '⬇️');
+    }
+
+    function isBaseItem(item) {
+        return (item === '🍎') || (item === '🍐') || (item === '🍋')
+            || (item === '🥥') || (item === '🫐') || (item === '🍠');
+    }
+
+    function getStripesHItem(item) {
+        if (item === '🍎') {
+            return '🐷';
+        }
+        if (item === '🍐') {
+            return '🐮';
+        }
+        if (item === '🍋') {
+            return '🐯';
+        }
+        if (item === '🥥') {
+            return '🐻';
+        }
+        if (item === '🫐') {
+            return '🐭';
+        }
+        if (item === '🍠') {
+            return '🐵';
+        }
+        return '💔';
     }
 
     function countSameItem(data, startX, startY, diffX, diffY) {
         var item = getItem(data, startX, startY);
-        if ((item === '⬜️') || (item === '🅾️')) {
+        if (!isItemMovable(item)) {
             return 0;
         }
 
@@ -60,8 +123,23 @@ var solve = (function () {
         return count;
     }
 
-    function solve3col(data)
-    {
+    function solve3row(data) {
+        var rows = getRows(data);
+        var cols = getCols(data);
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                var countRight = countSameItem(data, x, y, 1, 0);
+                if( countRight == 2) {
+                    cleanItem(data, x + 0, y);
+                    cleanItem(data, x + 1, y);
+                    cleanItem(data, x + 2, y);
+                }
+            }
+        }
+    }
+
+    function solve3col(data) {
         var rows = getRows(data);
         var cols = getCols(data);
 
@@ -77,11 +155,62 @@ var solve = (function () {
         }
     }
 
+    function solve4col(data, posX, posY, altX, altY) {
+        var rows = getRows(data);
+        var cols = getCols(data);
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                var countDown = countSameItem(data, x, y, 0, 1);
+                if( countDown == 3) {
+                    if (((x == posX) && ((y + 2) == posY)) || (( x == altX) && ((y + 2) == altY))) {
+                        var item = getItem(data, x, y + 2);
+                        if (isBaseItem(item)) {
+                            animateItem(data, x, y + 0, x, y + 2);
+                            animateItem(data, x, y + 1, x, y + 2);
+                            changeItem (data, x, y + 2, getStripesHItem(item));
+                            animateItem(data, x, y + 3, x, y + 2);
+                        } else {
+                            cleanItem(data, x, y + 0);
+                            cleanItem(data, x, y + 1);
+                            cleanItem(data, x, y + 2);
+                            cleanItem(data, x, y + 3);
+                        }
+                    } else {
+                        var item = getItem(data, x, y + 1);
+                        if (isBaseItem(item)) {
+                            animateItem(data, x, y + 0, x, y + 1);
+                            changeItem (data, x, y + 1, getStripesHItem(item));
+                            animateItem(data, x, y + 2, x, y + 1);
+                            animateItem(data, x, y + 3, x, y + 1);
+                        } else {
+                            cleanItem(data, x, y + 0);
+                            cleanItem(data, x, y + 1);
+                            cleanItem(data, x, y + 2);
+                            cleanItem(data, x, y + 3);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     function funcBoard(repository) {
         var ret = {
             initial: repository.design.map(function(arr) { return arr.slice(); }),
             cleaned: repository.design.map(function(arr) { return arr.slice(); }),
+            animate: [],
         };
+
+        var rows = getRows(ret);
+        var cols = getCols(ret);
+
+        for (var y = 0; y < rows; ++y) {
+            ret.animate[y] = '';
+            for (var x = 0; x < cols; ++x) {
+                ret.animate[y] += '⬜️';
+            }
+        }
 
         for (var s = 0; s < solveFuncs.length; ++s) {
             solveFuncs[s](ret);
