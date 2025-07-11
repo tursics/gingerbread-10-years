@@ -39,7 +39,7 @@ var solve = (function () {
         data.cleaned[y] = line.join('');
 
         line = Array.from(new Intl.Segmenter().segment(data.animate[y]), s => s.segment);
-        line[x] = '🆓';
+        line[x] = '🗑️';
         data.animate[y] = line.join('');
     }
 
@@ -61,12 +61,12 @@ var solve = (function () {
         line = Array.from(new Intl.Segmenter().segment(data.animate[startY]), s => s.segment);
         if (startX === targetX) {
             var diff = startY - targetY;
-            line[startX] = diff === 2 ? '⏫️' : diff === 1 ? '🔼' : diff === -1 ? '🔽' : diff === -2 ? '⏬️' : '*️⃣';
+            line[startX] = diff === 2 ? '⏫️' : diff === 1 ? '🔼' : diff === -1 ? '🔽' : diff === -2 ? '⏬️' : '🐞';
         } else if (startY === targetY) {
             var diff = startX - targetX;
-            line[startX] = diff === -2 ? '⏪️' : diff === -1 ? '◀️' : diff === 1 ? '▶️' : diff === 2 ? '⏩️' : '*️⃣';
+            line[startX] = diff === -2 ? '⏪️' : diff === -1 ? '◀️' : diff === 1 ? '▶️' : diff === 2 ? '⏩️' : '🐞';
         } else {
-            line[startX] = '*️⃣';
+            line[startX] = '🐞';
         }
         data.animate[startY] = line.join('');
     }
