@@ -15,7 +15,7 @@ var solve = (function () {
 //        solveFuncs.push( this.solveTRight);
 //        solveFuncs.push( this.solveTBottom);
 //        solveFuncs.push( this.solveTLeft);
-//        solveFuncs.push( this.solve4row);
+        solveFuncs.push(solve4row);
         solveFuncs.push(solve4col);
         solveFuncs.push(solve3row);
         solveFuncs.push(solve3col);
@@ -64,7 +64,7 @@ var solve = (function () {
             line[startX] = diff === 2 ? '⏫️' : diff === 1 ? '🔼' : diff === -1 ? '🔽' : diff === -2 ? '⏬️' : '🐞';
         } else if (startY === targetY) {
             var diff = startX - targetX;
-            line[startX] = diff === -2 ? '⏪️' : diff === -1 ? '◀️' : diff === 1 ? '▶️' : diff === 2 ? '⏩️' : '🐞';
+            line[startX] = diff === 2 ? '⏪️' : diff === 1 ? '◀️' : diff === -1 ? '▶️' : diff === -2 ? '⏩️' : '🐞';
         } else {
             line[startX] = '🐞';
         }
@@ -91,7 +91,7 @@ var solve = (function () {
             return '🐯';
         }
         if (item === '🥥') {
-            return '🐻';
+            return '🐦';
         }
         if (item === '🫐') {
             return '🐭';
@@ -99,7 +99,29 @@ var solve = (function () {
         if (item === '🍠') {
             return '🐵';
         }
-        return '💔';
+        return '🐞';
+    }
+
+    function getStripesVItem(item) {
+        if (item === '🍎') {
+            return '🐖';
+        }
+        if (item === '🍐') {
+            return '🐄';
+        }
+        if (item === '🍋') {
+            return '🐅';
+        }
+        if (item === '🥥') {
+            return '🦢';
+        }
+        if (item === '🫐') {
+            return '🐁';
+        }
+        if (item === '🍠') {
+            return '🐒';
+        }
+        return '🐞';
     }
 
     function countSameItem(data, startX, startY, diffX, diffY) {
@@ -163,7 +185,7 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countDown = countSameItem(data, x, y, 0, 1);
                 if( countDown == 3) {
-                    if (((x == posX) && ((y + 2) == posY)) || (( x == altX) && ((y + 2) == altY))) {
+                    if (((x == posX) && ((y + 2) == posY)) || ((x == altX) && ((y + 2) == altY))) {
                         var item = getItem(data, x, y + 2);
                         if (isBaseItem(item)) {
                             animateItem(data, x, y + 0, x, y + 2);
@@ -188,6 +210,46 @@ var solve = (function () {
                             cleanItem(data, x, y + 1);
                             cleanItem(data, x, y + 2);
                             cleanItem(data, x, y + 3);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function solve4row(data, posX, posY, altX, altY) {
+        var rows = getRows(data);
+        var cols = getCols(data);
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                var countRight = countSameItem(data, x, y, 1, 0);
+                if( countRight == 3) {
+                    if((((x + 2) == posX) && (y == posY)) || (((x + 2) == altX) && (y == altY))) {
+                        var item = getItem(data, x + 2, y);
+                        if (isBaseItem(item)) {
+                            animateItem(data, x + 0, y, x + 2, y);
+                            animateItem(data, x + 1, y, x + 2, y);
+                            changeItem (data, x + 2, y, getStripesVItem(item));
+                            animateItem(data, x + 3, y, x + 2, y);
+                        } else {
+                            this.animateFadeout( x + 0, y, this.score.GEM);
+                            this.animateFadeout( x + 1, y, this.score.GEM);
+                            this.animateFadeout( x + 2, y, this.score.GEM);
+                            this.animateFadeout( x + 3, y, this.score.GEM);
+                        }
+                    } else {
+                        var item = getItem(data, x + 1, y);
+                        if (isBaseItem(item)) {
+                            animateItem(data, x + 0, y, x + 1, y);
+                            changeItem (data, x + 1, y, getStripesVItem(item));
+                            animateItem(data, x + 2, y, x + 1, y);
+                            animateItem(data, x + 3, y, x + 1, y);
+                        } else {
+                            this.animateFadeout( x + 0, y, this.score.GEM);
+                            this.animateFadeout( x + 1, y, this.score.GEM);
+                            this.animateFadeout( x + 2, y, this.score.GEM);
+                            this.animateFadeout( x + 3, y, this.score.GEM);
                         }
                     }
                 }
