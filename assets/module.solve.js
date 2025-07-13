@@ -72,7 +72,7 @@ var solve = (function () {
     }
 
     function isItemMovable(item) {
-        return (item !== '⬜️') && (item !== '🅾️') && (item !== '⬇️');
+        return (item !== '⬜️') && (item !== '⚪️') && (item !== '🅾️') && (item !== '⬇️');
     }
 
     function isBaseItem(item) {
@@ -233,10 +233,10 @@ var solve = (function () {
                             changeItem (data, x + 2, y, getStripesVItem(item));
                             animateItem(data, x + 3, y, x + 2, y);
                         } else {
-                            this.animateFadeout( x + 0, y, this.score.GEM);
-                            this.animateFadeout( x + 1, y, this.score.GEM);
-                            this.animateFadeout( x + 2, y, this.score.GEM);
-                            this.animateFadeout( x + 3, y, this.score.GEM);
+                            cleanItem(data, x + 0, y);
+                            cleanItem(data, x + 1, y);
+                            cleanItem(data, x + 2, y);
+                            cleanItem(data, x + 3, y);
                         }
                     } else {
                         var item = getItem(data, x + 1, y);
@@ -246,10 +246,10 @@ var solve = (function () {
                             animateItem(data, x + 2, y, x + 1, y);
                             animateItem(data, x + 3, y, x + 1, y);
                         } else {
-                            this.animateFadeout( x + 0, y, this.score.GEM);
-                            this.animateFadeout( x + 1, y, this.score.GEM);
-                            this.animateFadeout( x + 2, y, this.score.GEM);
-                            this.animateFadeout( x + 3, y, this.score.GEM);
+                            cleanItem(data, x + 0, y);
+                            cleanItem(data, x + 1, y);
+                            cleanItem(data, x + 2, y);
+                            cleanItem(data, x + 3, y);
                         }
                     }
                 }
