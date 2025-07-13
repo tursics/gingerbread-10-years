@@ -21,44 +21,36 @@ var solve = (function () {
         solveFuncs.push(solve3row);
     }
 
-    function getRows(data) {
-        return data.cleaned.length;
+    function getItem(repository, x, y) {
+        return Array.from(new Intl.Segmenter().segment(repository.cleaned[y]))[x].segment;
     }
 
-    function getCols(data) {
-        return Array.from(new Intl.Segmenter().segment(data.cleaned[0])).length;
-    }
-
-    function getItem(data, x, y) {
-        return Array.from(new Intl.Segmenter().segment(data.cleaned[y]))[x].segment;
-    }
-
-    function cleanItem(data, x, y) {
-        var line = Array.from(new Intl.Segmenter().segment(data.cleaned[y]), s => s.segment);
+    function cleanItem(repository, x, y) {
+        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[y]), s => s.segment);
         line[x] = '⬜️';
-        data.cleaned[y] = line.join('');
+        repository.cleaned[y] = line.join('');
 
-        line = Array.from(new Intl.Segmenter().segment(data.animate[y]), s => s.segment);
+        line = Array.from(new Intl.Segmenter().segment(repository.animate[y]), s => s.segment);
         line[x] = '🗑️';
-        data.animate[y] = line.join('');
+        repository.animate[y] = line.join('');
     }
 
-    function changeItem(data, x, y, face) {
-        var line = Array.from(new Intl.Segmenter().segment(data.cleaned[y]), s => s.segment);
+    function changeItem(repository, x, y, face) {
+        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[y]), s => s.segment);
         line[x] = face;
-        data.cleaned[y] = line.join('');
+        repository.cleaned[y] = line.join('');
 
-        line = Array.from(new Intl.Segmenter().segment(data.animate[y]), s => s.segment);
+        line = Array.from(new Intl.Segmenter().segment(repository.animate[y]), s => s.segment);
         line[x] = '🔄';
-        data.animate[y] = line.join('');
+        repository.animate[y] = line.join('');
     }
 
-    function animateItem(data, startX, startY, targetX, targetY) {
-        var line = Array.from(new Intl.Segmenter().segment(data.cleaned[startY]), s => s.segment);
+    function animateItem(repository, startX, startY, targetX, targetY) {
+        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[startY]), s => s.segment);
         line[startX] = '⬜️';
-        data.cleaned[startY] = line.join('');
+        repository.cleaned[startY] = line.join('');
 
-        line = Array.from(new Intl.Segmenter().segment(data.animate[startY]), s => s.segment);
+        line = Array.from(new Intl.Segmenter().segment(repository.animate[startY]), s => s.segment);
         if (startX === targetX) {
             var diff = startY - targetY;
             line[startX] = diff === 2 ? '⏫️' : diff === 1 ? '🔼' : diff === -1 ? '🔽' : diff === -2 ? '⏬️' : '🐞';
@@ -68,7 +60,7 @@ var solve = (function () {
         } else {
             line[startX] = '🐞';
         }
-        data.animate[startY] = line.join('');
+        repository.animate[startY] = line.join('');
     }
 
     function isItemMovable(item) {
@@ -124,19 +116,19 @@ var solve = (function () {
         return '🐞';
     }
 
-    function countSameItem(data, startX, startY, diffX, diffY) {
-        var item = getItem(data, startX, startY);
+    function countSameItem(repository, startX, startY, diffX, diffY) {
+        var item = getItem(repository, startX, startY);
         if (!isItemMovable(item)) {
             return 0;
         }
 
-        var rows = getRows(data);
-        var cols = getCols(data);
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
         var x = startX + diffX;
         var y = startY + diffY;
         var count = 0;
 
-        while ((x >= 0) && (y >= 0) && (x < cols) && (y < rows) && (getItem(data, x, y) === item)) {
+        while ((x >= 0) && (y >= 0) && (x < cols) && (y < rows) && (getItem(repository, x, y) === item)) {
             ++count;
             x += diffX;
             y += diffY;
@@ -145,67 +137,67 @@ var solve = (function () {
         return count;
     }
 
-    function solve3col(data) {
-        var rows = getRows(data);
-        var cols = getCols(data);
+    function solve3col(repository) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countDown = countSameItem(data, x, y, 0, 1);
+                var countDown = countSameItem(repository, x, y, 0, 1);
                 if (countDown === 2) {
-                    var item = getItem(data, x, y);
+                    var item = getItem(repository, x, y);
                     if (isBaseItem(item)) {
-                        cleanItem(data, x, y + 0);
-                        cleanItem(data, x, y + 1);
-                        cleanItem(data, x, y + 2);
+                        cleanItem(repository, x, y + 0);
+                        cleanItem(repository, x, y + 1);
+                        cleanItem(repository, x, y + 2);
                     }
                 }
             }
         }
     }
 
-    function solve3row(data) {
-        var rows = getRows(data);
-        var cols = getCols(data);
+    function solve3row(repository) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countRight = countSameItem(data, x, y, 1, 0);
+                var countRight = countSameItem(repository, x, y, 1, 0);
                 if (countRight === 2) {
-                    var item = getItem(data, x, y);
+                    var item = getItem(repository, x, y);
                     if (isBaseItem(item)) {
-                        cleanItem(data, x + 0, y);
-                        cleanItem(data, x + 1, y);
-                        cleanItem(data, x + 2, y);
+                        cleanItem(repository, x + 0, y);
+                        cleanItem(repository, x + 1, y);
+                        cleanItem(repository, x + 2, y);
                     }
                 }
             }
         }
     }
 
-    function solve4col(data, posX, posY, altX, altY) {
-        var rows = getRows(data);
-        var cols = getCols(data);
+    function solve4col(repository, posX, posY, altX, altY) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countDown = countSameItem(data, x, y, 0, 1);
+                var countDown = countSameItem(repository, x, y, 0, 1);
                 if (countDown === 3) {
-                    var item = getItem(data, x, y);
+                    var item = getItem(repository, x, y);
 
                     if (((x == posX) && ((y + 2) == posY)) || ((x == altX) && ((y + 2) == altY))) {
                         if (isBaseItem(item)) {
-                            animateItem(data, x, y + 0, x, y + 2);
-                            animateItem(data, x, y + 1, x, y + 2);
-                            changeItem (data, x, y + 2, getStripesHItem(item));
-                            animateItem(data, x, y + 3, x, y + 2);
+                            animateItem(repository, x, y + 0, x, y + 2);
+                            animateItem(repository, x, y + 1, x, y + 2);
+                            changeItem (repository, x, y + 2, getStripesHItem(item));
+                            animateItem(repository, x, y + 3, x, y + 2);
                         }
                     } else {
                         if (isBaseItem(item)) {
-                            animateItem(data, x, y + 0, x, y + 1);
-                            changeItem (data, x, y + 1, getStripesHItem(item));
-                            animateItem(data, x, y + 2, x, y + 1);
-                            animateItem(data, x, y + 3, x, y + 1);
+                            animateItem(repository, x, y + 0, x, y + 1);
+                            changeItem (repository, x, y + 1, getStripesHItem(item));
+                            animateItem(repository, x, y + 2, x, y + 1);
+                            animateItem(repository, x, y + 3, x, y + 1);
                         }
                     }
                 }
@@ -213,29 +205,29 @@ var solve = (function () {
         }
     }
 
-    function solve4row(data, posX, posY, altX, altY) {
-        var rows = getRows(data);
-        var cols = getCols(data);
+    function solve4row(repository, posX, posY, altX, altY) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countRight = countSameItem(data, x, y, 1, 0);
+                var countRight = countSameItem(repository, x, y, 1, 0);
                 if (countRight === 3) {
-                    var item = getItem(data, x, y);
+                    var item = getItem(repository, x, y);
 
                     if((((x + 2) == posX) && (y == posY)) || (((x + 2) == altX) && (y == altY))) {
                         if (isBaseItem(item)) {
-                            animateItem(data, x + 0, y, x + 2, y);
-                            animateItem(data, x + 1, y, x + 2, y);
-                            changeItem (data, x + 2, y, getStripesVItem(item));
-                            animateItem(data, x + 3, y, x + 2, y);
+                            animateItem(repository, x + 0, y, x + 2, y);
+                            animateItem(repository, x + 1, y, x + 2, y);
+                            changeItem (repository, x + 2, y, getStripesVItem(item));
+                            animateItem(repository, x + 3, y, x + 2, y);
                         }
                     } else {
                         if (isBaseItem(item)) {
-                            animateItem(data, x + 0, y, x + 1, y);
-                            changeItem (data, x + 1, y, getStripesVItem(item));
-                            animateItem(data, x + 2, y, x + 1, y);
-                            animateItem(data, x + 3, y, x + 1, y);
+                            animateItem(repository, x + 0, y, x + 1, y);
+                            changeItem (repository, x + 1, y, getStripesVItem(item));
+                            animateItem(repository, x + 2, y, x + 1, y);
+                            animateItem(repository, x + 3, y, x + 1, y);
                         }
                     }
                 }
@@ -243,70 +235,56 @@ var solve = (function () {
         }
     }
 
-    function solve5col(data, posX, posY, altX, altY) {
-        var rows = getRows(data);
-        var cols = getCols(data);
+    function solve5col(repository, posX, posY, altX, altY) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countDown = countSameItem(data, x, y, 0, 1);
+                var countDown = countSameItem(repository, x, y, 0, 1);
 				if (countDown === 4) {
-                    var item = getItem(data, x, y);
+                    var item = getItem(repository, x, y);
                     if (isBaseItem(item)) {
-                        animateItem(data, x, y + 0, x, y + 2);
-                        animateItem(data, x, y + 1, x, y + 2);
-                        changeItem (data, x, y + 2, '🏵️');
-                        animateItem(data, x, y + 3, x, y + 2);
-                        animateItem(data, x, y + 4, x, y + 2);
+                        animateItem(repository, x, y + 0, x, y + 2);
+                        animateItem(repository, x, y + 1, x, y + 2);
+                        changeItem (repository, x, y + 2, '🏵️');
+                        animateItem(repository, x, y + 3, x, y + 2);
+                        animateItem(repository, x, y + 4, x, y + 2);
                     }
 				}
 			}
 		}
 	}
 
-    function solve5row(data, posX, posY, altX, altY) {
-        var rows = getRows(data);
-        var cols = getCols(data);
+    function solve5row(repository, posX, posY, altX, altY) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countRight = countSameItem(data, x, y, 1, 0);
+                var countRight = countSameItem(repository, x, y, 1, 0);
 				if (countRight === 4) {
-                    var item = getItem(data, x, y);
+                    var item = getItem(repository, x, y);
                     if (isBaseItem(item)) {
-                        animateItem(data, x + 0, y, x + 2, y);
-                        animateItem(data, x + 1, y, x + 2, y);
-                        changeItem (data, x + 2, y, '🏵️');
-                        animateItem(data, x + 3, y, x + 2, y);
-                        animateItem(data, x + 4, y, x + 2, y);
+                        animateItem(repository, x + 0, y, x + 2, y);
+                        animateItem(repository, x + 1, y, x + 2, y);
+                        changeItem (repository, x + 2, y, '🏵️');
+                        animateItem(repository, x + 3, y, x + 2, y);
+                        animateItem(repository, x + 4, y, x + 2, y);
                     }
 				}
 			}
 		}
     }
 
-    function funcBoard(repository) {
-        var ret = {
-            initial: repository.design.map(function(arr) { return arr.slice(); }),
-            cleaned: repository.design.map(function(arr) { return arr.slice(); }),
-            animate: [],
-        };
-
-        var rows = getRows(ret);
-        var cols = getCols(ret);
-
-        for (var y = 0; y < rows; ++y) {
-            ret.animate[y] = '';
-            for (var x = 0; x < cols; ++x) {
-                ret.animate[y] += '⬜️';
-            }
-        }
+    function funcBoard(selectedLevel) {
+        var repository = board.copyRepositoryFromDesign(selectedLevel.design);
 
         for (var s = 0; s < solveFuncs.length; ++s) {
-            solveFuncs[s](ret);
+            solveFuncs[s](repository);
         }
 
-        return ret;
+        return repository;
     }
 
     init();

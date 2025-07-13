@@ -26,31 +26,84 @@ function areSameBoards(left, right) {
 }
 
 function selfTest() {
-    var repositories = level.getTests();
+    var testLevels = level.getTests();
 
-    repositories.forEach(repository => {
-        var ret = solve.board(repository);
-        var success = areSameBoards(ret.initial, repository.design) && areSameBoards(ret.cleaned, repository.expectedResult) && areSameBoards(ret.animate, repository.expectedAnimation);
+    testLevels.forEach(testLevel => {
+        var repository = solve.board(testLevel);
+        var success = areSameBoards(repository.initial, testLevel.design) && areSameBoards(repository.cleaned, testLevel.expectedResult) && areSameBoards(repository.animate, testLevel.expectedAnimation);
 
         if (!success) {
-            console.error('Test "' + repository.title + '" failed.');
-            console.table(ret.initial);
-            console.table(ret.cleaned);
-            console.table(ret.animate);
+            console.error('Test "' + testLevel.title + '" failed.');
+            console.table(repository.initial);
+            console.table(repository.cleaned);
+            console.table(repository.animate);
         }
     });
 }
 
 function selfDebug() {
     if (config.debug) {
-        var repository = level.getDebug();
+        var debugLevel = level.getDebug();
 
-        var ret = solve.board(repository);
+        var repository = solve.board(debugLevel);
 
-        console.table(ret.initial);
-        console.table(ret.cleaned);
-        console.table(ret.animate);
+        console.table(repository.initial);
+        console.table(repository.cleaned);
+        console.table(repository.animate);
     }
+}
+
+function refillBoard(repository) {
+
+}
+
+function spawnBoard(id) {
+    var selectedLevel = level.get(id);
+    var repository = solve.board(selectedLevel);
+
+    console.table(repository.initial);
+    console.table(repository.cleaned);
+    console.table(repository.animate);
+
+/*    removeSwapItems(repository);
+
+    console.table(repository.initial);
+    console.table(repository.cleaned);
+    console.table(repository.animate);*/
+
+/*    dropItems(repository);
+
+    console.table(repository.initial);
+    console.table(repository.cleaned);
+    console.table(repository.animate);*/
+
+    refillBoard(repository);
+
+    console.table(repository.initial);
+    console.table(repository.cleaned);
+    console.table(repository.animate);
+
+/*
+		board.dropGems( function() {
+			board.refillBoard( function() {
+				touch.thaw();
+
+				if( dirty) {
+					board.garbageCollection( touch, null, callback);
+				} else {
+					try {
+						callback.apply( this);
+					} catch(e) {
+						console.error( 'CBoard callback error', e);
+					}
+				}
+			});
+		});
+	});*/
+}
+
+function simulateGame() {
+    spawnBoard(0);
 }
 
 window.onload = function() {
@@ -58,5 +111,7 @@ window.onload = function() {
     div.style.display = 'none';
 
     selfTest();
-    selfDebug();
+//    selfDebug();
+
+    simulateGame();
 }
