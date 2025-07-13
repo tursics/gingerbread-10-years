@@ -199,11 +199,6 @@ var solve = (function () {
                             animateItem(data, x, y + 1, x, y + 2);
                             changeItem (data, x, y + 2, getStripesHItem(item));
                             animateItem(data, x, y + 3, x, y + 2);
-                        } else {
-                            cleanItem(data, x, y + 0);
-                            cleanItem(data, x, y + 1);
-                            cleanItem(data, x, y + 2);
-                            cleanItem(data, x, y + 3);
                         }
                     } else {
                         if (isBaseItem(item)) {
@@ -211,11 +206,6 @@ var solve = (function () {
                             changeItem (data, x, y + 1, getStripesHItem(item));
                             animateItem(data, x, y + 2, x, y + 1);
                             animateItem(data, x, y + 3, x, y + 1);
-                        } else {
-                            cleanItem(data, x, y + 0);
-                            cleanItem(data, x, y + 1);
-                            cleanItem(data, x, y + 2);
-                            cleanItem(data, x, y + 3);
                         }
                     }
                 }
@@ -239,11 +229,6 @@ var solve = (function () {
                             animateItem(data, x + 1, y, x + 2, y);
                             changeItem (data, x + 2, y, getStripesVItem(item));
                             animateItem(data, x + 3, y, x + 2, y);
-                        } else {
-                            cleanItem(data, x + 0, y);
-                            cleanItem(data, x + 1, y);
-                            cleanItem(data, x + 2, y);
-                            cleanItem(data, x + 3, y);
                         }
                     } else {
                         if (isBaseItem(item)) {
@@ -251,11 +236,6 @@ var solve = (function () {
                             changeItem (data, x + 1, y, getStripesVItem(item));
                             animateItem(data, x + 2, y, x + 1, y);
                             animateItem(data, x + 3, y, x + 1, y);
-                        } else {
-                            cleanItem(data, x + 0, y);
-                            cleanItem(data, x + 1, y);
-                            cleanItem(data, x + 2, y);
-                            cleanItem(data, x + 3, y);
                         }
                     }
                 }
@@ -271,11 +251,14 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countDown = countSameItem(data, x, y, 0, 1);
 				if (countDown === 4) {
-					animateItem(data, x, y + 0, x, y + 2);
-					animateItem(data, x, y + 1, x, y + 2);
-                    changeItem (data, x, y + 2, '🏵️');
-					animateItem(data, x, y + 3, x, y + 2);
-					animateItem(data, x, y + 4, x, y + 2);
+                    var item = getItem(data, x, y);
+                    if (isBaseItem(item)) {
+                        animateItem(data, x, y + 0, x, y + 2);
+                        animateItem(data, x, y + 1, x, y + 2);
+                        changeItem (data, x, y + 2, '🏵️');
+                        animateItem(data, x, y + 3, x, y + 2);
+                        animateItem(data, x, y + 4, x, y + 2);
+                    }
 				}
 			}
 		}
@@ -289,11 +272,14 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countRight = countSameItem(data, x, y, 1, 0);
 				if (countRight === 4) {
-					animateItem(data, x + 0, y, x + 2, y);
-					animateItem(data, x + 1, y, x + 2, y);
-                    changeItem (data, x + 2, y, '🏵️');
-					animateItem(data, x + 3, y, x + 2, y);
-					animateItem(data, x + 4, y, x + 2, y);
+                    var item = getItem(data, x, y);
+                    if (isBaseItem(item)) {
+                        animateItem(data, x + 0, y, x + 2, y);
+                        animateItem(data, x + 1, y, x + 2, y);
+                        changeItem (data, x + 2, y, '🏵️');
+                        animateItem(data, x + 3, y, x + 2, y);
+                        animateItem(data, x + 4, y, x + 2, y);
+                    }
 				}
 			}
 		}
