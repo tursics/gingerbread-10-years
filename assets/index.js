@@ -42,13 +42,15 @@ function selfTest() {
 }
 
 function selfDebug() {
-    var repository = level.getDebug();
+    if (config.debug) {
+        var repository = level.getDebug();
 
-    var ret = solve.board(repository);
+        var ret = solve.board(repository);
 
-    console.table(ret.initial);
-    console.table(ret.cleaned);
-    console.table(ret.animate);
+        console.table(ret.initial);
+        console.table(ret.cleaned);
+        console.table(ret.animate);
+    }
 }
 
 window.onload = function() {
