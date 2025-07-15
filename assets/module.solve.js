@@ -21,55 +21,8 @@ var solve = (function () {
         solveFuncs.push(solve3row);
     }
 
-    function getItem(repository, x, y) {
-        return Array.from(new Intl.Segmenter().segment(repository.cleaned[y]))[x].segment;
-    }
-
-    function cleanItem(repository, x, y) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[y]), s => s.segment);
-        line[x] = '⬜️';
-        repository.cleaned[y] = line.join('');
-
-        line = Array.from(new Intl.Segmenter().segment(repository.animate[y]), s => s.segment);
-        line[x] = '🗑️';
-        repository.animate[y] = line.join('');
-    }
-
-    function changeItem(repository, x, y, face) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[y]), s => s.segment);
-        line[x] = face;
-        repository.cleaned[y] = line.join('');
-
-        line = Array.from(new Intl.Segmenter().segment(repository.animate[y]), s => s.segment);
-        line[x] = '🔄';
-        repository.animate[y] = line.join('');
-    }
-
-    function animateItem(repository, startX, startY, targetX, targetY) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[startY]), s => s.segment);
-        line[startX] = '⬜️';
-        repository.cleaned[startY] = line.join('');
-
-        line = Array.from(new Intl.Segmenter().segment(repository.animate[startY]), s => s.segment);
-        if (startX === targetX) {
-            var diff = startY - targetY;
-            line[startX] = diff === 2 ? '⏫️' : diff === 1 ? '🔼' : diff === -1 ? '🔽' : diff === -2 ? '⏬️' : '🐞';
-        } else if (startY === targetY) {
-            var diff = startX - targetX;
-            line[startX] = diff === 2 ? '⏪️' : diff === 1 ? '◀️' : diff === -1 ? '▶️' : diff === -2 ? '⏩️' : '🐞';
-        } else {
-            line[startX] = '🐞';
-        }
-        repository.animate[startY] = line.join('');
-    }
-
     function isItemMovable(item) {
         return (item !== '⬜️') && (item !== '⚪️') && (item !== '🅾️') && (item !== '⬇️');
-    }
-
-    function isBaseItem(item) {
-        return (item === '🍎') || (item === '🍐') || (item === '🍋')
-            || (item === '🥥') || (item === '🫐') || (item === '🍠');
     }
 
     function getStripesHItem(item) {
@@ -117,7 +70,7 @@ var solve = (function () {
     }
 
     function countSameItem(repository, startX, startY, diffX, diffY) {
-        var item = getItem(repository, startX, startY);
+        var item = board.getItem(repository, startX, startY);
         if (!isItemMovable(item)) {
             return 0;
         }
@@ -128,7 +81,7 @@ var solve = (function () {
         var y = startY + diffY;
         var count = 0;
 
-        while ((x >= 0) && (y >= 0) && (x < cols) && (y < rows) && (getItem(repository, x, y) === item)) {
+        while ((x >= 0) && (y >= 0) && (x < cols) && (y < rows) && (board.getItem(repository, x, y) === item)) {
             ++count;
             x += diffX;
             y += diffY;
@@ -145,11 +98,11 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countDown = countSameItem(repository, x, y, 0, 1);
                 if (countDown === 2) {
-                    var item = getItem(repository, x, y);
-                    if (isBaseItem(item)) {
-                        cleanItem(repository, x, y + 0);
-                        cleanItem(repository, x, y + 1);
-                        cleanItem(repository, x, y + 2);
+                    var item = board.getItem(repository, x, y);
+                    if (board.isBaseItem(item)) {
+                        board.cleanItem(repository, x, y + 0);
+                        board.cleanItem(repository, x, y + 1);
+                        board.cleanItem(repository, x, y + 2);
                     }
                 }
             }
@@ -164,11 +117,11 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countRight = countSameItem(repository, x, y, 1, 0);
                 if (countRight === 2) {
-                    var item = getItem(repository, x, y);
-                    if (isBaseItem(item)) {
-                        cleanItem(repository, x + 0, y);
-                        cleanItem(repository, x + 1, y);
-                        cleanItem(repository, x + 2, y);
+                    var item = board.getItem(repository, x, y);
+                    if (board.isBaseItem(item)) {
+                        board.cleanItem(repository, x + 0, y);
+                        board.cleanItem(repository, x + 1, y);
+                        board.cleanItem(repository, x + 2, y);
                     }
                 }
             }
@@ -183,21 +136,21 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countDown = countSameItem(repository, x, y, 0, 1);
                 if (countDown === 3) {
-                    var item = getItem(repository, x, y);
+                    var item = board.getItem(repository, x, y);
 
                     if (((x == posX) && ((y + 2) == posY)) || ((x == altX) && ((y + 2) == altY))) {
-                        if (isBaseItem(item)) {
-                            animateItem(repository, x, y + 0, x, y + 2);
-                            animateItem(repository, x, y + 1, x, y + 2);
-                            changeItem (repository, x, y + 2, getStripesHItem(item));
-                            animateItem(repository, x, y + 3, x, y + 2);
+                        if (board.isBaseItem(item)) {
+                            board.animateItem(repository, x, y + 0, x, y + 2);
+                            board.animateItem(repository, x, y + 1, x, y + 2);
+                            board.changeItem (repository, x, y + 2, getStripesHItem(item));
+                            board.animateItem(repository, x, y + 3, x, y + 2);
                         }
                     } else {
-                        if (isBaseItem(item)) {
-                            animateItem(repository, x, y + 0, x, y + 1);
-                            changeItem (repository, x, y + 1, getStripesHItem(item));
-                            animateItem(repository, x, y + 2, x, y + 1);
-                            animateItem(repository, x, y + 3, x, y + 1);
+                        if (board.isBaseItem(item)) {
+                            board.animateItem(repository, x, y + 0, x, y + 1);
+                            board.changeItem (repository, x, y + 1, getStripesHItem(item));
+                            board.animateItem(repository, x, y + 2, x, y + 1);
+                            board.animateItem(repository, x, y + 3, x, y + 1);
                         }
                     }
                 }
@@ -213,21 +166,21 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countRight = countSameItem(repository, x, y, 1, 0);
                 if (countRight === 3) {
-                    var item = getItem(repository, x, y);
+                    var item = board.getItem(repository, x, y);
 
                     if((((x + 2) == posX) && (y == posY)) || (((x + 2) == altX) && (y == altY))) {
-                        if (isBaseItem(item)) {
-                            animateItem(repository, x + 0, y, x + 2, y);
-                            animateItem(repository, x + 1, y, x + 2, y);
-                            changeItem (repository, x + 2, y, getStripesVItem(item));
-                            animateItem(repository, x + 3, y, x + 2, y);
+                        if (board.isBaseItem(item)) {
+                            board.animateItem(repository, x + 0, y, x + 2, y);
+                            board.animateItem(repository, x + 1, y, x + 2, y);
+                            board.changeItem (repository, x + 2, y, getStripesVItem(item));
+                            board.animateItem(repository, x + 3, y, x + 2, y);
                         }
                     } else {
-                        if (isBaseItem(item)) {
-                            animateItem(repository, x + 0, y, x + 1, y);
-                            changeItem (repository, x + 1, y, getStripesVItem(item));
-                            animateItem(repository, x + 2, y, x + 1, y);
-                            animateItem(repository, x + 3, y, x + 1, y);
+                        if (board.isBaseItem(item)) {
+                            board.animateItem(repository, x + 0, y, x + 1, y);
+                            board.changeItem (repository, x + 1, y, getStripesVItem(item));
+                            board.animateItem(repository, x + 2, y, x + 1, y);
+                            board.animateItem(repository, x + 3, y, x + 1, y);
                         }
                     }
                 }
@@ -243,13 +196,13 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countDown = countSameItem(repository, x, y, 0, 1);
 				if (countDown === 4) {
-                    var item = getItem(repository, x, y);
-                    if (isBaseItem(item)) {
-                        animateItem(repository, x, y + 0, x, y + 2);
-                        animateItem(repository, x, y + 1, x, y + 2);
-                        changeItem (repository, x, y + 2, '🏵️');
-                        animateItem(repository, x, y + 3, x, y + 2);
-                        animateItem(repository, x, y + 4, x, y + 2);
+                    var item = board.getItem(repository, x, y);
+                    if (board.isBaseItem(item)) {
+                        board.animateItem(repository, x, y + 0, x, y + 2);
+                        board.animateItem(repository, x, y + 1, x, y + 2);
+                        board.changeItem (repository, x, y + 2, '🏵️');
+                        board.animateItem(repository, x, y + 3, x, y + 2);
+                        board.animateItem(repository, x, y + 4, x, y + 2);
                     }
 				}
 			}
@@ -264,13 +217,13 @@ var solve = (function () {
             for (var x = 0; x < cols; ++x) {
                 var countRight = countSameItem(repository, x, y, 1, 0);
 				if (countRight === 4) {
-                    var item = getItem(repository, x, y);
-                    if (isBaseItem(item)) {
-                        animateItem(repository, x + 0, y, x + 2, y);
-                        animateItem(repository, x + 1, y, x + 2, y);
-                        changeItem (repository, x + 2, y, '🏵️');
-                        animateItem(repository, x + 3, y, x + 2, y);
-                        animateItem(repository, x + 4, y, x + 2, y);
+                    var item = board.getItem(repository, x, y);
+                    if (board.isBaseItem(item)) {
+                        board.animateItem(repository, x + 0, y, x + 2, y);
+                        board.animateItem(repository, x + 1, y, x + 2, y);
+                        board.changeItem (repository, x + 2, y, '🏵️');
+                        board.animateItem(repository, x + 3, y, x + 2, y);
+                        board.animateItem(repository, x + 4, y, x + 2, y);
                     }
 				}
 			}

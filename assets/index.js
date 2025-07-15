@@ -53,17 +53,15 @@ function selfDebug() {
     }
 }
 
-function refillBoard(repository) {
-
-}
-
 function spawnBoard(id) {
     var selectedLevel = level.get(id);
-    var repository = solve.board(selectedLevel);
+    var repository = board.copyRepositoryFromDesign(selectedLevel.design);
+
+/*    repository = solve.board(repository);
 
     console.table(repository.initial);
     console.table(repository.cleaned);
-    console.table(repository.animate);
+    console.table(repository.animate);*/
 
 /*    removeSwapItems(repository);
 
@@ -77,7 +75,7 @@ function spawnBoard(id) {
     console.table(repository.cleaned);
     console.table(repository.animate);*/
 
-    refillBoard(repository);
+    repository = board.refillBoard(repository);
 
     console.table(repository.initial);
     console.table(repository.cleaned);
