@@ -230,8 +230,8 @@ var solve = (function () {
 		}
     }
 
-    function funcBoard(selectedLevel) {
-        var repository = board.copyRepositoryFromDesign(selectedLevel.design);
+    function funcBoard(repository) {
+        repository = board.copyRepositoryFromRepository(repository);
 
         for (var s = 0; s < solveFuncs.length; ++s) {
             solveFuncs[s](repository);

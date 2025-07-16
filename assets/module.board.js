@@ -132,6 +132,37 @@ var board = (function () {
         return repository;
     }
 
+    function equalBoards(leftBoard, rightBoard, logging) {
+        var l = leftBoard.length;
+        var r = rightBoard.length;
+
+        if (l !== r) {
+            if (logging && config.debug) {
+                console.debug('Length mismatch');
+            }
+            return false;
+        }
+
+        for (var i = 0; i < l; ++i) {
+            if (leftBoard[i] !== rightBoard[i]) {
+                if (logging && config.debug) {
+                    console.debug(leftBoard[i]);
+                    console.debug(rightBoard[i]);
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function funcEqualBoards(leftBoard, rightBoard) {
+        return equalBoards(leftBoard, rightBoard, false);
+    }
+
+    function funcEqualBoardsWithLogging(leftBoard, rightBoard) {
+        return equalBoards(leftBoard, rightBoard, true);
+    }
+
     init();
 
     return {
@@ -140,6 +171,8 @@ var board = (function () {
         changeItem: funcChangeItem,
         copyRepositoryFromDesign: funcCopyRepositoryFromDesign,
         copyRepositoryFromRepository: funcCopyRepositoryFromRepository,
+        equalBoards: funcEqualBoards,
+        equalBoardsWithLogging: funcEqualBoardsWithLogging,
         getCols: funcGetCols,
         getItem: funcGetItem,
         getRows: funcGetRows,

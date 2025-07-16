@@ -2,35 +2,14 @@ var config = {
     debug: true,
 };
 
-function areSameBoards(left, right) {
-    var l = left.length;
-    var r = right.length;
-
-    if (l !== r) {
-        if (config.debug) {
-            console.debug('Length mismatch');
-        }
-        return false;
-    }
-
-    for (var i = 0; i < l; ++i) {
-        if (left[i] !== right[i]) {
-            if (config.debug) {
-                console.debug(left[i]);
-                console.debug(right[i]);
-            }
-            return false;
-        }
-    }
-    return true;
-}
-
 function selfTest() {
     var testLevels = level.getTests();
 
     testLevels.forEach(testLevel => {
-        var repository = solve.board(testLevel);
-        var success = areSameBoards(repository.initial, testLevel.design) && areSameBoards(repository.cleaned, testLevel.expectedResult) && areSameBoards(repository.animate, testLevel.expectedAnimation);
+        var repository = board.copyRepositoryFromDesign(testLevel.design);
+        repository = solve.board(repository);
+
+        var success = board.equalBoardsWithLogging(repository.initial, testLevel.design) && board.equalBoardsWithLogging(repository.cleaned, testLevel.expectedResult) && board.equalBoardsWithLogging(repository.animate, testLevel.expectedAnimation);
 
         if (!success) {
             console.error('Test "' + testLevel.title + '" failed.');
@@ -45,7 +24,8 @@ function selfDebug() {
     if (config.debug) {
         var debugLevel = level.getDebug();
 
-        var repository = solve.board(debugLevel);
+        var repository = board.copyRepositoryFromDesign(debugLevel.design);
+        repository = solve.board(repository);
 
         console.table(repository.initial);
         console.table(repository.cleaned);
@@ -57,11 +37,16 @@ function spawnBoard(id) {
     var selectedLevel = level.get(id);
     var repository = board.copyRepositoryFromDesign(selectedLevel.design);
 
-/*    repository = solve.board(repository);
-
     console.table(repository.initial);
-    console.table(repository.cleaned);
-    console.table(repository.animate);*/
+
+    do {
+        console.table(' ');
+        console.table('Solve board');
+        console.table(' ');
+        repository = solve.board(repository);
+
+        console.table(repository.cleaned);
+        console.table(repository.animate);
 
 /*    removeSwapItems(repository);
 
@@ -75,11 +60,14 @@ function spawnBoard(id) {
     console.table(repository.cleaned);
     console.table(repository.animate);*/
 
-    repository = board.refillBoard(repository);
+        console.table(' ');
+        console.table('Refill board');
+        console.table(' ');
+        repository = board.refillBoard(repository);
 
-    console.table(repository.initial);
-    console.table(repository.cleaned);
-    console.table(repository.animate);
+        console.table(repository.cleaned);
+        console.table(repository.animate);
+    } while (!board.equalBoards(repository.initial, repository.cleaned));
 
 /*
 		board.dropGems( function() {
