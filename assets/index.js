@@ -37,22 +37,24 @@ function spawnBoard(id) {
     var selectedLevel = level.get(id);
     var repository = board.copyRepositoryFromDesign(selectedLevel.design);
 
-    console.table(repository.initial);
-
     do {
-        console.table(' ');
-        console.table('Solve board');
-        console.table(' ');
         repository = solve.board(repository);
+        if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
+            console.table(' ');
+            console.table('Solve board');
+            console.table(' ');
+            console.table(repository.cleaned);
+            console.table(repository.animate);
+        }
 
-        console.table(repository.cleaned);
-        console.table(repository.animate);
-
-/*    removeSwapItems(repository);
-
-    console.table(repository.initial);
-    console.table(repository.cleaned);
-    console.table(repository.animate);*/
+        repository = board.removeAdvancedItems(repository);
+        if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
+            console.table(' ');
+            console.table('Remove advanced items');
+            console.table(' ');
+            console.table(repository.cleaned);
+            console.table(repository.animate);
+        }
 
 /*    dropItems(repository);
 
@@ -60,32 +62,20 @@ function spawnBoard(id) {
     console.table(repository.cleaned);
     console.table(repository.animate);*/
 
-        console.table(' ');
-        console.table('Refill board');
-        console.table(' ');
         repository = board.refillBoard(repository);
-
-        console.table(repository.cleaned);
-        console.table(repository.animate);
+        if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
+            console.table('Spawn board - refill');
+        }
     } while (!board.equalBoards(repository.initial, repository.cleaned));
 
 /*
 		board.dropGems( function() {
-			board.refillBoard( function() {
-				touch.thaw();
-
-				if( dirty) {
-					board.garbageCollection( touch, null, callback);
-				} else {
-					try {
-						callback.apply( this);
-					} catch(e) {
-						console.error( 'CBoard callback error', e);
-					}
-				}
-			});
 		});
 	});*/
+
+    if (config.debug) {
+        console.table(repository.cleaned);
+    }
 }
 
 function simulateGame() {

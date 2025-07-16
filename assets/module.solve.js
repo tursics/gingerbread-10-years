@@ -21,10 +21,6 @@ var solve = (function () {
         solveFuncs.push(solve3row);
     }
 
-    function isItemMovable(item) {
-        return (item !== '⬜️') && (item !== '⚪️') && (item !== '🅾️') && (item !== '⬇️');
-    }
-
     function getStripesHItem(item) {
         if (item === '🍎') {
             return '🐷';
@@ -71,7 +67,7 @@ var solve = (function () {
 
     function countSameItem(repository, startX, startY, diffX, diffY) {
         var item = board.getItem(repository, startX, startY);
-        if (!isItemMovable(item)) {
+        if (!board.isItemMovable(item)) {
             return 0;
         }
 

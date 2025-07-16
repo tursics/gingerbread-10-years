@@ -20,6 +20,10 @@ var board = (function () {
         return Array.from(new Intl.Segmenter().segment(repository.cleaned[y]))[x].segment;
     }
 
+    function funcIsItemMovable(item) {
+        return (item !== '⬜️') && (item !== '⚪️') && (item !== '🅾️') && (item !== '⬇️');
+    }
+
     function funcIsBaseItem(item) {
         return (item === '🍎') || (item === '🍐') || (item === '🍋')
             || (item === '🥥') || (item === '🫐') || (item === '🍠');
@@ -132,6 +136,25 @@ var board = (function () {
         return repository;
     }
 
+    function funcRemoveAdvancedItems(repository) {
+        repository = funcCopyRepositoryFromRepository(repository);
+
+        var rows = funcGetRows(repository);
+        var cols = funcGetCols(repository);
+
+        for (var x = 0; x < cols; ++x) {
+            for (var y = rows - 1; y >= 0; --y) {
+                var item = board.getItem(repository, x, y);
+
+                if (!funcIsBaseItem(item) && funcIsItemMovable(item)) {
+                    funcCleanItem(repository, x, y);
+                }
+            }
+        }
+
+        return repository;
+    }
+
     function equalBoards(leftBoard, rightBoard, logging) {
         var l = leftBoard.length;
         var r = rightBoard.length;
@@ -177,6 +200,8 @@ var board = (function () {
         getItem: funcGetItem,
         getRows: funcGetRows,
         isBaseItem: funcIsBaseItem,
+        isItemMovable: funcIsItemMovable,
         refillBoard: funcRefillBoard,
+        removeAdvancedItems: funcRemoveAdvancedItems,
     };
 }());
