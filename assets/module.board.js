@@ -92,6 +92,37 @@ var board = (function () {
         repository.animate[startY] = line.join('');
     }
 
+    function dropItem(repository, startX, startY, targetX, targetY) {
+        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[startY]), s => s.segment);
+        var startItem = line[startX];
+        line[startX] = ITEM_VOID;
+        repository.cleaned[startY] = line.join('');
+
+        line = Array.from(new Intl.Segmenter().segment(repository.cleaned[targetY]), s => s.segment);
+        line[targetX] = startItem;
+        repository.cleaned[targetY] = line.join('');
+
+        line = Array.from(new Intl.Segmenter().segment(repository.animate[targetY]), s => s.segment);
+        if (startX === targetX) {
+            switch (startY - targetY) {
+                case -1: line[targetX] = '1️⃣'; break;
+                case -2: line[targetX] = '2️⃣'; break;
+                case -3: line[targetX] = '3️⃣'; break;
+                case -4: line[targetX] = '4️⃣'; break;
+                case -5: line[targetX] = '5️⃣'; break;
+                case -6: line[targetX] = '6️⃣'; break;
+                case -7: line[targetX] = '7️⃣'; break;
+                case -8: line[targetX] = '8️⃣'; break;
+                case -9: line[targetX] = '9️⃣'; break;
+                case -10: line[targetX] = '🔟'; break;
+                default: line[targetX] = ITEM_BUG;
+            }
+        } else {
+            line[targetX] = ITEM_BUG;
+        }
+        repository.animate[targetY] = line.join('');
+    }
+
     function funcCopyRepositoryFromDesign(design) {
         var repository = {
             initial: design.map(function(arr) { return arr.slice(); }),
@@ -129,6 +160,29 @@ var board = (function () {
                 if (ITEM_VOID === item) {
                     item = getRandomBaseItem();
                     spawnItem(repository, x, y, item);
+                }
+            }
+        }
+
+        return repository;
+    }
+
+    function funcDropItems(repository) {
+        repository = funcCopyRepositoryFromRepository(repository);
+
+        var rows = funcGetRows(repository);
+        var cols = funcGetCols(repository);
+
+        for (var x = 0; x < cols; ++x) {
+            var rowCount = 0;
+
+            for (var y = rows - 1; y >= 0; --y) {
+                var item = board.getItem(repository, x, y);
+
+                if (ITEM_VOID === item) {
+                    ++rowCount;
+                } else if (rowCount > 0) {
+                    dropItem(repository, x, y, x, y + rowCount);
                 }
             }
         }
@@ -196,6 +250,7 @@ var board = (function () {
         copyRepositoryFromRepository: funcCopyRepositoryFromRepository,
         equalBoards: funcEqualBoards,
         equalBoardsWithLogging: funcEqualBoardsWithLogging,
+        dropItems: funcDropItems,
         getCols: funcGetCols,
         getItem: funcGetItem,
         getRows: funcGetRows,

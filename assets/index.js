@@ -40,27 +40,23 @@ function spawnBoard(id) {
     do {
         repository = solve.board(repository);
         if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
-            console.table(' ');
-            console.table('Solve board');
-            console.table(' ');
-            console.table(repository.cleaned);
-            console.table(repository.animate);
+            console.table('Spawn board - solve');
         }
 
         repository = board.removeAdvancedItems(repository);
         if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
+            console.table('Spawn board - remove advanced items');
+        }
+
+        repository = board.dropItems(repository);
+        if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
             console.table(' ');
-            console.table('Remove advanced items');
+            console.table('Drop items');
             console.table(' ');
+            console.table(repository.initial);
             console.table(repository.cleaned);
             console.table(repository.animate);
         }
-
-/*    dropItems(repository);
-
-    console.table(repository.initial);
-    console.table(repository.cleaned);
-    console.table(repository.animate);*/
 
         repository = board.refillBoard(repository);
         if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
