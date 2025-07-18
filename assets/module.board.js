@@ -1,6 +1,7 @@
 var board = (function () {
-    var ITEM_VOID = '⬜️',
-        ITEM_BUG = '🐞',
+    var ITEM_BUG = '🐞',
+        ITEM_SPAWNPOINT = '⬇️',
+        ITEM_VOID = '⬜️',
         ANIMATE_CHANGE = '🔄',
         ANIMATE_REMOVE = '🗑️',
         ANIMATE_SPAWN = '✳️';
@@ -21,7 +22,7 @@ var board = (function () {
     }
 
     function funcIsItemMovable(item) {
-        return (item !== '⬜️') && (item !== '⚪️') && (item !== '🅾️') && (item !== '⬇️');
+        return (item !== '⬜️') && (item !== '⚪️') && (item !== '🅾️') && (item !== ITEM_SPAWNPOINT);
     }
 
     function funcIsBaseItem(item) {
@@ -81,11 +82,21 @@ var board = (function () {
 
         line = Array.from(new Intl.Segmenter().segment(repository.animate[startY]), s => s.segment);
         if (startX === targetX) {
-            var diff = startY - targetY;
-            line[startX] = diff === 2 ? '⏫️' : diff === 1 ? '🔼' : diff === -1 ? '🔽' : diff === -2 ? '⏬️' : '🐞';
+            switch (startY - targetY) {
+                case 2: line[startX] = '⏫️'; break;
+                case 1: line[startX] = '🔼'; break;
+                case -1: line[startX] = '🔽'; break;
+                case -2: line[startX] = '⏬️'; break;
+                default: line[startX] = ITEM_BUG;
+            }
         } else if (startY === targetY) {
-            var diff = startX - targetX;
-            line[startX] = diff === 2 ? '⏪️' : diff === 1 ? '◀️' : diff === -1 ? '▶️' : diff === -2 ? '⏩️' : '🐞';
+            switch (startX - targetX) {
+                case 2: line[startX] = '⏪️'; break;
+                case 1: line[startX] = '◀️'; break;
+                case -1: line[startX] = '▶️'; break;
+                case -2: line[startX] = '⏩️'; break;
+                default: line[startX] = ITEM_BUG;
+            }
         } else {
             line[startX] = ITEM_BUG;
         }
@@ -147,7 +158,7 @@ var board = (function () {
         return funcCopyRepositoryFromDesign(repository.cleaned);
     }
 
-    function funcRefillBoard(repository) {
+/*    function funcRefillBoard(repository) {
         repository = funcCopyRepositoryFromRepository(repository);
 
         var rows = funcGetRows(repository);
@@ -165,10 +176,31 @@ var board = (function () {
         }
 
         return repository;
+    }*/
+
+    function funcStepRefill(repository) {
+//        repository = funcCopyRepositoryFromRepository(repository);
+
+        var rows = funcGetRows(repository);
+        var cols = funcGetCols(repository);
+
+        for (var x = 0; x < cols; ++x) {
+            for (var y = rows - 1; y >= 1; --y) {
+                var item = board.getItem(repository, x, y);
+                var above = board.getItem(repository, x, y - 1);
+
+                if ((ITEM_VOID === item) && (ITEM_SPAWNPOINT === above)) {
+                    item = getRandomBaseItem();
+                    spawnItem(repository, x, y, item);
+                }
+            }
+        }
+
+        return repository;
     }
 
-    function funcDropItems(repository) {
-        repository = funcCopyRepositoryFromRepository(repository);
+    function funcStepDropItems(repository) {
+//        repository = funcCopyRepositoryFromRepository(repository);
 
         var rows = funcGetRows(repository);
         var cols = funcGetCols(repository);
@@ -181,7 +213,8 @@ var board = (function () {
 
                 if (ITEM_VOID === item) {
                     ++rowCount;
-                } else if (rowCount > 0) {
+                    rowCount = Math.min(rowCount, 1);
+                } else if ((rowCount > 0) && funcIsItemMovable(item)) {
                     dropItem(repository, x, y, x, y + rowCount);
                 }
             }
@@ -250,13 +283,14 @@ var board = (function () {
         copyRepositoryFromRepository: funcCopyRepositoryFromRepository,
         equalBoards: funcEqualBoards,
         equalBoardsWithLogging: funcEqualBoardsWithLogging,
-        dropItems: funcDropItems,
+        stepDropItems: funcStepDropItems,
         getCols: funcGetCols,
         getItem: funcGetItem,
         getRows: funcGetRows,
         isBaseItem: funcIsBaseItem,
         isItemMovable: funcIsItemMovable,
-        refillBoard: funcRefillBoard,
+//        refillBoard: funcRefillBoard,
         removeAdvancedItems: funcRemoveAdvancedItems,
+        stepRefill: funcStepRefill,
     };
 }());

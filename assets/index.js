@@ -48,26 +48,23 @@ function spawnBoard(id) {
             console.table('Spawn board - remove advanced items');
         }
 
-        repository = board.dropItems(repository);
-        if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
-            console.table(' ');
-            console.table('Drop items');
-            console.table(' ');
-            console.table(repository.initial);
-            console.table(repository.cleaned);
-            console.table(repository.animate);
-        }
+        var refilled = false;
+        do {
+            repository = board.copyRepositoryFromRepository(repository);
+            repository = board.stepDropItems(repository);
+            repository = board.stepRefill(repository);
+            if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
+                refilled = true;
+            }
+        } while (!board.equalBoards(repository.initial, repository.cleaned));
 
-        repository = board.refillBoard(repository);
-        if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
-            console.table('Spawn board - refill');
+        if (!refilled) {
+            break;
         }
-    } while (!board.equalBoards(repository.initial, repository.cleaned));
-
-/*
-		board.dropGems( function() {
-		});
-	});*/
+        if (config.debug) {
+            console.table('Spawn board - Drop items and refill');
+        }
+    } while (true);
 
     if (config.debug) {
         console.table(repository.cleaned);
