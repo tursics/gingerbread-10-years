@@ -3,6 +3,7 @@ var board = (function () {
         ITEM_BUG = '🐞',
         ITEM_SPAWNPOINT = '⬇️',
         ITEM_VOID = '⬜️',
+        ITEM_WALL = '🅾️',
         ANIMATE_CHANGE = '🔄',
         ANIMATE_REMOVE = '🗑️',
         ANIMATE_SPAWN = '✳️';
@@ -35,7 +36,7 @@ var board = (function () {
     }
 
     function funcIsItemMovable(item) {
-        return (item !== ITEM_VOID) && (item !== '⚪️') && (item !== '🅾️') && (item !== ITEM_SPAWNPOINT);
+        return (item !== ITEM_VOID) && (item !== '⚪️') && (item !== ITEM_WALL) && (item !== ITEM_SPAWNPOINT);
     }
 
     function funcIsBaseItem(item) {
@@ -229,6 +230,8 @@ var board = (function () {
                     rowCount = Math.min(rowCount, 1);
                 } else if ((rowCount > 0) && funcIsItemMovable(item)) {
                     dropItem(repository, x, y, x, y + rowCount);
+                } else {
+                    rowCount = 0;
                 }
             }
         }
