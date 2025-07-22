@@ -6,8 +6,19 @@ function selfTest() {
     var testLevels = level.getTests();
 
     testLevels.forEach(testLevel => {
+        var method = testLevel.method;
         var repository = board.copyRepositoryFromDesign(testLevel.design);
-        repository = solve.board(repository);
+
+        switch (method) {
+            case 'solve.board':
+                repository = solve.board(repository);
+                break;
+            case 'board.spawn':
+                repository = board.spawn(repository);
+                break;
+            default:
+                console.error('No method defined');
+        }
 
         var success = board.equalBoardsWithLogging(repository.initial, testLevel.design) && board.equalBoardsWithLogging(repository.cleaned, testLevel.expectedResult) && board.equalBoardsWithLogging(repository.animate, testLevel.expectedAnimation);
 
@@ -33,38 +44,11 @@ function selfDebug() {
     }
 }
 
-function spawnBoard(id) {
+function spawnBoardWithLevel(id) {
     var selectedLevel = level.get(id);
     var repository = board.copyRepositoryFromDesign(selectedLevel.design);
 
-    do {
-        repository = solve.board(repository);
-        if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
-            console.table('Spawn board - solve');
-        }
-
-        repository = board.removeAdvancedItems(repository);
-        if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
-            console.table('Spawn board - remove advanced items');
-        }
-
-        var refilled = false;
-        do {
-            repository = board.copyRepositoryFromRepository(repository);
-            repository = board.stepDropItems(repository);
-            repository = board.stepRefill(repository);
-            if (config.debug && !board.equalBoards(repository.initial, repository.cleaned)) {
-                refilled = true;
-            }
-        } while (!board.equalBoards(repository.initial, repository.cleaned));
-
-        if (!refilled) {
-            break;
-        }
-        if (config.debug) {
-            console.table('Spawn board - Drop items and refill');
-        }
-    } while (true);
+    repository = board.spawn(repository);
 
     if (config.debug) {
         console.table(repository.cleaned);
@@ -72,7 +56,7 @@ function spawnBoard(id) {
 }
 
 function simulateGame() {
-    spawnBoard(0);
+    spawnBoardWithLevel(0);
 }
 
 window.onload = function() {

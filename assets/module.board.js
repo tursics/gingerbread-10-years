@@ -1,5 +1,6 @@
 var board = (function () {
-    var ITEM_BUG = '🐞',
+    var ITEM_BASEITEM = '✴️',
+        ITEM_BUG = '🐞',
         ITEM_SPAWNPOINT = '⬇️',
         ITEM_VOID = '⬜️',
         ANIMATE_CHANGE = '🔄',
@@ -9,20 +10,32 @@ var board = (function () {
     function init() {
     }
 
+    function getBoardRows(board) {
+        return board.length;
+    }
+
+    function getBoardCols(board) {
+        return Array.from(new Intl.Segmenter().segment(board[0])).length;
+    }
+
+    function getBoardItem(board, x, y) {
+        return Array.from(new Intl.Segmenter().segment(board[y]))[x].segment;
+    }
+
     function funcGetRows(repository) {
-        return repository.cleaned.length;
+        return getBoardRows(repository.cleaned);
     }
 
     function funcGetCols(repository) {
-        return Array.from(new Intl.Segmenter().segment(repository.cleaned[0])).length;
+        return getBoardCols(repository.cleaned);
     }
 
     function funcGetItem(repository, x, y) {
-        return Array.from(new Intl.Segmenter().segment(repository.cleaned[y]))[x].segment;
+        return getBoardItem(repository.cleaned, x, y);
     }
 
     function funcIsItemMovable(item) {
-        return (item !== '⬜️') && (item !== '⚪️') && (item !== '🅾️') && (item !== ITEM_SPAWNPOINT);
+        return (item !== ITEM_VOID) && (item !== '⚪️') && (item !== '🅾️') && (item !== ITEM_SPAWNPOINT);
     }
 
     function funcIsBaseItem(item) {
@@ -166,7 +179,7 @@ var board = (function () {
 
         for (var x = 0; x < cols; ++x) {
             for (var y = rows - 1; y >= 0; --y) {
-                var item = board.getItem(repository, x, y);
+                var item = funcGetItem(repository, x, y);
 
                 if (ITEM_VOID === item) {
                     item = getRandomBaseItem();
@@ -186,8 +199,8 @@ var board = (function () {
 
         for (var x = 0; x < cols; ++x) {
             for (var y = rows - 1; y >= 1; --y) {
-                var item = board.getItem(repository, x, y);
-                var above = board.getItem(repository, x, y - 1);
+                var item = funcGetItem(repository, x, y);
+                var above = funcGetItem(repository, x, y - 1);
 
                 if ((ITEM_VOID === item) && (ITEM_SPAWNPOINT === above)) {
                     item = getRandomBaseItem();
@@ -209,7 +222,7 @@ var board = (function () {
             var rowCount = 0;
 
             for (var y = rows - 1; y >= 0; --y) {
-                var item = board.getItem(repository, x, y);
+                var item = funcGetItem(repository, x, y);
 
                 if (ITEM_VOID === item) {
                     ++rowCount;
@@ -231,7 +244,7 @@ var board = (function () {
 
         for (var x = 0; x < cols; ++x) {
             for (var y = rows - 1; y >= 0; --y) {
-                var item = board.getItem(repository, x, y);
+                var item = funcGetItem(repository, x, y);
 
                 if (!funcIsBaseItem(item) && funcIsItemMovable(item)) {
                     funcCleanItem(repository, x, y);
@@ -242,24 +255,80 @@ var board = (function () {
         return repository;
     }
 
-    function equalBoards(leftBoard, rightBoard, logging) {
-        var l = leftBoard.length;
-        var r = rightBoard.length;
+    function funcSpawn(repository) {
+        var initial = repository.initial.map(function(arr) { return arr.slice(); });
 
-        if (l !== r) {
+        do {
+            repository = solve.board(repository);
+            if (config.debug && !funcEqualBoards(repository.initial, repository.cleaned)) {
+                console.table('Spawn board - solve');
+            }
+
+            repository = funcRemoveAdvancedItems(repository);
+            if (config.debug && !funcEqualBoards(repository.initial, repository.cleaned)) {
+                console.table('Spawn board - remove advanced items');
+            }
+
+            var refilled = false;
+            do {
+                repository = funcCopyRepositoryFromRepository(repository);
+                repository = funcStepDropItems(repository);
+                repository = funcStepRefill(repository);
+                if (config.debug && !funcEqualBoards(repository.initial, repository.cleaned)) {
+                    refilled = true;
+                }
+            } while (!funcEqualBoards(repository.initial, repository.cleaned));
+
+            if (!refilled) {
+                break;
+            }
+            if (config.debug) {
+                console.table('Spawn board - Drop items and refill');
+            }
+        } while (true);
+
+        repository.initial = initial.map(function(arr) { return arr.slice(); });
+        return repository;
+    }
+
+    function equalBoards(leftBoard, rightBoard, logging) {
+        var leftRows = getBoardRows(leftBoard);
+        var leftCols = getBoardCols(leftBoard);
+        var rightRows = getBoardRows(rightBoard);
+        var rightCols = getBoardCols(rightBoard);
+
+        if (leftRows !== rightRows) {
+            if (logging && config.debug) {
+                console.debug('Length mismatch');
+            }
+            return false;
+        }
+        if (leftCols !== rightCols) {
             if (logging && config.debug) {
                 console.debug('Length mismatch');
             }
             return false;
         }
 
-        for (var i = 0; i < l; ++i) {
-            if (leftBoard[i] !== rightBoard[i]) {
-                if (logging && config.debug) {
-                    console.debug(leftBoard[i]);
-                    console.debug(rightBoard[i]);
+        for (var y = 0; y < leftRows; ++y) {
+            for (var x = 0; x < leftCols; ++x) {
+                var leftItem = getBoardItem(leftBoard, x, y);
+                var rightItem = getBoardItem(rightBoard, x, y);
+
+                if (leftItem !== rightItem) {
+                    if ((ITEM_BASEITEM === leftItem) && funcIsBaseItem(rightItem)) {
+                        continue;
+                    }
+                    if ((ITEM_BASEITEM === rightItem) && funcIsBaseItem(leftItem)) {
+                        continue;
+                    }
+
+                    if (logging && config.debug) {
+                        console.debug(leftBoard[y]);
+                        console.debug(rightBoard[y]);
+                    }
+                    return false;
                 }
-                return false;
             }
         }
         return true;
@@ -283,7 +352,6 @@ var board = (function () {
         copyRepositoryFromRepository: funcCopyRepositoryFromRepository,
         equalBoards: funcEqualBoards,
         equalBoardsWithLogging: funcEqualBoardsWithLogging,
-        stepDropItems: funcStepDropItems,
         getCols: funcGetCols,
         getItem: funcGetItem,
         getRows: funcGetRows,
@@ -291,6 +359,8 @@ var board = (function () {
         isItemMovable: funcIsItemMovable,
 //        refillBoard: funcRefillBoard,
         removeAdvancedItems: funcRemoveAdvancedItems,
+        spawn: funcSpawn,
+        stepDropItems: funcStepDropItems,
         stepRefill: funcStepRefill,
     };
 }());
