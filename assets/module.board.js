@@ -286,7 +286,7 @@ var board = (function () {
                 break;
             }
             if (config.debug) {
-                console.table('Spawn board - Drop items and refill');
+                console.table('Spawn board - drop items and refill');
             }
         } while (true);
 
