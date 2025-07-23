@@ -553,24 +553,30 @@ var test = (function () {
             var method = testLevel.method;
             var repository = board.copyRepositoryFromDesign(testLevel.design);
 
-            switch (method) {
-                case 'solve.board':
-                    repository = solve.board(repository);
-                    break;
-                case 'board.spawn':
-                    repository = board.spawn(repository);
-                    break;
-                default:
-                    console.error('No method defined');
-            }
+            for (var i = 0; i < 10; ++i) {
+                switch (method) {
+                    case 'solve.board':
+                        repository = solve.board(repository);
+                        break;
+                    case 'board.spawn':
+                        repository = board.spawn(repository);
+                        break;
+                    default:
+                        console.error('No method defined');
+                }
 
-            var success = board.equalBoardsWithLogging(repository.initial, testLevel.design) && board.equalBoardsWithLogging(repository.cleaned, testLevel.expectedResult) && board.equalBoardsWithLogging(repository.animate, testLevel.expectedAnimation);
+                var success = board.equalBoardsWithLogging(repository.initial, testLevel.design) && board.equalBoardsWithLogging(repository.cleaned, testLevel.expectedResult) && board.equalBoardsWithLogging(repository.animate, testLevel.expectedAnimation);
 
-            if (!success) {
-                console.error('Test "' + testLevel.title + '" failed.');
-                console.table(repository.initial);
-                console.table(repository.cleaned);
-                console.table(repository.animate);
+                if (!success) {
+                    console.error('Test "' + testLevel.title + '" failed.');
+                    console.table(repository.initial);
+                    console.table(repository.cleaned);
+                    console.table(repository.animate);
+                }
+
+                if ('solve.board' === method) {
+                    break;
+                }
             }
         });
     }
