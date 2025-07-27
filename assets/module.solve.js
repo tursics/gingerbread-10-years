@@ -124,7 +124,7 @@ var solve = (function () {
         }
     }
 
-    function solve4col(repository, posX, posY, altX, altY) {
+    function solve4col(repository, newX, newY, oldX, oldY) {
         var rows = board.getRows(repository);
         var cols = board.getCols(repository);
 
@@ -134,7 +134,7 @@ var solve = (function () {
                 if (countDown === 3) {
                     var item = board.getItem(repository, x, y);
 
-                    if (((x == posX) && ((y + 2) == posY)) || ((x == altX) && ((y + 2) == altY))) {
+                    if (((x == newX) && ((y + 2) == newY)) || ((x == oldX) && ((y + 2) == oldY))) {
                         if (board.isBaseItem(item)) {
                             board.animateItem(repository, x, y + 0, x, y + 2);
                             board.animateItem(repository, x, y + 1, x, y + 2);
@@ -154,7 +154,7 @@ var solve = (function () {
         }
     }
 
-    function solve4row(repository, posX, posY, altX, altY) {
+    function solve4row(repository, newX, newY, oldX, oldY) {
         var rows = board.getRows(repository);
         var cols = board.getCols(repository);
 
@@ -164,7 +164,7 @@ var solve = (function () {
                 if (countRight === 3) {
                     var item = board.getItem(repository, x, y);
 
-                    if((((x + 2) == posX) && (y == posY)) || (((x + 2) == altX) && (y == altY))) {
+                    if((((x + 2) == newX) && (y == newY)) || (((x + 2) == oldX) && (y == oldY))) {
                         if (board.isBaseItem(item)) {
                             board.animateItem(repository, x + 0, y, x + 2, y);
                             board.animateItem(repository, x + 1, y, x + 2, y);
@@ -184,7 +184,7 @@ var solve = (function () {
         }
     }
 
-    function solve5col(repository, posX, posY, altX, altY) {
+    function solve5col(repository) {
         var rows = board.getRows(repository);
         var cols = board.getCols(repository);
 
@@ -205,7 +205,7 @@ var solve = (function () {
 		}
 	}
 
-    function solve5row(repository, posX, posY, altX, altY) {
+    function solve5row(repository) {
         var rows = board.getRows(repository);
         var cols = board.getCols(repository);
 
@@ -226,19 +226,28 @@ var solve = (function () {
 		}
     }
 
-    function funcBoard(repository) {
+    function solveBoard(repository, newX, newY, oldX, oldY) {
         repository = board.copyRepositoryFromRepository(repository);
 
         for (var s = 0; s < solveFuncs.length; ++s) {
-            solveFuncs[s](repository);
+            solveFuncs[s](repository, newX, newY, oldX, oldY);
         }
 
         return repository;
+    }
+
+    function funcBoard(repository) {
+        return solveBoard(repository);
+    }
+
+    function funcMove(repository, newX, newY, oldX, oldY) {
+        return solveBoard(repository, newX, newY, oldX, oldY);
     }
 
     init();
 
     return {
         board: funcBoard,
+        move: funcMove,
     };
 }());
