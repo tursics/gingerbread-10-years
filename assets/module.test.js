@@ -544,6 +544,43 @@ var test = (function () {
             ],
         },
         {
+            'title': 'Swipe to left',
+            'method': 'swipe.left',
+            'design': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🍋🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🫐🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠🫐🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🍋🫐🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedResult': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🍋🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋⬜️🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠⬜️🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎⬜️🍋🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedAnimation': [
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🗑️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🗑️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🗑️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+            ],
+        },
+        {
             'title': 'Swipe to right',
             'method': 'swipe.right',
             'design': [
@@ -579,30 +616,149 @@ var test = (function () {
                 '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
                 '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
             ],
+        },
+        {
+            'title': 'Swipe 4 items to left (#1)',
+            'method': 'swipe.right',
+            'design': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🫐🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🫐🍋🍠🅾️',
+                '🅾️🍎🍋🍠🫐🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🫐🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedResult': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎⬜️🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🐭🍠🍋🍠🅾️',
+                '🅾️🍎🍋🍠⬜️🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎⬜️🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedAnimation': [
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔽⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔄⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔼⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⏫️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+            ],
+        },
+        {
+            'title': 'Swipe 4 items to left (#2)',
+            'method': 'swipe.right',
+            'design': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🫐🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🫐🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠🍎🫐🍠🍎🅾️',
+                '🅾️🍋🍠🍎🫐🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedResult': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎⬜️🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋⬜️🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠🐭🍎🍠🍎🅾️',
+                '🅾️🍋🍠🍎⬜️🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedAnimation': [
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⏬️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔽⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔄⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔼⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+            ],
+        },
+        {
+            'title': 'Swipe 4 items to right (#2)',
+            'method': 'swipe.right',
+            'design': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🫐🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🫐🍎🍋🍠🅾️',
+                '🅾️🍎🍋🫐🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🫐🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedResult': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎⬜️🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋⬜️🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍎🐭🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎⬜️🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedAnimation': [
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⏬️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔽⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔄⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🔼⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+            ],
         }
     ];
 
     function init() {
     }
 
-    function swipeRight(repository) {
+    function swipeTest(repository, toLeft, toRight) {
         var savedRepository = board.copyRepository1to1(repository);
         var returnRepository = board.copyRepository1to1(repository);
         var rows = board.getRows(repository);
         var cols = board.getCols(repository);
         var countSuccess = 0;
+        var startX = 0;
+        var startY = 0;
 
-        for (var y = 0; y < rows; ++y) {
-            for (var x = 1; x < cols; ++x) {
+        if (toLeft || toRight) {
+            ++startX;
+        }
+        for (var y = startY; y < rows; ++y) {
+            for (var x = startX; x < cols; ++x) {
                 repository = board.copyRepository1to1(savedRepository);
-                board.swapPosition(repository, x - 1, y, x, y);
-                repository = solve.board(repository);
+                var newX = x, newY = y, oldX = x, oldY = y;
+
+                if (toLeft) {
+                    newX -= 1;
+                } else if (toRight) {
+                    oldX -= 1;
+                }
+
+                board.swapPosition(repository, oldX, oldY, newX, newY);
+                repository = solve.move(repository, newX, newY, oldX, oldY);
 
                 var changed = !board.equalBoards(savedRepository.animate, repository.animate);
                 if (changed) {
                     ++countSuccess;
 
-                    board.swapInitialPosition(repository, x - 1, y, x, y);
+                    if (toLeft) {
+                        board.swapInitialPosition(repository, x, y, x - 1, y);
+                    } else if (toRight) {
+                        board.swapInitialPosition(repository, x - 1, y, x, y);
+                    }
                     returnRepository = board.copyRepository1to1(repository);
                 }
             }
@@ -629,8 +785,11 @@ var test = (function () {
                     case 'board.spawn':
                         repository = board.spawn(repository);
                         break;
+                    case 'swipe.left':
+                        repository = swipeTest(repository, true, false);
+                        break;
                     case 'swipe.right':
-                        repository = swipeRight(repository);
+                        repository = swipeTest(repository, false, true);
                         break;
                     default:
                         console.error('No method defined');
