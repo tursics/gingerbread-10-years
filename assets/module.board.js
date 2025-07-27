@@ -69,6 +69,12 @@ var board = (function () {
         repository.animate[y] = line.join('');
     }
 
+    function changeInitialItem(repository, x, y, item) {
+        var line = Array.from(new Intl.Segmenter().segment(repository.initial[y]), s => s.segment);
+        line[x] = item;
+        repository.initial[y] = line.join('');
+    }
+
     function funcChangeItem(repository, x, y, item) {
         var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[y]), s => s.segment);
         line[x] = item;
@@ -146,6 +152,14 @@ var board = (function () {
             line[targetX] = ITEM_BUG;
         }
         repository.animate[targetY] = line.join('');
+    }
+
+    function funcCopyRepository1to1(repository) {
+        return {
+            initial: repository.initial.map(function(arr) { return arr.slice(); }),
+            cleaned: repository.cleaned.map(function(arr) { return arr.slice(); }),
+            animate: repository.animate.map(function(arr) { return arr.slice(); }),
+        };
     }
 
     function funcCopyRepositoryFromDesign(design) {
@@ -345,12 +359,39 @@ var board = (function () {
         return equalBoards(leftBoard, rightBoard, true);
     }
 
+    function funcSwapPosition(repository, x1, y1, x2, y2) {
+        var item1 = funcGetItem(repository, x1, y1);
+        var item2 = funcGetItem(repository, x2, y2);
+
+        if (funcIsItemMovable(item1) && funcIsItemMovable(item2)) {
+            funcChangeItem(repository, x1, y1, item2);
+            funcChangeItem(repository, x2, y2, item1);
+            return true;
+        }
+
+        return false;
+    }
+
+    function funcSwapInitialPosition(repository, x1, y1, x2, y2) {
+        var item1 = getBoardItem(repository.initial, x1, y1);
+        var item2 = getBoardItem(repository.initial, x2, y2);
+
+        if (funcIsItemMovable(item1) && funcIsItemMovable(item2)) {
+            changeInitialItem(repository, x1, y1, item2);
+            changeInitialItem(repository, x2, y2, item1);
+            return true;
+        }
+
+        return false;
+    }
+
     init();
 
     return {
         animateItem: funcAnimateItem,
         cleanItem: funcCleanItem,
         changeItem: funcChangeItem,
+        copyRepository1to1: funcCopyRepository1to1,
         copyRepositoryFromDesign: funcCopyRepositoryFromDesign,
         copyRepositoryFromRepository: funcCopyRepositoryFromRepository,
         equalBoards: funcEqualBoards,
@@ -365,5 +406,7 @@ var board = (function () {
         spawn: funcSpawn,
         stepDropItems: funcStepDropItems,
         stepRefill: funcStepRefill,
+        swapInitialPosition: funcSwapInitialPosition,
+        swapPosition: funcSwapPosition,
     };
 }());

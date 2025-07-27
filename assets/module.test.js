@@ -542,10 +542,78 @@ var test = (function () {
                 '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
                 '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
             ],
+        },
+        {
+            'title': 'Swipe to right',
+            'method': 'swipe.right',
+            'design': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🍋🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🫐🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠🫐🍋🍠🍎🅾️',
+                '🅾️🍋🍠🫐🍋🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedResult': [
+                '🅾️⬇️⬇️⬇️⬇️⬇️⬇️⬇️🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍎🍋🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋⬜️🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠⬜️🍋🍠🍎🅾️',
+                '🅾️🍋🍠🍋⬜️🍠🍎🍋🅾️',
+                '🅾️🍠🍎🍋🍠🍎🍋🍠🅾️',
+                '🅾️🍎🍋🍠🍎🍋🍠🍎🅾️',
+                '🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️🅾️'
+            ],
+            'expectedAnimation': [
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🗑️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🗑️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️🗑️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+                '⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️',
+            ],
         }
     ];
 
     function init() {
+    }
+
+    function swipeRight(repository) {
+        var savedRepository = board.copyRepository1to1(repository);
+        var returnRepository = board.copyRepository1to1(repository);
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
+        var countSuccess = 0;
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 1; x < cols; ++x) {
+                repository = board.copyRepository1to1(savedRepository);
+                board.swapPosition(repository, x - 1, y, x, y);
+                repository = solve.board(repository);
+
+                var changed = !board.equalBoards(savedRepository.animate, repository.animate);
+                if (changed) {
+                    ++countSuccess;
+
+                    board.swapInitialPosition(repository, x - 1, y, x, y);
+                    returnRepository = board.copyRepository1to1(repository);
+                }
+            }
+        }
+
+        if (countSuccess !== 1) {
+            console.error(countSuccess + ' possible level solvings.');
+            returnRepository = board.copyRepository1to1(savedRepository);
+        }
+
+        return returnRepository;
     }
 
     function funcRun() {
@@ -561,20 +629,37 @@ var test = (function () {
                     case 'board.spawn':
                         repository = board.spawn(repository);
                         break;
+                    case 'swipe.right':
+                        repository = swipeRight(repository);
+                        break;
                     default:
                         console.error('No method defined');
                 }
 
-                var success = board.equalBoardsWithLogging(repository.initial, testLevel.design) && board.equalBoardsWithLogging(repository.cleaned, testLevel.expectedResult) && board.equalBoardsWithLogging(repository.animate, testLevel.expectedAnimation);
+                var success =
+                    (successInitial = board.equalBoardsWithLogging(repository.initial, testLevel.design)) &&
+                    (successCleaned = board.equalBoardsWithLogging(repository.cleaned, testLevel.expectedResult)) &&
+                    (successAnimate = board.equalBoardsWithLogging(repository.animate, testLevel.expectedAnimation));
 
                 if (!success) {
-                    console.error('Test "' + testLevel.title + '" failed.');
-                    console.table(repository.initial);
-                    console.table(repository.cleaned);
-                    console.table(repository.animate);
+                    if (!successInitial) {
+                        console.error('Test "' + testLevel.title + '" failed @ initial.');
+                        console.table(repository.initial);
+                        console.table(testLevel.design);
+                    }
+                    if (!successCleaned) {
+                        console.error('Test "' + testLevel.title + '" failed @ cleaned.');
+                        console.table(repository.cleaned);
+                        console.table(testLevel.expectedResult);
+                    }
+                    if (!successAnimate) {
+                        console.error('Test "' + testLevel.title + '" failed @ animate.');
+                        console.table(repository.animate);
+                        console.table(testLevel.expectedAnimation);
+                    }
                 }
 
-                if ('solve.board' === method) {
+                if ('board.spawn' !== method) {
                     break;
                 }
             }
