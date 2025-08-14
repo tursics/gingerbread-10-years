@@ -25,10 +25,14 @@ function spawnBoardWithLevel(id) {
     if (config.debug) {
         console.table(repository.cleaned);
     }
+
+    return repository;
 }
 
 function simulateGame() {
-    spawnBoardWithLevel(0);
+    var repository = spawnBoardWithLevel(0);
+
+    uiBoard.showRepository(repository);
 }
 
 window.onload = function() {

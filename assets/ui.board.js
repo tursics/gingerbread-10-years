@@ -1,19 +1,46 @@
 var uiBoard = (function () {
-    var id = 'board';
+    var boardID = 'board',
+        boardDIV = null;
 
     function init() {
-        var div = document.getElementById(id);
+        var div = document.getElementById(boardID);
 
         if (null === div) {
             div = document.createElement('div');
-            div.id = id;
+            div.id = boardID;
             div.style.cssText = 'position:absolute;width:100%;height:100%;background:#222;';
             document.body.appendChild(div);
+        }
+
+        boardDIV = document.getElementById(boardID);
+    }
+
+    function funcShowRepository(repository) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
+        var div = null;
+
+        boardDIV.style.width = cols + 'em';
+        boardDIV.style.height = rows + 'em';
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                var item = board.getItem(repository, x, y);
+
+                div = document.createElement('div');
+                div.id = 'board-item-' + x + '-' + y;
+                div.className = 'board-item';
+                div.style.left = x + 'em';
+                div.style.top = y + 'em';
+                div.innerHTML = item;
+                boardDIV.appendChild(div);
+            }
         }
     }
 
     init();
 
     return {
+        showRepository: funcShowRepository,
     };
 }());

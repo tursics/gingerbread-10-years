@@ -20,3 +20,14 @@ body, html {
     top: 50%;
     transform: translate(-50%,-50%);
 }
+
+#board {
+    line-height: 1em;
+}
+
+.board-item {
+    background: #fff;
+    height: 1em;
+    position: absolute;
+    width: 1em;
+}
