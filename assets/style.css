@@ -22,7 +22,8 @@ body, html {
 }
 
 #board {
-    background:#222;
+    background:#777;
+    border-radius: 5%;
     font-size: 3em;
     position:absolute;
     transform: translate(50vw,50vh);
@@ -30,7 +31,7 @@ body, html {
 
 .board-item {
     background: #fff;
-    font-size: .9em;
+    font-size: .85em;
     line-height: 1.3em;
     position: absolute;
     text-align: center;
