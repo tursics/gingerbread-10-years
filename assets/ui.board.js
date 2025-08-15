@@ -31,8 +31,10 @@ var uiBoard = (function () {
                 div = document.createElement('div');
                 div.id = 'board-item-' + x + '-' + y;
                 div.className = 'board-item';
-                div.style.left = x + 'em';
-                div.style.top = y + 'em';
+                div.style.height = (1 / rows * 100).toFixed(4) + '%';
+                div.style.width = (1 / cols * 100).toFixed(4) + '%';
+                div.style.left = (x / cols * 100).toFixed(4) + '%';
+                div.style.top = (y / rows * 100).toFixed(4) + '%';
                 div.innerHTML = item;
                 boardDIV.appendChild(div);
             }
