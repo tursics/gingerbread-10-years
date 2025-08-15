@@ -22,12 +22,16 @@ body, html {
 }
 
 #board {
-    line-height: 1em;
+    background:#222;
+    font-size: 3em;
+    position:absolute;
+    transform: translate(50vw,50vh);
 }
 
 .board-item {
     background: #fff;
     height: 1em;
+    line-height: 1em;
     position: absolute;
     width: 1em;
 }
