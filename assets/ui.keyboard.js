@@ -1,12 +1,14 @@
 var uiKeyboard = (function () {
     var selectionX = 0,
         selectionY = 0,
+        selected = false,
         selectionDIV = null,
         currentRepository = null;
 
     function init() {
         selectionX = 0;
         selectionY = 0;
+        selected = false;
         selectionDIV = null;
 
         document.addEventListener("keydown", onKeyDown);
@@ -18,6 +20,8 @@ var uiKeyboard = (function () {
             case 'ArrowDown': moveDown(); return;
             case 'ArrowLeft': moveLeft(); return;
             case 'ArrowRight': moveRight(); return;
+            case 'Space': select(); return;
+            case 'Enter': select(); return;
         }
     }
 
@@ -89,6 +93,11 @@ var uiKeyboard = (function () {
         }
     }
 
+    function select() {
+        selected = !selected;
+        updateSelection();
+    }
+
     function setFirstMovableItem() {
         var rows = board.getRows(currentRepository);
         var cols = board.getCols(currentRepository);
@@ -111,6 +120,7 @@ var uiKeyboard = (function () {
 
     function funcInitRepository(repository) {
         selectionDIV = uiBoard.getKeyboardDiv();
+        selected = false;
         currentRepository = repository;
         setFirstMovableItem();
 
@@ -128,6 +138,10 @@ var uiKeyboard = (function () {
         if (div) {
             selectionDIV.style.left = div.style.left;
             selectionDIV.style.top = div.style.top;
+            selectionDIV.classList.remove('selected');
+            if (selected) {
+                selectionDIV.classList.add('selected');
+            }
         }
     }
 

@@ -22,7 +22,7 @@ body, html {
 }
 
 #board {
-    background:#777;
+    background: #f4f4f4;
     border-radius: 5%;
     font-size: 3em;
     position:absolute;
@@ -30,7 +30,6 @@ body, html {
 }
 
 .board-item {
-    background: #fff;
     font-size: .85em;
     line-height: 1.33em;
     position: absolute;
@@ -42,5 +41,9 @@ body, html {
     border-radius: 10%;
     clip-path: polygon(0% 0%, 0% 100%, 10% 100%, 10% 10%, 90% 10%, 90% 90%, 10% 90%, 10% 100%, 100% 100%, 100% 0%);
     position: absolute;
-    transition: left 250ms ease-out, top 250ms ease-out;
+    transition: left 250ms ease-out, top 250ms ease-out, clip-path 250ms ease-out;
+}
+
+#board-item-keyboard-focus.selected {
+    clip-path: polygon(0% 0%, 0% 100%, 50% 100%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 100%, 100% 100%, 100% 0%);
 }
