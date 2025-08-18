@@ -50,8 +50,8 @@ var uiKeyboard = (function () {
     }
 
     function funcInitRepository(repository) {
-        selectionX = 0;
-        selectionY = 0;
+        selectionX = 1;
+        selectionY = 1;
         selectionDIV = uiBoard.getKeyboardDiv();
         currentRepository = repository;
 
