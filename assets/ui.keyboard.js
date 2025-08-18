@@ -22,38 +22,97 @@ var uiKeyboard = (function () {
     }
 
     function moveLeft() {
-        if (selectionX > 0) {
-            --selectionX;
-            updateSelection();
+        var x = selectionX;
+        var y = selectionY;
+
+        while (x > 0) {
+            --x;
+
+            var item = board.getItem(currentRepository, x, y);
+            if (board.isItemMovable(item)) {
+                selectionX = x;
+                updateSelection();
+
+                return;
+            }
         }
     }
 
     function moveRight() {
-        if (selectionX < (board.getRows(currentRepository) - 1)) {
-            ++selectionX;
-            updateSelection();
+        var x = selectionX;
+        var y = selectionY;
+
+        while (x < (board.getRows(currentRepository) - 1)) {
+            ++x;
+
+            var item = board.getItem(currentRepository, x, y);
+            if (board.isItemMovable(item)) {
+                selectionX = x;
+                updateSelection();
+
+                return;
+            }
         }
     }
 
     function moveUp() {
-        if (selectionY > 0) {
-            --selectionY;
-            updateSelection();
+        var x = selectionX;
+        var y = selectionY;
+
+        while (y > 0) {
+            --y;
+
+            var item = board.getItem(currentRepository, x, y);
+            if (board.isItemMovable(item)) {
+                selectionY = y;
+                updateSelection();
+
+                return;
+            }
         }
     }
 
     function moveDown() {
-        if (selectionY < (board.getCols(currentRepository) - 1)) {
-            ++selectionY;
-            updateSelection();
+        var x = selectionX;
+        var y = selectionY;
+
+        while (y < (board.getCols(currentRepository) - 1)) {
+            ++y;
+
+            var item = board.getItem(currentRepository, x, y);
+            if (board.isItemMovable(item)) {
+                selectionY = y;
+                updateSelection();
+
+                return;
+            }
         }
     }
 
+    function setFirstMovableItem() {
+        var rows = board.getRows(currentRepository);
+        var cols = board.getCols(currentRepository);
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                var item = board.getItem(currentRepository, x, y);
+                if (board.isItemMovable(item)) {
+                    selectionX = x;
+                    selectionY = y;
+
+                    return;
+                }
+            }
+        }
+
+        selectionX = 0;
+        selectionY = 0;
+    }
+
     function funcInitRepository(repository) {
-        selectionX = 1;
-        selectionY = 1;
         selectionDIV = uiBoard.getKeyboardDiv();
         currentRepository = repository;
+        setFirstMovableItem();
 
         var div = uiBoard.getItemDIV(selectionX, selectionY);
         if (div) {
