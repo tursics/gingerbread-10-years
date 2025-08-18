@@ -32,7 +32,14 @@ body, html {
 .board-item {
     background: #fff;
     font-size: .85em;
-    line-height: 1.3em;
+    line-height: 1.33em;
     position: absolute;
     text-align: center;
+}
+
+#board-item-keyboard-focus {
+    border: 2px dashed red;
+    margin: -2px;
+    position: absolute;
+    transition: left 250ms ease-out, top 250ms ease-out;
 }

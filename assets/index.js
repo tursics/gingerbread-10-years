@@ -33,6 +33,7 @@ function simulateGame() {
     var repository = spawnBoardWithLevel(0);
 
     uiBoard.showRepository(repository);
+    uiKeyboard.initRepository(repository);
 }
 
 window.onload = function() {

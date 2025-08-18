@@ -1,6 +1,8 @@
 var uiBoard = (function () {
     var boardID = 'board',
-        boardDIV = null;
+        boardDIV = null,
+        boardItemID = 'board-item-',
+        keyboardItemID = 'board-item-keyboard-focus';
 
     function init() {
         var div = document.getElementById(boardID);
@@ -32,7 +34,7 @@ var uiBoard = (function () {
                 var item = board.getItem(repository, x, y);
 
                 div = document.createElement('div');
-                div.id = 'board-item-' + x + '-' + y;
+                div.id = boardItemID + x + '-' + y;
                 div.className = 'board-item';
                 div.style.height = height.toFixed(4) + '%';
                 div.style.width = width.toFixed(4) + '%';
@@ -44,9 +46,27 @@ var uiBoard = (function () {
         }
     }
 
+    function funcGetKeyboardDiv() {
+        var div = document.getElementById(keyboardItemID);
+
+        if (null === div) {
+            div = document.createElement('div');
+            div.id = keyboardItemID;
+            boardDIV.appendChild(div);
+        }
+
+        return document.getElementById(keyboardItemID);
+    }
+
+    function funcGetItemDIV(x, y) {
+        return document.getElementById(boardItemID + x + '-' + y);
+    }
+
     init();
 
     return {
+        getItemDIV: funcGetItemDIV,
+        getKeyboardDiv: funcGetKeyboardDiv,
         showRepository: funcShowRepository,
     };
 }());
