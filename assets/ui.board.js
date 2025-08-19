@@ -62,11 +62,53 @@ var uiBoard = (function () {
         return document.getElementById(boardItemID + x + '-' + y);
     }
 
+    function funcSwitchItems(repository, startX, startY, endX, endY) {
+        if (!board.swapPosition(repository, startX, startY, endX, endY)) {
+            return;
+        }
+
+        var itemStart = funcGetItemDIV(startX, startY);
+        var itemEnd = funcGetItemDIV(endX, endY);
+        var left = itemStart.style.left;
+        var top = itemStart.style.top;
+        var id = itemStart.id;
+
+        itemStart.classList.add('animate');
+        itemStart.style.zIndex = 102;
+        itemStart.style.left = itemEnd.style.left;
+        itemStart.style.top = itemEnd.style.top;
+        itemStart.id = itemEnd.id;
+
+        itemEnd.classList.add('animate');
+        itemEnd.style.zIndex = 101;
+        itemEnd.style.left = left;
+        itemEnd.style.top = top;
+        itemEnd.id = id;
+
+        setTimeout(function() {
+            switchItems2(repository, startX, startY, endX, endY);
+        }, 250 + 50);
+    }
+
+    function switchItems2(repository, startX, startY, endX, endY) {
+        var itemStart = funcGetItemDIV(startX, startY);
+        var itemEnd = funcGetItemDIV(endX, endY);
+
+        itemStart.classList.remove('animate');
+        itemStart.style.removeProperty('z-index');
+
+        itemEnd.classList.remove('animate');
+        itemEnd.style.removeProperty('z-index');
+
+        console.table(repository.cleaned);
+    }
+
     init();
 
     return {
         getItemDIV: funcGetItemDIV,
         getKeyboardDiv: funcGetKeyboardDiv,
         showRepository: funcShowRepository,
+        switchItems: funcSwitchItems,
     };
 }());

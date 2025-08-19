@@ -15,13 +15,24 @@ var uiKeyboard = (function () {
     }
 
     function onKeyDown(e) {
-        switch (e.code) {
-            case 'ArrowUp': moveUp(); return;
-            case 'ArrowDown': moveDown(); return;
-            case 'ArrowLeft': moveLeft(); return;
-            case 'ArrowRight': moveRight(); return;
-            case 'Space': select(); return;
-            case 'Enter': select(); return;
+        if (selected) {
+            switch (e.code) {
+                case 'ArrowUp': switchUp(); return;
+                case 'ArrowDown': switchDown(); return;
+                case 'ArrowLeft': switchLeft(); return;
+                case 'ArrowRight': switchRight(); return;
+                case 'Space': select(); return;
+                case 'Enter': select(); return;
+            }
+        } else {
+            switch (e.code) {
+                case 'ArrowUp': moveUp(); return;
+                case 'ArrowDown': moveDown(); return;
+                case 'ArrowLeft': moveLeft(); return;
+                case 'ArrowRight': moveRight(); return;
+                case 'Space': select(); return;
+                case 'Enter': select(); return;
+            }
         }
     }
 
@@ -91,6 +102,30 @@ var uiKeyboard = (function () {
                 return;
             }
         }
+    }
+
+    function switchLeft() {
+        select();
+
+        uiBoard.switchItems(currentRepository, selectionX, selectionY, selectionX - 1, selectionY);
+    }
+
+    function switchRight() {
+        select();
+
+        uiBoard.switchItems(currentRepository, selectionX, selectionY, selectionX + 1, selectionY);
+    }
+
+    function switchUp() {
+        select();
+
+        uiBoard.switchItems(currentRepository, selectionX, selectionY, selectionX, selectionY - 1);
+    }
+
+    function switchDown() {
+        select();
+
+        uiBoard.switchItems(currentRepository, selectionX, selectionY, selectionX, selectionY + 1);
     }
 
     function select() {

@@ -34,6 +34,11 @@ body, html {
     line-height: 1.33em;
     position: absolute;
     text-align: center;
+    z-index: 100;
+}
+
+.board-item.animate {
+    transition: left 250ms ease-out, top 250ms ease-out;
 }
 
 #board-item-keyboard-focus {
@@ -42,6 +47,7 @@ body, html {
     clip-path: polygon(0% 0%, 0% 100%, 10% 100%, 10% 10%, 90% 10%, 90% 90%, 10% 90%, 10% 100%, 100% 100%, 100% 0%);
     position: absolute;
     transition: left 250ms ease-out, top 250ms ease-out, clip-path 250ms ease-out;
+    z-index: 200;
 }
 
 #board-item-keyboard-focus.selected {
