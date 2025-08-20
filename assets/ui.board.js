@@ -16,9 +16,9 @@ var uiBoard = (function () {
         boardDIV = document.getElementById(boardID);
     }
 
-    function funcShowRepository(repository) {
-        var rows = board.getRows(repository);
-        var cols = board.getCols(repository);
+    function funcShowRepository() {
+        var rows = board.getRows(uiLevel.get());
+        var cols = board.getCols(uiLevel.get());
         var div = null;
 
         boardDIV.style.height = rows + 'em';
@@ -31,7 +31,7 @@ var uiBoard = (function () {
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var item = board.getItem(repository, x, y);
+                var item = board.getItem(uiLevel.get(), x, y);
 
                 div = document.createElement('div');
                 div.id = boardItemID + x + '-' + y;
@@ -62,8 +62,12 @@ var uiBoard = (function () {
         return document.getElementById(boardItemID + x + '-' + y);
     }
 
-    function funcSwitchItems(repository, startX, startY, endX, endY) {
-        if (!board.swapPosition(repository, startX, startY, endX, endY)) {
+    function funcSwitchItems(startX, startY, endX, endY) {
+        switchItems1(startX, startY, endX, endY, false);
+    }
+
+    function switchItems1(startX, startY, endX, endY, rollback) {
+        if (!board.swapPosition(uiLevel.get(), startX, startY, endX, endY)) {
             return;
         }
 
@@ -86,11 +90,11 @@ var uiBoard = (function () {
         itemEnd.id = id;
 
         setTimeout(function() {
-            switchItems2(repository, startX, startY, endX, endY);
+            switchItems2(startX, startY, endX, endY, rollback);
         }, 250 + 50);
     }
 
-    function switchItems2(repository, startX, startY, endX, endY) {
+    function switchItems2(startX, startY, endX, endY, rollback) {
         var itemStart = funcGetItemDIV(startX, startY);
         var itemEnd = funcGetItemDIV(endX, endY);
 
@@ -100,7 +104,17 @@ var uiBoard = (function () {
         itemEnd.classList.remove('animate');
         itemEnd.style.removeProperty('z-index');
 
-        console.table(repository.cleaned);
+        if (rollback) {
+             return;
+        }
+
+        uiLevel.set(solve.move(uiLevel.get(), endX, endY, startX, startY));
+        if (board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
+            switchItems1(startX, startY, endX, endY, true);
+        } else {
+console.log(uiLevel.get());
+            console.table(uiLevel.get().cleaned);
+        }
     }
 
     init();

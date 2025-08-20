@@ -32,8 +32,9 @@ function spawnBoardWithLevel(id) {
 function simulateGame() {
     var repository = spawnBoardWithLevel(0);
 
-    uiBoard.showRepository(repository);
-    uiKeyboard.initRepository(repository);
+    uiLevel.set(repository);
+    uiBoard.showRepository();
+    uiKeyboard.initRepository();
 }
 
 window.onload = function() {

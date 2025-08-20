@@ -2,8 +2,7 @@ var uiKeyboard = (function () {
     var selectionX = 0,
         selectionY = 0,
         selected = false,
-        selectionDIV = null,
-        currentRepository = null;
+        selectionDIV = null;
 
     function init() {
         selectionX = 0;
@@ -43,7 +42,7 @@ var uiKeyboard = (function () {
         while (x > 0) {
             --x;
 
-            var item = board.getItem(currentRepository, x, y);
+            var item = board.getItem(uiLevel.get(), x, y);
             if (board.isItemMovable(item)) {
                 selectionX = x;
                 updateSelection();
@@ -57,10 +56,10 @@ var uiKeyboard = (function () {
         var x = selectionX;
         var y = selectionY;
 
-        while (x < (board.getRows(currentRepository) - 1)) {
+        while (x < (board.getRows(uiLevel.get()) - 1)) {
             ++x;
 
-            var item = board.getItem(currentRepository, x, y);
+            var item = board.getItem(uiLevel.get(), x, y);
             if (board.isItemMovable(item)) {
                 selectionX = x;
                 updateSelection();
@@ -77,7 +76,7 @@ var uiKeyboard = (function () {
         while (y > 0) {
             --y;
 
-            var item = board.getItem(currentRepository, x, y);
+            var item = board.getItem(uiLevel.get(), x, y);
             if (board.isItemMovable(item)) {
                 selectionY = y;
                 updateSelection();
@@ -91,10 +90,10 @@ var uiKeyboard = (function () {
         var x = selectionX;
         var y = selectionY;
 
-        while (y < (board.getCols(currentRepository) - 1)) {
+        while (y < (board.getCols(uiLevel.get()) - 1)) {
             ++y;
 
-            var item = board.getItem(currentRepository, x, y);
+            var item = board.getItem(uiLevel.get(), x, y);
             if (board.isItemMovable(item)) {
                 selectionY = y;
                 updateSelection();
@@ -107,25 +106,25 @@ var uiKeyboard = (function () {
     function switchLeft() {
         select();
 
-        uiBoard.switchItems(currentRepository, selectionX, selectionY, selectionX - 1, selectionY);
+        uiBoard.switchItems(selectionX, selectionY, selectionX - 1, selectionY);
     }
 
     function switchRight() {
         select();
 
-        uiBoard.switchItems(currentRepository, selectionX, selectionY, selectionX + 1, selectionY);
+        uiBoard.switchItems(selectionX, selectionY, selectionX + 1, selectionY);
     }
 
     function switchUp() {
         select();
 
-        uiBoard.switchItems(currentRepository, selectionX, selectionY, selectionX, selectionY - 1);
+        uiBoard.switchItems(selectionX, selectionY, selectionX, selectionY - 1);
     }
 
     function switchDown() {
         select();
 
-        uiBoard.switchItems(currentRepository, selectionX, selectionY, selectionX, selectionY + 1);
+        uiBoard.switchItems(selectionX, selectionY, selectionX, selectionY + 1);
     }
 
     function select() {
@@ -134,12 +133,12 @@ var uiKeyboard = (function () {
     }
 
     function setFirstMovableItem() {
-        var rows = board.getRows(currentRepository);
-        var cols = board.getCols(currentRepository);
+        var rows = board.getRows(uiLevel.get());
+        var cols = board.getCols(uiLevel.get());
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var item = board.getItem(currentRepository, x, y);
+                var item = board.getItem(uiLevel.get(), x, y);
                 if (board.isItemMovable(item)) {
                     selectionX = x;
                     selectionY = y;
@@ -153,10 +152,9 @@ var uiKeyboard = (function () {
         selectionY = 0;
     }
 
-    function funcInitRepository(repository) {
+    function funcInitRepository() {
         selectionDIV = uiBoard.getKeyboardDiv();
         selected = false;
-        currentRepository = repository;
         setFirstMovableItem();
 
         var div = uiBoard.getItemDIV(selectionX, selectionY);
@@ -164,6 +162,8 @@ var uiKeyboard = (function () {
             selectionDIV.style.height = div.style.height;
             selectionDIV.style.width = div.style.width;
         }
+
+        selectionDIV.focus();
 
         updateSelection();
     }
