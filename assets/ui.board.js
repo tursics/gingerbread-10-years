@@ -52,6 +52,7 @@ var uiBoard = (function () {
         if (null === div) {
             div = document.createElement('div');
             div.id = keyboardItemID;
+            div.tabIndex = -1;
             boardDIV.appendChild(div);
         }
 
@@ -63,10 +64,10 @@ var uiBoard = (function () {
     }
 
     function funcSwitchItems(startX, startY, endX, endY) {
-        switchItems1(startX, startY, endX, endY, false);
+        switchItemsPreAnimation(startX, startY, endX, endY, false);
     }
 
-    function switchItems1(startX, startY, endX, endY, rollback) {
+    function switchItemsPreAnimation(startX, startY, endX, endY, rollback) {
         if (!board.swapPosition(uiLevel.get(), startX, startY, endX, endY)) {
             return;
         }
@@ -90,11 +91,11 @@ var uiBoard = (function () {
         itemEnd.id = id;
 
         setTimeout(function() {
-            switchItems2(startX, startY, endX, endY, rollback);
+            switchItemsPostAnimation(startX, startY, endX, endY, rollback);
         }, 250 + 50);
     }
 
-    function switchItems2(startX, startY, endX, endY, rollback) {
+    function switchItemsPostAnimation(startX, startY, endX, endY, rollback) {
         var itemStart = funcGetItemDIV(startX, startY);
         var itemEnd = funcGetItemDIV(endX, endY);
 
@@ -110,10 +111,11 @@ var uiBoard = (function () {
 
         uiLevel.set(solve.move(uiLevel.get(), endX, endY, startX, startY));
         if (board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
-            switchItems1(startX, startY, endX, endY, true);
+            switchItemsPreAnimation(startX, startY, endX, endY, true);
         } else {
 console.log(uiLevel.get());
             console.table(uiLevel.get().cleaned);
+            console.table(uiLevel.get().animate);
         }
     }
 
