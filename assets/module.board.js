@@ -5,6 +5,7 @@ var board = (function () {
         ITEM_VOID = '⬜️',
         ITEM_WALL = '🅾️',
         ANIMATE_CHANGE = '🔄',
+        ANIMATE_DROP_1 = '1️⃣',
         ANIMATE_MOVE_1UP = '🔼',
         ANIMATE_MOVE_2UP = '⏫️',
         ANIMATE_MOVE_1DOWN = '🔽',
@@ -57,6 +58,14 @@ var board = (function () {
 
     function funcIsAnimateChangeItem(item) {
         return (item === ANIMATE_CHANGE);
+    }
+
+    function funcIsAnimateDropOneItem(item) {
+        return (item === ANIMATE_DROP_1);
+    }
+
+    function funcIsAnimateSpawnItem(item) {
+        return (item === ANIMATE_SPAWN);
     }
 
     function funcIsAnimateMoveOneUpItem(item) {
@@ -188,7 +197,7 @@ var board = (function () {
         line = Array.from(new Intl.Segmenter().segment(repository.animate[targetY]), s => s.segment);
         if (startX === targetX) {
             switch (startY - targetY) {
-                case -1: line[targetX] = '1️⃣'; break;
+                case -1: line[targetX] = ANIMATE_DROP_1; break;
                 case -2: line[targetX] = '2️⃣'; break;
                 case -3: line[targetX] = '3️⃣'; break;
                 case -4: line[targetX] = '4️⃣'; break;
@@ -453,6 +462,7 @@ var board = (function () {
         getItem: funcGetItem,
         getRows: funcGetRows,
         isAnimateChangeItem: funcIsAnimateChangeItem,
+        isAnimateDropOneItem: funcIsAnimateDropOneItem,
         isAnimateMoveOneDownItem: funcIsAnimateMoveOneDownItem,
         isAnimateMoveOneLeftItem: funcIsAnimateMoveOneLeftItem,
         isAnimateMoveOneRightItem: funcIsAnimateMoveOneRightItem,
@@ -462,6 +472,7 @@ var board = (function () {
         isAnimateMoveTwoRightItem: funcIsAnimateMoveTwoRightItem,
         isAnimateMoveTwoUpItem: funcIsAnimateMoveTwoUpItem,
         isAnimateRemoveItem: funcIsAnimateRemoveItem,
+        isAnimateSpawnItem: funcIsAnimateSpawnItem,
         isBaseItem: funcIsBaseItem,
         isItemMovable: funcIsItemMovable,
 //        refillBoard: funcRefillBoard,

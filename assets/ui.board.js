@@ -220,7 +220,7 @@ var uiBoard = (function () {
         if (changeItemCount > 0) {
             changeItemFaces();
         } else {
-            fooBar();
+            refillItems();
         }
     }
 
@@ -282,10 +282,109 @@ var uiBoard = (function () {
             }
         }
 
-        fooBar();
+        refillItems();
     }
 
-    function fooBar() {
+    function refillItems() {
+        var repository = board.copyRepositoryFromRepository(uiLevel.get());
+        repository = board.stepDropItems(repository);
+        uiLevel.set(board.stepRefill(repository));
+
+        if (!board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
+            refillItemsReorder();
+        } else {
+            switchItemsDone();
+        }
+    }
+
+    function refillItemsReorder() {
+        var rows = board.getRows(uiLevel.get());
+        var cols = board.getCols(uiLevel.get());
+
+        for (var y = rows - 1; y >= 0; --y) {
+            for (var x = 0; x < cols; ++x) {
+                var item = board.getAnimateItem(uiLevel.get(), x, y);
+                if (board.isAnimateDropOneItem(item)) {
+                    var sourceDiv = funcGetItemDIV(x, y - 1);
+                    var div = funcGetItemDIV(x, y);
+                    var id = sourceDiv.id;
+                    sourceDiv.id = div.id;
+                    div.id = id;
+                } else if (board.isAnimateSpawnItem(item)) {
+                    var div = funcGetItemDIV(x, y);
+                    div.style.top = funcGetItemDIV(0, y - 1).style.top;
+                }
+            }
+        }
+
+//        requestAnimationFrame(refillItemsPreAnimation);
+        setTimeout(function() {
+            refillItemsPreAnimation();
+        }, 50);
+    }
+
+    function refillItemsPreAnimation() {
+        var rows = board.getRows(uiLevel.get());
+        var cols = board.getCols(uiLevel.get());
+
+        for (var y = rows - 1; y >= 0; --y) {
+            for (var x = 0; x < cols; ++x) {
+                var item = board.getAnimateItem(uiLevel.get(), x, y);
+                if (board.isAnimateDropOneItem(item)) {
+                    var div = funcGetItemDIV(x, y);
+                    div.classList.add('animate');
+                    div.style.top = funcGetItemDIV(0, y).style.top;
+                } else if (board.isAnimateSpawnItem(item)) {
+                    var newItem = board.getItem(uiLevel.get(), x, y);
+                    var div = funcGetItemDIV(x, y);
+                    div.classList.add('animate');
+                    div.style.top = funcGetItemDIV(0, y).style.top;
+                    div.style.zIndex = 101;
+                    div.innerHTML = newItem;
+
+                    div = funcGetItemDIV(x, y - 1);
+                    div.style.zIndex = 102;
+                }
+            }
+        }
+
+        setTimeout(function() {
+            refillItemsPostAnimation();
+        }, 250 + 50);
+    }
+
+    function refillItemsPostAnimation() {
+        var rows = board.getRows(uiLevel.get());
+        var cols = board.getCols(uiLevel.get());
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                var item = board.getAnimateItem(uiLevel.get(), x, y);
+                if (board.isAnimateDropOneItem(item)) {
+                    var div = funcGetItemDIV(x, y);
+                    div.classList.remove('animate');
+                } else if (board.isAnimateSpawnItem(item)) {
+                    var div = funcGetItemDIV(x, y);
+                    div.classList.remove('animate');
+                    div.style.removeProperty('z-index');
+
+                    div = funcGetItemDIV(x, y - 1);
+                    div.style.removeProperty('z-index');
+                }
+            }
+        }
+
+        refillItems();
+    }
+
+    function switchItemsDone() {
+        uiLevel.set(solve.board(uiLevel.get()));
+        if (!board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
+            animateItems();
+
+            return;
+        }
+
         console.table(uiLevel.get().cleaned);
     }
 
