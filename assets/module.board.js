@@ -5,6 +5,14 @@ var board = (function () {
         ITEM_VOID = '⬜️',
         ITEM_WALL = '🅾️',
         ANIMATE_CHANGE = '🔄',
+        ANIMATE_MOVE_1UP = '🔼',
+        ANIMATE_MOVE_2UP = '⏫️',
+        ANIMATE_MOVE_1DOWN = '🔽',
+        ANIMATE_MOVE_2DOWN = '⏬️',
+        ANIMATE_MOVE_1LEFT = '◀️',
+        ANIMATE_MOVE_2LEFT = '⏪️',
+        ANIMATE_MOVE_1RIGHT = '▶️',
+        ANIMATE_MOVE_2RIGHT = '⏩️',
         ANIMATE_REMOVE = '🗑️',
         ANIMATE_SPAWN = '✳️';
 
@@ -35,8 +43,52 @@ var board = (function () {
         return getBoardItem(repository.cleaned, x, y);
     }
 
+    function funcGetAnimateItem(repository, x, y) {
+        return getBoardItem(repository.animate, x, y);
+    }
+
     function funcIsItemMovable(item) {
         return (item !== ITEM_VOID) && (item !== '⚪️') && (item !== ITEM_WALL) && (item !== ITEM_SPAWNPOINT);
+    }
+
+    function funcIsAnimateRemoveItem(item) {
+        return (item === ANIMATE_REMOVE);
+    }
+
+    function funcIsAnimateChangeItem(item) {
+        return (item === ANIMATE_CHANGE);
+    }
+
+    function funcIsAnimateMoveOneUpItem(item) {
+        return (item === ANIMATE_MOVE_1UP);
+    }
+
+    function funcIsAnimateMoveTwoUpItem(item) {
+        return (item === ANIMATE_MOVE_2UP);
+    }
+
+    function funcIsAnimateMoveOneDownItem(item) {
+        return (item === ANIMATE_MOVE_1DOWN);
+    }
+
+    function funcIsAnimateMoveTwoDownItem(item) {
+        return (item === ANIMATE_MOVE_2DOWN);
+    }
+
+    function funcIsAnimateMoveOneLeftItem(item) {
+        return (item === ANIMATE_MOVE_1LEFT);
+    }
+
+    function funcIsAnimateMoveTwoLeftItem(item) {
+        return (item === ANIMATE_MOVE_2LEFT);
+    }
+
+    function funcIsAnimateMoveOneRightItem(item) {
+        return (item === ANIMATE_MOVE_1RIGHT);
+    }
+
+    function funcIsAnimateMoveTwoRightItem(item) {
+        return (item === ANIMATE_MOVE_2RIGHT);
     }
 
     function funcIsBaseItem(item) {
@@ -103,18 +155,18 @@ var board = (function () {
         line = Array.from(new Intl.Segmenter().segment(repository.animate[startY]), s => s.segment);
         if (startX === targetX) {
             switch (startY - targetY) {
-                case 2: line[startX] = '⏫️'; break;
-                case 1: line[startX] = '🔼'; break;
-                case -1: line[startX] = '🔽'; break;
-                case -2: line[startX] = '⏬️'; break;
+                case 2: line[startX] = ANIMATE_MOVE_2UP; break;
+                case 1: line[startX] = ANIMATE_MOVE_1UP; break;
+                case -1: line[startX] = ANIMATE_MOVE_1DOWN; break;
+                case -2: line[startX] = ANIMATE_MOVE_2DOWN; break;
                 default: line[startX] = ITEM_BUG;
             }
         } else if (startY === targetY) {
             switch (startX - targetX) {
-                case 2: line[startX] = '⏪️'; break;
-                case 1: line[startX] = '◀️'; break;
-                case -1: line[startX] = '▶️'; break;
-                case -2: line[startX] = '⏩️'; break;
+                case 2: line[startX] = ANIMATE_MOVE_2LEFT; break;
+                case 1: line[startX] = ANIMATE_MOVE_1LEFT; break;
+                case -1: line[startX] = ANIMATE_MOVE_1RIGHT; break;
+                case -2: line[startX] = ANIMATE_MOVE_2RIGHT; break;
                 default: line[startX] = ITEM_BUG;
             }
         } else {
@@ -396,9 +448,20 @@ var board = (function () {
         copyRepositoryFromRepository: funcCopyRepositoryFromRepository,
         equalBoards: funcEqualBoards,
         equalBoardsWithLogging: funcEqualBoardsWithLogging,
+        getAnimateItem: funcGetAnimateItem,
         getCols: funcGetCols,
         getItem: funcGetItem,
         getRows: funcGetRows,
+        isAnimateChangeItem: funcIsAnimateChangeItem,
+        isAnimateMoveOneDownItem: funcIsAnimateMoveOneDownItem,
+        isAnimateMoveOneLeftItem: funcIsAnimateMoveOneLeftItem,
+        isAnimateMoveOneRightItem: funcIsAnimateMoveOneRightItem,
+        isAnimateMoveOneUpItem: funcIsAnimateMoveOneUpItem,
+        isAnimateMoveTwoDownItem: funcIsAnimateMoveTwoDownItem,
+        isAnimateMoveTwoLeftItem: funcIsAnimateMoveTwoLeftItem,
+        isAnimateMoveTwoRightItem: funcIsAnimateMoveTwoRightItem,
+        isAnimateMoveTwoUpItem: funcIsAnimateMoveTwoUpItem,
+        isAnimateRemoveItem: funcIsAnimateRemoveItem,
         isBaseItem: funcIsBaseItem,
         isItemMovable: funcIsItemMovable,
 //        refillBoard: funcRefillBoard,
