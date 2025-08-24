@@ -291,13 +291,39 @@ var uiBoard = (function () {
         uiLevel.set(board.stepRefill(repository));
 
         if (!board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
-            refillItemsReorder();
+            refillItemsReorderSpawItems();
         } else {
             switchItemsDone();
         }
     }
 
-    function refillItemsReorder() {
+    function refillItemsReorderSpawItems() {
+        var rows = board.getRows(uiLevel.get());
+        var cols = board.getCols(uiLevel.get());
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                var item = board.getAnimateItem(uiLevel.get(), x, y);
+                if (board.isAnimateSpawnItem(item)) {
+                    for (var y2 = y; y2 < (rows - 1); ++y2) {
+                        var item2 = board.getAnimateItem(uiLevel.get(), x, y2 + 1);
+                        if (!board.isAnimateDropOneItem(item2)) {
+                            var div = funcGetItemDIV(x, y2);
+                            div.style.top = funcGetItemDIV(0, y - 1).style.top;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+//        requestAnimationFrame(refillItemsPreAnimation);
+        setTimeout(function() {
+            refillItemsReorderOtherItems();
+        }, 50);
+    }
+
+    function refillItemsReorderOtherItems() {
         var rows = board.getRows(uiLevel.get());
         var cols = board.getCols(uiLevel.get());
 
@@ -317,10 +343,7 @@ var uiBoard = (function () {
             }
         }
 
-//        requestAnimationFrame(refillItemsPreAnimation);
-        setTimeout(function() {
-            refillItemsPreAnimation();
-        }, 50);
+        refillItemsPreAnimation();
     }
 
     function refillItemsPreAnimation() {
@@ -332,12 +355,12 @@ var uiBoard = (function () {
                 var item = board.getAnimateItem(uiLevel.get(), x, y);
                 if (board.isAnimateDropOneItem(item)) {
                     var div = funcGetItemDIV(x, y);
-                    div.classList.add('animate');
+                    div.classList.add('animate-drop');
                     div.style.top = funcGetItemDIV(0, y).style.top;
                 } else if (board.isAnimateSpawnItem(item)) {
                     var newItem = board.getItem(uiLevel.get(), x, y);
                     var div = funcGetItemDIV(x, y);
-                    div.classList.add('animate');
+                    div.classList.add('animate-drop');
                     div.style.top = funcGetItemDIV(0, y).style.top;
                     div.style.zIndex = 101;
                     div.innerHTML = newItem;
@@ -348,24 +371,29 @@ var uiBoard = (function () {
             }
         }
 
+        var repository = uiLevel.get();
         setTimeout(function() {
-            refillItemsPostAnimation();
-        }, 250 + 50);
+            refillItemsPostAnimation(repository);
+//        }, 250 + 50);
+        }, 250);
+        setTimeout(function() {
+            refillItems();
+        }, 250 - 50);
     }
 
-    function refillItemsPostAnimation() {
-        var rows = board.getRows(uiLevel.get());
-        var cols = board.getCols(uiLevel.get());
+    function refillItemsPostAnimation(repository) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var item = board.getAnimateItem(uiLevel.get(), x, y);
+                var item = board.getAnimateItem(repository, x, y);
                 if (board.isAnimateDropOneItem(item)) {
                     var div = funcGetItemDIV(x, y);
-                    div.classList.remove('animate');
+                    div.classList.remove('animate-drop');
                 } else if (board.isAnimateSpawnItem(item)) {
                     var div = funcGetItemDIV(x, y);
-                    div.classList.remove('animate');
+                    div.classList.remove('animate-drop');
                     div.style.removeProperty('z-index');
 
                     div = funcGetItemDIV(x, y - 1);
@@ -374,7 +402,7 @@ var uiBoard = (function () {
             }
         }
 
-        refillItems();
+//        refillItems();
     }
 
     function switchItemsDone() {

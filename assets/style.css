@@ -41,6 +41,10 @@ body, html {
     transition: left 250ms ease-out, top 250ms ease-out, opacity 250ms ease-out, transform 250ms ease-out;
 }
 
+.board-item.animate-drop {
+    transition: top 270ms linear;
+}
+
 #board-item-keyboard-focus {
     background: #ff540080;
     border-radius: 10%;
