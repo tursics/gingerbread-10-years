@@ -4,8 +4,6 @@
 
 - [x] base game play, without dependencies  (see /assets/module.*.js)
 - [x] test set
-- [ ] functional on console (without browser DOM)
-- [x] functional in browser (see /assets/ui.*.js)
 - [x] input type: keyboard
 - [ ] input type: mouse
 - [ ] input type: touch
@@ -17,6 +15,13 @@
 - [x] graphic: basic (based on emoticons)
 - [ ] graphic: high quality assets
 - [ ] graphic: animated character
+- [ ] functional on: console (without browser DOM)
+- [x] functional in: browser (see /assets/ui.*.js)
+- [x] functional on: desktop / laptop
+- [ ] functional on: tabet devices
+- [ ] functional on: mobile phones
+- [ ] functional on: tv devices
+- [ ] functional on: other (game consoles)
 - [ ] frame: responsive design
 - [ ] frame: add a story
 - [ ] frame: menu design

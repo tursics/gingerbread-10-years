@@ -29,6 +29,10 @@ body, html {
     transform: translate(50vw,50vh);
 }
 
+#board.unsolvable {
+    background: #de6cb7;
+}
+
 .board-item {
     font-size: .85em;
     line-height: 1.33em;

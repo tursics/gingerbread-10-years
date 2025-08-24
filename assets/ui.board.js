@@ -443,6 +443,11 @@ var uiBoard = (function () {
         }
 
         notifyFreeBoard();
+
+        var hint = solve.hint(uiLevel.get());
+        if (hint.length === 0) {
+            boardDIV.classList.add('unsolvable');
+        }
     }
 
     init();

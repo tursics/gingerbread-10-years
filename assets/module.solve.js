@@ -244,10 +244,58 @@ var solve = (function () {
         return solveBoard(repository, newX, newY, oldX, oldY);
     }
 
+    function funcHint(repository) {
+        var sourceRepository = board.copyRepository1to1(repository);
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
+        var ret = [];
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 1; x < cols; ++x) {
+                repository = board.copyRepository1to1(sourceRepository);
+
+                board.swapPosition(repository, x, y, x - 1, y);
+                repository = solve.move(repository, x - 1, y, x, y);
+
+                var changed = !board.equalBoards(sourceRepository.animate, repository.animate);
+                if (changed) {
+                    ret.push({
+                        x1: x - 1,
+                        y1: y,
+                        x2: x,
+                        y2: y
+                    });
+                }
+            }
+        }
+
+        for (var y = 1; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                repository = board.copyRepository1to1(sourceRepository);
+
+                board.swapPosition(repository, x, y, x, y - 1);
+                repository = solve.move(repository, x, y - 1, x, y);
+
+                var changed = !board.equalBoards(sourceRepository.animate, repository.animate);
+                if (changed) {
+                    ret.push({
+                        x1: x,
+                        y1: y - 1,
+                        x2: x,
+                        y2: y
+                    });
+                }
+            }
+        }
+
+        return ret;
+    }
+
     init();
 
     return {
         board: funcBoard,
+        hint: funcHint,
         move: funcMove,
     };
 }());
