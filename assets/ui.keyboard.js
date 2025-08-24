@@ -10,10 +10,14 @@ var uiKeyboard = (function () {
         selected = false;
         selectionDIV = null;
 
-        document.addEventListener("keydown", onKeyDown);
+        document.addEventListener('keydown', onKeyDown);
     }
 
     function onKeyDown(e) {
+        if (uiBoard.isInputBlocked()) {
+            return;
+        }
+
         if (selected) {
             switch (e.code) {
                 case 'ArrowUp': switchUp(); return;
@@ -180,9 +184,19 @@ var uiKeyboard = (function () {
         }
     }
 
+    function funcShowFocusRing() {
+        selectionDIV.classList.remove('hidden');
+    }
+
+    function funcHideFocusRing() {
+        selectionDIV.classList.add('hidden');
+    }
+
     init();
 
     return {
+        hideFocusRing: funcHideFocusRing,
         initRepository: funcInitRepository,
+        showFocusRing: funcShowFocusRing,
     };
 }());

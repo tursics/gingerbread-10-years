@@ -2,6 +2,7 @@ var uiBoard = (function () {
     var boardID = 'board',
         boardDIV = null,
         boardItemID = 'board-item-',
+        boardBlocked = true,
         keyboardItemID = 'board-item-keyboard-focus';
 
     function init() {
@@ -13,7 +14,24 @@ var uiBoard = (function () {
             document.body.appendChild(div);
         }
 
+        boardBlocked = true;
         boardDIV = document.getElementById(boardID);
+    }
+
+    function notifyFreeBoard() {
+        boardBlocked = false;
+
+        uiKeyboard.showFocusRing();
+    }
+
+    function notifyBlockBoard() {
+        boardBlocked = true;
+
+        uiKeyboard.hideFocusRing();
+    }
+
+    function funcIsInputBlocked() {
+        return boardBlocked;
     }
 
     function funcShowRepository() {
@@ -44,6 +62,8 @@ var uiBoard = (function () {
                 boardDIV.appendChild(div);
             }
         }
+
+        boardBlocked = false;
     }
 
     function funcGetKeyboardDiv() {
@@ -64,6 +84,8 @@ var uiBoard = (function () {
     }
 
     function funcSwitchItems(startX, startY, endX, endY) {
+        notifyBlockBoard();
+
         switchItemsPreAnimation(startX, startY, endX, endY, false);
     }
 
@@ -106,7 +128,8 @@ var uiBoard = (function () {
         divEnd.style.removeProperty('z-index');
 
         if (rollback) {
-             return;
+            notifyFreeBoard();
+            return;
         }
 
         uiLevel.set(solve.move(uiLevel.get(), endX, endY, startX, startY));
@@ -419,7 +442,7 @@ var uiBoard = (function () {
             return;
         }
 
-        console.table(uiLevel.get().cleaned);
+        notifyFreeBoard();
     }
 
     init();
@@ -427,6 +450,7 @@ var uiBoard = (function () {
     return {
         getItemDIV: funcGetItemDIV,
         getKeyboardDiv: funcGetKeyboardDiv,
+        isInputBlocked: funcIsInputBlocked,
         showRepository: funcShowRepository,
         switchItems: funcSwitchItems,
     };

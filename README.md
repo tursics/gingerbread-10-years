@@ -1,5 +1,27 @@
 # gingerbread-10-years
 
+## to do list
+
+- [x] base game play, without dependencies  (see /assets/module.*.js)
+- [x] test set
+- [ ] functional on console (without browser DOM)
+- [x] functional in browser (see /assets/ui.*.js)
+- [x] input type: keyboard
+- [ ] input type: mouse
+- [ ] input type: touch
+- [x] animation level: basic
+- [ ] animation level: advanced
+- [ ] animation level: particular effects
+- [ ] sound: effects
+- [ ] sound: background music
+- [x] graphic: basic (based on emoticons)
+- [ ] graphic: high quality assets
+- [ ] graphic: animated character
+- [ ] frame: responsive design
+- [ ] frame: add a story
+- [ ] frame: menu design
+- [ ] frame: 100+ level designed
+
 ## z-index stack
 
 - 0..99 normal
