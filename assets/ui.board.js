@@ -406,6 +406,12 @@ var uiBoard = (function () {
     }
 
     function switchItemsDone() {
+        setTimeout(function() {
+            switchItemsDonePaused();
+        }, 50 + 50);
+    }
+
+    function switchItemsDonePaused() {
         uiLevel.set(solve.board(uiLevel.get()));
         if (!board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
             animateItems();
