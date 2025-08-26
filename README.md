@@ -1,5 +1,7 @@
 # gingerbread-10-years
 
+Repo: https://github.com/tursics/gingerbread-10-years
+
 ## to do list
 
 - [x] base game play, without dependencies  (see /assets/module.*.js)
@@ -26,6 +28,9 @@
 - [ ] frame: add a story
 - [ ] frame: menu design
 - [ ] frame: 100+ level designed
+- [ ] profile: save preferences
+- [ ] profile: save level state
+- [x] feature: show hint
 
 ## z-index stack
 
@@ -33,3 +38,12 @@
 - 100..199 items
 - 200..299 focus ring
 - 300..399 overlays
+
+## items
+
+- blue
+- red
+- orange
+- green
+- yellow
+- purple

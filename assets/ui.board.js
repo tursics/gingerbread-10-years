@@ -91,6 +91,7 @@ var uiBoard = (function () {
 
     function switchItemsPreAnimation(startX, startY, endX, endY, rollback) {
         if (!board.swapPosition(uiLevel.get(), startX, startY, endX, endY)) {
+            notifyFreeBoard();
             return;
         }
 
@@ -141,6 +142,8 @@ var uiBoard = (function () {
     }
 
     function animateItems() {
+        hideHint();
+
         animateItemsPreAnimation();
     }
 
@@ -444,10 +447,30 @@ var uiBoard = (function () {
 
         notifyFreeBoard();
 
-        var hint = solve.hint(uiLevel.get());
-        if (hint.length === 0) {
+        var hints = solve.hint(uiLevel.get());
+        if (hints.length === 0) {
             boardDIV.classList.add('unsolvable');
+        } else {
+            showHint(hints);
         }
+    }
+
+    function showHint(hints) {
+        if (hints.length === 0) {
+            return;
+        }
+
+        var hint = hints[Math.floor(Math.random() * hints.length)];
+        var div1 = uiBoard.getItemDIV(hint.x1, hint.y1);
+        var div2 = uiBoard.getItemDIV(hint.x2, hint.y2);
+
+        div1.classList.add('hint');
+        div2.classList.add('hint');
+    }
+
+    function hideHint() {
+        var divs = document.getElementsByClassName('hint');
+        Array.from(divs).forEach((div) => div.classList.remove('hint'));
     }
 
     init();
