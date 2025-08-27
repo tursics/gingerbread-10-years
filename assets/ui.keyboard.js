@@ -60,7 +60,7 @@ var uiKeyboard = (function () {
         var x = selectionX;
         var y = selectionY;
 
-        while (x < (board.getRows(uiLevel.get()) - 1)) {
+        while (x < (board.getCols(uiLevel.get()) - 1)) {
             ++x;
 
             var item = board.getItem(uiLevel.get(), x, y);
@@ -94,7 +94,7 @@ var uiKeyboard = (function () {
         var x = selectionX;
         var y = selectionY;
 
-        while (y < (board.getCols(uiLevel.get()) - 1)) {
+        while (y < (board.getRows(uiLevel.get()) - 1)) {
             ++y;
 
             var item = board.getItem(uiLevel.get(), x, y);
