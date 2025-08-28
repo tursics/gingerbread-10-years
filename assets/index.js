@@ -20,7 +20,7 @@ function spawnBoardWithLevel(id) {
     var selectedLevel = level.get(id);
     var repository = board.copyRepositoryFromDesign(selectedLevel.design);
 
-    repository = board.spawn(repository);
+    repository = board.spawnSolvable(repository);
 
     if (config.debug) {
         console.table(repository.cleaned);
@@ -34,6 +34,7 @@ function simulateGame() {
 
     uiLevel.set(repository);
     uiBoard.showRepository();
+    uiBoard.showHint();
     uiKeyboard.initRepository();
 }
 

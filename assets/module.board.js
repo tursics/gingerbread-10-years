@@ -366,7 +366,22 @@ var board = (function () {
         } while (true);
 
         repository.initial = initial.map(function(arr) { return arr.slice(); });
+
         return repository;
+    }
+
+    function funcSpawnSolvable(repository) {
+        var workingRepository = null;
+        var hints = null;
+
+        do {
+            workingRepository = funcCopyRepositoryFromRepository(repository);
+            workingRepository = funcSpawn(workingRepository);
+
+            hints = solve.hint(workingRepository);
+        } while (hints.length === 0);
+
+        return workingRepository;
     }
 
     function equalBoards(leftBoard, rightBoard, logging) {
@@ -478,6 +493,7 @@ var board = (function () {
 //        refillBoard: funcRefillBoard,
         removeAdvancedItems: funcRemoveAdvancedItems,
         spawn: funcSpawn,
+        spawnSolvable: funcSpawnSolvable,
         stepDropItems: funcStepDropItems,
         stepRefill: funcStepRefill,
         swapInitialPosition: funcSwapInitialPosition,

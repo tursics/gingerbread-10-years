@@ -451,11 +451,17 @@ var uiBoard = (function () {
         if (hints.length === 0) {
             boardDIV.classList.add('unsolvable');
         } else {
-            showHint(hints);
+            funcShowHint();
         }
     }
 
-    function showHint(hints) {
+    function funcShowHint() {
+        var repository = uiLevel.get();
+        if (null === repository) {
+            return;
+        }
+
+        var hints = solve.hint(repository);
         if (hints.length === 0) {
             return;
         }
@@ -479,6 +485,7 @@ var uiBoard = (function () {
         getItemDIV: funcGetItemDIV,
         getKeyboardDiv: funcGetKeyboardDiv,
         isInputBlocked: funcIsInputBlocked,
+        showHint: funcShowHint,
         showRepository: funcShowRepository,
         switchItems: funcSwitchItems,
     };
