@@ -75,6 +75,15 @@ Attribution:
 - `Sächsische Landesbibliothek - Staats- und Universitätsbibliothek Dresden`
 - rights: [Public Domain Mark 1.0](http://creativecommons.org/publicdomain/mark/1.0/)
 
+IDs:
+
+- URN: [urn:nbn:de:bsz:14-db-id3126402504](http://nbn-resolving.de/urn:nbn:de:bsz:14-db-id3126402504)
+- PURL: http://digital.slub-dresden.de/id312640250
+- OAI: [oai:de:slub-dresden:db:id-312640250](https://digital.slub-dresden.de/oai/?verb=GetRecord&metadataPrefix=mets&identifier=oai:de:slub-dresden:db:id-312640250)
+- SLUB-Katalog: [312640250](https://katalog.slub-dresden.de/ppn/312640250)
+
+I converted the book to [markdown](/312640250.md).
+
 ## history
 
 Back in 2015 I developed a first version in a 10 weeks hackathon. The [source code](https://github.com/tursics/GingerbreadGame) and a [playable demo](https://tursics.de/sample/gingerbread/) are still available.
