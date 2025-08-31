@@ -1,6 +1,10 @@
 # gingerbread-10-years
 
-Repo: https://github.com/tursics/gingerbread-10-years
+Playable version: https://tursics.github.io/gingerbread-10-years
+
+Source code repo: https://github.com/tursics/gingerbread-10-years
+
+![screenshot](/doc/emoji.png)
 
 ## to do list
 
@@ -47,3 +51,17 @@ Repo: https://github.com/tursics/gingerbread-10-years
 - green
 - yellow
 - purple
+
+## history
+
+Back in 2015 I developed a first version in a 10 weeks hackathon. The [source code](https://github.com/tursics/GingerbreadGame) and a [playable demo](https://tursics.de/sample/gingerbread/) are still available.
+
+![old game screenshot](https://github.com/tursics/GingerbreadGame/raw/master/preview/level.png)
+
+Back to 2025 I started from scratch. The first version only use the console of browser.
+
+![screenshot](/doc/console.png)
+
+The next iteration step displays the content on the browser canvas.
+
+![screenshot](/doc/emoji.png)
