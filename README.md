@@ -52,6 +52,29 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 - yellow
 - purple
 
+## data
+
+It's all based on data.
+
+* [Bibliotheca Gastronomica](http://codingdavinci.de/daten/#slub-dresden) on Coding da Vinci (link broken)
+* [Bibliotheca Gastronomica](https://codingdavinci.de/daten/bibliotheca-gastronomica) on Coding da Vinci (link checked 2025)
+* [Bibliotheca Gastronomica Walter Putz. - Band 1: Die Drucke](https://slub.qucosa.de/landing-page/?tx_dlf[id]=https%3A%2F%2Fslub.qucosa.de%2Fapi%2Fqucosa%253A920%2Fmets)
+* [Bibliotheca Gastronomica Walter Putz. - Band 2: Handschriften, Zeitschriften, Register der Personen und Titel](https://slub.qucosa.de/landing-page/?tx_dlf[id]=https%3A%2F%2Fslub.qucosa.de%2Fapi%2Fqucosa%253A921%2Fmets)
+* [Die Nürnberger Lebkuchen](http://digital.slub-dresden.de/werkansicht/dlf/12327/) in online viewer (link broken)
+* [Die Nürnberger Lebkuchen](https://digital.slub-dresden.de/werkansicht/dlf/12327/1) in online viewer (link checked 2025)
+
+From `Bibliotheca Gastronomica Walter Putz. - Band 1: Die Drucke`:
+
+year | book | signature
+-----|------|----------
+1898 | Die **Nürnberger Lebkuchen** : eine praktische Anleitung zur Herstellung aller Sorten Lebkuchen nach Nürnberger Art / hrsg. von Jakob Braun, Nürnberg : Selbstverl. , 1898. - 104 S. : Ill. http://digital.slub-dresden.de/ppn312640250 | Putz.19 8 480
+
+Attribution:
+
+- `<a href="https://www.slub-dresden.de/" target="_blank"><img src="https://digital.slub-dresden.de/fileadmin/images/dfgviewer_logo_slub.gif" /></a>`
+- `Sächsische Landesbibliothek - Staats- und Universitätsbibliothek Dresden`
+- rights: [Public Domain Mark 1.0](http://creativecommons.org/publicdomain/mark/1.0/)
+
 ## history
 
 Back in 2015 I developed a first version in a 10 weeks hackathon. The [source code](https://github.com/tursics/GingerbreadGame) and a [playable demo](https://tursics.de/sample/gingerbread/) are still available.
