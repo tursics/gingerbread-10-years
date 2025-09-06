@@ -11,7 +11,7 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 - [x] base game play, without dependencies  (see /assets/module.*.js)
 - [x] test set
 - [x] input type: keyboard
-- [ ] input type: mouse
+- [x] input type: mouse
 - [ ] input type: touch
 - [x] animation level: basic
 - [ ] animation level: advanced

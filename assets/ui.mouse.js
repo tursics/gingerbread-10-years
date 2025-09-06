@@ -20,8 +20,8 @@ var uiMouse = (function () {
             selected = e.target;
             startX = e.pageX;
             startY = e.pageY;
-            selectionX = selected.id.split('-')[2];
-            selectionY = selected.id.split('-')[3];
+            selectionX = parseInt(selected.id.split('-')[2], 10);
+            selectionY = parseInt(selected.id.split('-')[3], 10);
 
             var item = board.getItem(uiLevel.get(), selectionX, selectionY);
 
