@@ -36,6 +36,7 @@ function simulateGame() {
     uiBoard.showRepository();
     uiBoard.showHint();
     uiKeyboard.initRepository();
+    uiMouse.initRepository();
 }
 
 window.onload = function() {
