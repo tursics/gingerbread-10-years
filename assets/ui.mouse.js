@@ -40,7 +40,7 @@ var uiMouse = (function () {
             var angle = getAngle(e);
             var distance = getDistance(e);
 
-            if (distance > .75) {
+            if (distance > .6) {
                 selected = null;
         		angle -= 45;
 
