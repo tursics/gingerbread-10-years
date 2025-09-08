@@ -43,14 +43,55 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 - 200..299 focus ring
 - 300..399 overlays
 
-## items
+## Items and combinations
 
-- blue
-- red
-- orange
-- green
-- yellow
-- purple
+item   | emoji | image | description | state
+-------|-------|-------|-------------|------
+blue   | 🫐    |       | basic item  | :white_check_mark: done
+red    | 🍎    |       | basic item  | :white_check_mark: done
+orange | 🍠    |       | basic item  | :white_check_mark: done
+green  | 🍐    |       | basic item  | :white_check_mark: done
+yellow | 🍋    |       | basic item  | :white_check_mark: done
+purple | 🥥    |       | basic item  | :white_check_mark: done
+row stripes    | 🐭 🐷 🐵 🐮 🐯 🐦 |    | special item | :white_check_mark: done
+column stripes | 🐁 🐖 🐒 🐄 🐅 🦢 |    | special item | :white_check_mark: done
+cross          | ✝️              |    | power item   | :construction_worker: TODO
+square         | 🍀              |    | power item   | :construction_worker: TODO
+dynamite       | 🧨              |    | power item   | :construction_worker: TODO
+color bomb     | 🏵️              |    | power item   | :white_check_mark: done
+
+combination | emoji | image | result | state
+------------|-------|-------|-------------|------
+3 in a row     | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
+3 in a column  | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
+4 in a row     | 🍎 + 🍎 + 🍎 + 🍎 = 🐷 |    | all 4 items removed and replaced by one `row stripes` | :white_check_mark: done
+4 in a column  | 🍎 + 🍎 + 🍎 + 🍎 = 🐖 |    | all 4 items removed and replaced by one `column stripes` | :white_check_mark: done
+4 in a 2x2 figure | 🍎 + 🍎 | 🍎 + 🍎 = 🍀 |    | all 4 items removed and replaced by one `square` | :construction_worker: TODO
+5 in a column or row | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🏵️ |    | all 5 items removed and replaces by one `color bomb` | :white_check_mark: done
+5 in a `+` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = ✝️ |    | all 5 items removed and replaces by one `cross` | :construction_worker: TODO
+5 in a `T` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
+5 in a `L` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
+row stipes in a new match | 🐷 + 🍎 + 🍎 = TODO |    | remove all items in the row | :construction_worker: TODO
+column stipes in a new match | 🐖 + 🍎 + 🍎 = TODO |    | remove all items in the column | :construction_worker: TODO
+cross in a new match | ✝️ + 🍎 + 🍎 = TODO |    | remove all items in the row and all items in the column | :construction_worker: TODO
+square in a new match | 🍀 + 🍎 + 🍎 = TODO |    | remove all items in a 3x3 sector | :construction_worker: TODO
+dynamite in a new match | 🧨 + 🍎 + 🍎 = TODO |    | remove all items in a small radius | :construction_worker: TODO
+color bomb and 1 color | 🏵️ + 🍎 = TODO |    | remove all items the same color from the board | :construction_worker: TODO
+cross and cross | ✝️ + ✝️ = TODO |    | remove all items in 2 rows and all items in 2 columns | :construction_worker: TODO
+cross and square | ✝️ + 🍀 = TODO |    | remove all items in a cross figure in a gigantic radius, every item in the cross figure explodes itself | :construction_worker: TODO
+cross and stipes | ✝️ + 🐷 = TODO |    | remove all items in 2 rows or in 2 columns | :construction_worker: TODO
+cross and dynamite | ✝️ + 🧨 = TODO |    | remove all items in a cross figure in a big radius | :construction_worker: TODO
+cross and a color bomb | ✝️ + 🏵️ = TODO |    | replace all items the same cross color with cross items and let them explode | :construction_worker: TODO
+square and square | 🍀 + 🍀 = TODO |    | remove all items in a gigantic radius | :construction_worker: TODO
+square and stipes | 🍀 + 🐷 = TODO |    | remove all items in the row and all items in the column | :construction_worker: TODO
+square and dynamite | 🍀 + 🧨 = TODO |    | remove all items in a big radius | :construction_worker: TODO
+square and a color bomb | 🍀 + 🏵️ = TODO |    | replace all items the same square color with square items and let them explode | :construction_worker: TODO
+stipes and stipes | 🐷 + 🐷 = TODO |    | remove all items in the row and all items in the column | :construction_worker: TODO
+stipes and dynamite | 🐷 + 🧨 = TODO |    | remove all items in the row or column, plus a row or column next to both sides | :construction_worker: TODO
+stipes and a color bomb | 🐷 + 🏵️ = TODO |    | replace all items the same stripe color with stripe items and let them explode | :construction_worker: TODO
+dynamite and dynamite | 🧨 + 🧨 = TODO |    | remove all items in a big radius | :construction_worker: TODO
+dynamite and a color bomb | 🧨 + 🏵️ = TODO |    | replace all items the same dynamite color with dynamite and let them explode | :construction_worker: TODO
+color bomb and a color bomb | 🏵️ + 🏵️ = TODO |    | remove all items from the board | :construction_worker: TODO
 
 ## data
 
