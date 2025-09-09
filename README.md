@@ -47,12 +47,7 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 
 item           | emoji | image | description | state
 ---------------|-------|-------|-------------|------
-blue           | 🫐    |       | basic item  | :white_check_mark: done
-red            | 🍎    |       | basic item  | :white_check_mark: done
-orange         | 🍠    |       | basic item  | :white_check_mark: done
-green          | 🍐    |       | basic item  | :white_check_mark: done
-yellow         | 🍋    |       | basic item  | :white_check_mark: done
-purple         | 🥥    |       | basic item  | :white_check_mark: done
+color          | 🍎 🍐 🍋 🫐 🍠 🥥 |    | basic item   | :white_check_mark: done
 row stripes    | 🐭 🐷 🐵 🐮 🐯 🐦 |    | special item | :white_check_mark: done
 column stripes | 🐁 🐖 🐒 🐄 🐅 🦢 |    | special item | :white_check_mark: done
 diagonal       | ↙️ ↘️           |    | special item | :hourglass: POSTPONED
@@ -68,12 +63,12 @@ combination          | emoji | image | result | state
 3 in a column        | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
 4 in a row           | 🍎 + 🍎 + 🍎 + 🍎 = 🐷 |    | all 4 items removed and replaced by one `row stripes` | :white_check_mark: done
 4 in a column        | 🍎 + 🍎 + 🍎 + 🍎 = 🐖 |    | all 4 items removed and replaced by one `column stripes` | :white_check_mark: done
-4 in a 2x2 figure    | 🍎 + 🍎 | 🍎 + 🍎 = 🍀 |    | all 4 items removed and replaced by one `square` | :construction_worker: TODO
+4 in a 2x2 figure    | 🍎 + 🍎 and 🍎 + 🍎 = 🍀 |    | all 4 items removed and replaced by one `square` | :construction_worker: TODO
 5 in a column or row | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🏵️ |    | all 5 items removed and replaces by one `color bomb` | :white_check_mark: done
 6 in a column or row | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🧲 |    | all 6 items removed and replaces by one `magnet` | :hourglass: POSTPONED
-5 in a `+` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = ✝️ |    | all 5 items removed and replaces by one `cross` | :construction_worker: TODO
-5 in a `T` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
-5 in a `L` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
+5 in a `+` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 and 🍎 + 🍎 + 🍎 = ✝️ |    | all 5 items removed and replaces by one `cross` | :construction_worker: TODO
+5 in a `T` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 and 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
+5 in a `L` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 and 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
 4 in a diagonal | 🍎 + 🍎 + 🍎 + 🍎 = ↙️ or ↘️ |    | all 4 items removed and replaced by one `diagonal` | :hourglass: POSTPONED
 5 in a diagonal | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = ↙️ or ↘️ |    | all 5 items removed and replaced by one `diagonal` | :hourglass: POSTPONED
 row stipes in a new match | 🐷 + 🍎 + 🍎 = TODO |    | remove all items in the row | :construction_worker: TODO
