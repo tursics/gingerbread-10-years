@@ -45,40 +45,47 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 
 ## Items and combinations
 
-item   | emoji | image | description | state
--------|-------|-------|-------------|------
-blue   | 🫐    |       | basic item  | :white_check_mark: done
-red    | 🍎    |       | basic item  | :white_check_mark: done
-orange | 🍠    |       | basic item  | :white_check_mark: done
-green  | 🍐    |       | basic item  | :white_check_mark: done
-yellow | 🍋    |       | basic item  | :white_check_mark: done
-purple | 🥥    |       | basic item  | :white_check_mark: done
+item           | emoji | image | description | state
+---------------|-------|-------|-------------|------
+blue           | 🫐    |       | basic item  | :white_check_mark: done
+red            | 🍎    |       | basic item  | :white_check_mark: done
+orange         | 🍠    |       | basic item  | :white_check_mark: done
+green          | 🍐    |       | basic item  | :white_check_mark: done
+yellow         | 🍋    |       | basic item  | :white_check_mark: done
+purple         | 🥥    |       | basic item  | :white_check_mark: done
 row stripes    | 🐭 🐷 🐵 🐮 🐯 🐦 |    | special item | :white_check_mark: done
 column stripes | 🐁 🐖 🐒 🐄 🐅 🦢 |    | special item | :white_check_mark: done
+diagonal       | ↙️ ↘️           |    | special item | :hourglass: POSTPONED
 cross          | ✝️              |    | power item   | :construction_worker: TODO
 square         | 🍀              |    | power item   | :construction_worker: TODO
 dynamite       | 🧨              |    | power item   | :construction_worker: TODO
 color bomb     | 🏵️              |    | power item   | :white_check_mark: done
+magnet         | 🧲              |    | super item   | :hourglass: POSTPONED
 
-combination | emoji | image | result | state
-------------|-------|-------|-------------|------
-3 in a row     | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
-3 in a column  | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
-4 in a row     | 🍎 + 🍎 + 🍎 + 🍎 = 🐷 |    | all 4 items removed and replaced by one `row stripes` | :white_check_mark: done
-4 in a column  | 🍎 + 🍎 + 🍎 + 🍎 = 🐖 |    | all 4 items removed and replaced by one `column stripes` | :white_check_mark: done
-4 in a 2x2 figure | 🍎 + 🍎 | 🍎 + 🍎 = 🍀 |    | all 4 items removed and replaced by one `square` | :construction_worker: TODO
+combination          | emoji | image | result | state
+---------------------|-------|-------|-------------|------
+3 in a row           | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
+3 in a column        | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
+4 in a row           | 🍎 + 🍎 + 🍎 + 🍎 = 🐷 |    | all 4 items removed and replaced by one `row stripes` | :white_check_mark: done
+4 in a column        | 🍎 + 🍎 + 🍎 + 🍎 = 🐖 |    | all 4 items removed and replaced by one `column stripes` | :white_check_mark: done
+4 in a 2x2 figure    | 🍎 + 🍎 | 🍎 + 🍎 = 🍀 |    | all 4 items removed and replaced by one `square` | :construction_worker: TODO
 5 in a column or row | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🏵️ |    | all 5 items removed and replaces by one `color bomb` | :white_check_mark: done
+6 in a column or row | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🧲 |    | all 6 items removed and replaces by one `magnet` | :hourglass: POSTPONED
 5 in a `+` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = ✝️ |    | all 5 items removed and replaces by one `cross` | :construction_worker: TODO
 5 in a `T` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
 5 in a `L` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 | 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
+4 in a diagonal | 🍎 + 🍎 + 🍎 + 🍎 = ↙️ or ↘️ |    | all 4 items removed and replaced by one `diagonal` | :hourglass: POSTPONED
+5 in a diagonal | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = ↙️ or ↘️ |    | all 5 items removed and replaced by one `diagonal` | :hourglass: POSTPONED
 row stipes in a new match | 🐷 + 🍎 + 🍎 = TODO |    | remove all items in the row | :construction_worker: TODO
 column stipes in a new match | 🐖 + 🍎 + 🍎 = TODO |    | remove all items in the column | :construction_worker: TODO
 cross in a new match | ✝️ + 🍎 + 🍎 = TODO |    | remove all items in the row and all items in the column | :construction_worker: TODO
 square in a new match | 🍀 + 🍎 + 🍎 = TODO |    | remove all items in a 3x3 sector | :construction_worker: TODO
 dynamite in a new match | 🧨 + 🍎 + 🍎 = TODO |    | remove all items in a small radius | :construction_worker: TODO
+diagonal in a new match | ↘️ + 🍎 + 🍎 = TODO |    | remove all items in a diagonal | :hourglass: POSTPONED
 color bomb and 1 color | 🏵️ + 🍎 = TODO |    | remove all items the same color from the board | :construction_worker: TODO
+magnet and 1 color | 🧲 + 🍎 = TODO |    | remove all items from the board, two times | :hourglass: POSTPONED
 cross and cross | ✝️ + ✝️ = TODO |    | remove all items in 2 rows and all items in 2 columns | :construction_worker: TODO
-cross and square | ✝️ + 🍀 = TODO |    | remove all items in a cross figure in a gigantic radius, every item in the cross figure explodes itself | :construction_worker: TODO
+cross and square | ✝️ + 🍀 = TODO |    | replace all items in a cross figure (cross in a complete row and column) with cross items and let them explode | :construction_worker: TODO
 cross and stipes | ✝️ + 🐷 = TODO |    | remove all items in 2 rows or in 2 columns | :construction_worker: TODO
 cross and dynamite | ✝️ + 🧨 = TODO |    | remove all items in a cross figure in a big radius | :construction_worker: TODO
 cross and a color bomb | ✝️ + 🏵️ = TODO |    | replace all items the same cross color with cross items and let them explode | :construction_worker: TODO
