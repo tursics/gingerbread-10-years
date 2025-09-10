@@ -35,11 +35,14 @@ body, html {
 }
 
 .board-item {
+    position: absolute;
+    z-index: 100;
+}
+.board-item::before {
+    content: attr(data-item);
     font-size: .85em;
     line-height: 1.33em;
-    position: absolute;
     text-align: center;
-    z-index: 100;
 }
 
 .board-item.animate {

@@ -58,7 +58,7 @@ var uiBoard = (function () {
                 div.style.width = width.toFixed(4) + '%';
                 div.style.left = ((x + .5) * width).toFixed(4) + '%';
                 div.style.top = ((y + .5) * height).toFixed(4) + '%';
-                div.innerHTML = item;
+                div.dataset.item = item;
                 boardDIV.appendChild(div);
             }
         }
@@ -221,7 +221,7 @@ var uiBoard = (function () {
                 if (board.isAnimateRemoveItem(item)) {
                     var div = funcGetItemDIV(x, y);
                     div.classList.remove('animate');
-                    div.innerHTML = '';
+                    div.removeAttribute('data-item');
                     div.style.removeProperty('opacity');
                 } else if (board.isAnimateChangeItem(item)) {
                     var div = funcGetItemDIV(x, y);
@@ -231,13 +231,13 @@ var uiBoard = (function () {
                     var div = funcGetItemDIV(x, y);
                     div.classList.remove('animate');
                     div.style.top = funcGetItemDIV(0, y).style.top;
-                    div.innerHTML = '';
+                    div.removeAttribute('data-item');
                     div.style.removeProperty('z-index');
                 } else if (board.isAnimateMoveOneLeftItem(item) || board.isAnimateMoveTwoLeftItem(item) || board.isAnimateMoveOneRightItem(item) || board.isAnimateMoveTwoRightItem(item)) {
                     var div = funcGetItemDIV(x, y);
                     div.classList.remove('animate');
                     div.style.left = funcGetItemDIV(x, 0).style.left;
-                    div.innerHTML = '';
+                    div.removeAttribute('data-item');
                     div.style.removeProperty('z-index');
                 }
             }
@@ -287,7 +287,7 @@ var uiBoard = (function () {
                 if (board.isAnimateChangeItem(item)) {
                     var newItem = board.getItem(uiLevel.get(), x, y);
                     var div = funcGetItemDIV(x, y);
-                    div.innerHTML = newItem;
+                    div.dataset.item = newItem;
                 }
             }
         }
@@ -389,7 +389,7 @@ var uiBoard = (function () {
                     div.classList.add('animate-drop');
                     div.style.top = funcGetItemDIV(0, y).style.top;
                     div.style.zIndex = 101;
-                    div.innerHTML = newItem;
+                    div.dataset.item = newItem;
 
                     div = funcGetItemDIV(x, y - 1);
                     div.style.zIndex = 102;
