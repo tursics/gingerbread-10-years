@@ -40,9 +40,32 @@ body, html {
 }
 .board-item::before {
     content: attr(data-item);
+    display: block;
     font-size: .85em;
     line-height: 1.33em;
     text-align: center;
+}
+
+.board-item[data-item='🍎'] {
+    background: no-repeat url('item.star.svg');
+}
+.board-item[data-item='🐷'] {
+    background: no-repeat url('item.star.stripe.h.svg');
+}
+.board-item[data-item='🐖'] {
+    background: no-repeat url('item.star.stripe.v.svg');
+}
+.board-item[data-item='🍎'],
+.board-item[data-item='🐷'],
+.board-item[data-item='🐖']
+{
+    background-size: 100%;
+}
+.board-item[data-item='🍎']::before,
+.board-item[data-item='🐷']::before,
+.board-item[data-item='🐖']::before
+{
+    display: none;
 }
 
 .board-item.animate {

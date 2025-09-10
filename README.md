@@ -48,8 +48,8 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 item           | emoji | image | description | state
 ---------------|-------|-------|-------------|------
 color          | 🍎 🍐 🍋 🫐 🍠 🥥 |    | basic item   | :white_check_mark: done
-row stripes    | 🐭 🐷 🐵 🐮 🐯 🐦 |    | special item | :white_check_mark: done
-column stripes | 🐁 🐖 🐒 🐄 🐅 🦢 |    | special item | :white_check_mark: done
+row stripes    | 🐷 🐭 🐵 🐮 🐯 🐦 |    | special item | :white_check_mark: done
+column stripes | 🐖 🐁 🐒 🐄 🐅 🦢 |    | special item | :white_check_mark: done
 diagonal       | ↙️ ↘️           |    | special item | :hourglass: POSTPONED
 cross          | ✝️              |    | power item   | :construction_worker: TODO
 square         | 🍀              |    | power item   | :construction_worker: TODO
