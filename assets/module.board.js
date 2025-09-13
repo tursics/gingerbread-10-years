@@ -16,8 +16,10 @@ var board = (function () {
         ANIMATE_MOVE_2RIGHT = '⏩️',
         ANIMATE_REMOVE = '🗑️',
         ANIMATE_SPAWN = '✳️';
+    var segmenter = null;
 
     function init() {
+        segmenter = new Intl.Segmenter();
     }
 
     function getBoardRows(board) {
@@ -25,27 +27,27 @@ var board = (function () {
     }
 
     function getBoardCols(board) {
-        return Array.from(new Intl.Segmenter().segment(board[0])).length;
+        return board[0].length;
     }
 
     function getBoardItem(board, x, y) {
-        return Array.from(new Intl.Segmenter().segment(board[y]))[x].segment;
+        return board[y][x];
     }
 
     function funcGetRows(repository) {
-        return getBoardRows(repository.cleaned);
+        return getBoardRows(repository.cleaned_);
     }
 
     function funcGetCols(repository) {
-        return getBoardCols(repository.cleaned);
+        return getBoardCols(repository.cleaned_);
     }
 
     function funcGetItem(repository, x, y) {
-        return getBoardItem(repository.cleaned, x, y);
+        return getBoardItem(repository.cleaned_, x, y);
     }
 
     function funcGetAnimateItem(repository, x, y) {
-        return getBoardItem(repository.animate, x, y);
+        return getBoardItem(repository.animate_, x, y);
     }
 
     function funcIsItemMovable(item) {
@@ -121,122 +123,103 @@ var board = (function () {
     }
 
     function funcCleanItem(repository, x, y) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[y]), s => s.segment);
-        line[x] = ITEM_VOID;
-        repository.cleaned[y] = line.join('');
-
-        line = Array.from(new Intl.Segmenter().segment(repository.animate[y]), s => s.segment);
-        line[x] = ANIMATE_REMOVE;
-        repository.animate[y] = line.join('');
+        repository.cleaned_[y][x] = ITEM_VOID;
+        repository.animate_[y][x] = ANIMATE_REMOVE;
     }
 
     function changeInitialItem(repository, x, y, item) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.initial[y]), s => s.segment);
-        line[x] = item;
-        repository.initial[y] = line.join('');
+        repository.initial_[y][x] = item;
     }
 
     function funcChangeItem(repository, x, y, item) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[y]), s => s.segment);
-        line[x] = item;
-        repository.cleaned[y] = line.join('');
-
-        line = Array.from(new Intl.Segmenter().segment(repository.animate[y]), s => s.segment);
-        line[x] = ANIMATE_CHANGE;
-        repository.animate[y] = line.join('');
+        repository.cleaned_[y][x] = item;
+        repository.animate_[y][x] = ANIMATE_CHANGE;
     }
 
     function spawnItem(repository, x, y, item) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[y]), s => s.segment);
-        line[x] = item;
-        repository.cleaned[y] = line.join('');
-
-        line = Array.from(new Intl.Segmenter().segment(repository.animate[y]), s => s.segment);
-        line[x] = ANIMATE_SPAWN;
-        repository.animate[y] = line.join('');
+        repository.cleaned_[y][x] = item;
+        repository.animate_[y][x] = ANIMATE_SPAWN;
     }
 
     function funcAnimateItem(repository, startX, startY, targetX, targetY) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[startY]), s => s.segment);
-        line[startX] = ITEM_VOID;
-        repository.cleaned[startY] = line.join('');
+        repository.cleaned_[startY][startX] = ITEM_VOID;
 
-        line = Array.from(new Intl.Segmenter().segment(repository.animate[startY]), s => s.segment);
+        var item = ITEM_BUG;
         if (startX === targetX) {
             switch (startY - targetY) {
-                case 2: line[startX] = ANIMATE_MOVE_2UP; break;
-                case 1: line[startX] = ANIMATE_MOVE_1UP; break;
-                case -1: line[startX] = ANIMATE_MOVE_1DOWN; break;
-                case -2: line[startX] = ANIMATE_MOVE_2DOWN; break;
-                default: line[startX] = ITEM_BUG;
+                case 2: item = ANIMATE_MOVE_2UP; break;
+                case 1: item = ANIMATE_MOVE_1UP; break;
+                case -1: item = ANIMATE_MOVE_1DOWN; break;
+                case -2: item = ANIMATE_MOVE_2DOWN; break;
             }
         } else if (startY === targetY) {
             switch (startX - targetX) {
-                case 2: line[startX] = ANIMATE_MOVE_2LEFT; break;
-                case 1: line[startX] = ANIMATE_MOVE_1LEFT; break;
-                case -1: line[startX] = ANIMATE_MOVE_1RIGHT; break;
-                case -2: line[startX] = ANIMATE_MOVE_2RIGHT; break;
-                default: line[startX] = ITEM_BUG;
+                case 2: item = ANIMATE_MOVE_2LEFT; break;
+                case 1: item = ANIMATE_MOVE_1LEFT; break;
+                case -1: item = ANIMATE_MOVE_1RIGHT; break;
+                case -2: item = ANIMATE_MOVE_2RIGHT; break;
             }
-        } else {
-            line[startX] = ITEM_BUG;
         }
-        repository.animate[startY] = line.join('');
+        repository.animate_[startY][startX] = item;
     }
 
     function dropItem(repository, startX, startY, targetX, targetY) {
-        var line = Array.from(new Intl.Segmenter().segment(repository.cleaned[startY]), s => s.segment);
-        var startItem = line[startX];
-        line[startX] = ITEM_VOID;
-        repository.cleaned[startY] = line.join('');
+        var startItem = repository.cleaned_[startY][startX];
+        repository.cleaned_[startY][startX] = ITEM_VOID;
+        repository.cleaned_[targetY][targetX] = startItem;
 
-        line = Array.from(new Intl.Segmenter().segment(repository.cleaned[targetY]), s => s.segment);
-        line[targetX] = startItem;
-        repository.cleaned[targetY] = line.join('');
-
-        line = Array.from(new Intl.Segmenter().segment(repository.animate[targetY]), s => s.segment);
+        var item = ITEM_BUG;
         if (startX === targetX) {
             switch (startY - targetY) {
-                case -1: line[targetX] = ANIMATE_DROP_1; break;
-                case -2: line[targetX] = '2️⃣'; break;
-                case -3: line[targetX] = '3️⃣'; break;
-                case -4: line[targetX] = '4️⃣'; break;
-                case -5: line[targetX] = '5️⃣'; break;
-                case -6: line[targetX] = '6️⃣'; break;
-                case -7: line[targetX] = '7️⃣'; break;
-                case -8: line[targetX] = '8️⃣'; break;
-                case -9: line[targetX] = '9️⃣'; break;
-                case -10: line[targetX] = '🔟'; break;
-                default: line[targetX] = ITEM_BUG;
+                case -1: item = ANIMATE_DROP_1; break;
+                case -2: item = '2️⃣'; break;
+                case -3: item = '3️⃣'; break;
+                case -4: item = '4️⃣'; break;
+                case -5: item = '5️⃣'; break;
+                case -6: item = '6️⃣'; break;
+                case -7: item = '7️⃣'; break;
+                case -8: item = '8️⃣'; break;
+                case -9: item = '9️⃣'; break;
+                case -10: item = '🔟'; break;
             }
-        } else {
-            line[targetX] = ITEM_BUG;
         }
-        repository.animate[targetY] = line.join('');
+        repository.animate_[targetY][targetX] = item;
+    }
+
+    function deconstruct(board) {
+        return board.map(function(row) {
+            return Array.from(segmenter.segment(row)).map(function(column) {
+                return column.segment;
+            });
+        });
     }
 
     function funcCopyRepository1to1(repository) {
         return {
-            initial: repository.initial.map(function(arr) { return arr.slice(); }),
-            cleaned: repository.cleaned.map(function(arr) { return arr.slice(); }),
-            animate: repository.animate.map(function(arr) { return arr.slice(); }),
+            initial_: repository.initial_.map(function(arr) { return arr.slice(); }),
+            cleaned_: repository.cleaned_.map(function(arr) { return arr.slice(); }),
+            animate_: repository.animate_.map(function(arr) { return arr.slice(); }),
         };
     }
 
     function funcCopyRepositoryFromDesign(design) {
+        if ('string' === typeof design[0]) {
+            design = deconstruct(design);
+        }
+
         var repository = {
-            initial: design.map(function(arr) { return arr.slice(); }),
-            cleaned: design.map(function(arr) { return arr.slice(); }),
-            animate: [],
+            initial_: design.map(function(arr) { return arr.slice(); }),
+            cleaned_: design.map(function(arr) { return arr.slice(); }),
+            animate_: [],
         };
 
         var rows = funcGetRows(repository);
         var cols = funcGetCols(repository);
 
         for (var y = 0; y < rows; ++y) {
-            repository.animate[y] = '';
+            repository.animate_[y] = [];
             for (var x = 0; x < cols; ++x) {
-                repository.animate[y] += ITEM_VOID;
+                repository.animate_[y][x] = ITEM_VOID;
             }
         }
 
@@ -244,28 +227,12 @@ var board = (function () {
     }
 
     function funcCopyRepositoryFromRepository(repository) {
-        return funcCopyRepositoryFromDesign(repository.cleaned);
-    }
-
-/*    function funcRefillBoard(repository) {
-        repository = funcCopyRepositoryFromRepository(repository);
-
-        var rows = funcGetRows(repository);
-        var cols = funcGetCols(repository);
-
-        for (var x = 0; x < cols; ++x) {
-            for (var y = rows - 1; y >= 0; --y) {
-                var item = funcGetItem(repository, x, y);
-
-                if (ITEM_VOID === item) {
-                    item = getRandomBaseItem();
-                    spawnItem(repository, x, y, item);
-                }
-            }
+        if (repository.cleaned_) {
+            return funcCopyRepositoryFromDesign(repository.cleaned_);
         }
 
-        return repository;
-    }*/
+        return funcCopyRepositoryFromDesign(deconstruct(repository.cleaned));
+    }
 
     function funcStepRefill(repository) {
 //        repository = funcCopyRepositoryFromRepository(repository);
@@ -334,16 +301,16 @@ var board = (function () {
     }
 
     function funcSpawn(repository) {
-        var initial = repository.initial.map(function(arr) { return arr.slice(); });
+        var initial = repository.initial_.map(function(arr) { return arr.slice(); });
 
         do {
             repository = solve.board(repository);
-            if (config.debug && !funcEqualBoards(repository.initial, repository.cleaned)) {
+            if (config.debug && !funcEqualBoards(repository.initial_, repository.cleaned_)) {
                 console.table('Spawn board - solve');
             }
 
             repository = funcRemoveAdvancedItems(repository);
-            if (config.debug && !funcEqualBoards(repository.initial, repository.cleaned)) {
+            if (config.debug && !funcEqualBoards(repository.initial_, repository.cleaned_)) {
                 console.table('Spawn board - remove advanced items');
             }
 
@@ -352,10 +319,10 @@ var board = (function () {
                 repository = funcCopyRepositoryFromRepository(repository);
                 repository = funcStepDropItems(repository);
                 repository = funcStepRefill(repository);
-                if (config.debug && !funcEqualBoards(repository.initial, repository.cleaned)) {
+                if (config.debug && !funcEqualBoards(repository.initial_, repository.cleaned_)) {
                     refilled = true;
                 }
-            } while (!funcEqualBoards(repository.initial, repository.cleaned));
+            } while (!funcEqualBoards(repository.initial_, repository.cleaned_));
 
             if (!refilled) {
                 break;
@@ -365,7 +332,7 @@ var board = (function () {
             }
         } while (true);
 
-        repository.initial = initial.map(function(arr) { return arr.slice(); });
+        repository.initial_ = initial.map(function(arr) { return arr.slice(); });
 
         return repository;
     }
@@ -428,10 +395,24 @@ var board = (function () {
     }
 
     function funcEqualBoards(leftBoard, rightBoard) {
+        if ('string' === typeof leftBoard[0]) {
+            leftBoard = deconstruct(leftBoard);
+        }
+        if ('string' === typeof rightBoard[0]) {
+            rightBoard = deconstruct(rightBoard);
+        }
+
         return equalBoards(leftBoard, rightBoard, false);
     }
 
     function funcEqualBoardsWithLogging(leftBoard, rightBoard) {
+        if ('string' === typeof leftBoard[0]) {
+            leftBoard = deconstruct(leftBoard);
+        }
+        if ('string' === typeof rightBoard[0]) {
+            rightBoard = deconstruct(rightBoard);
+        }
+
         return equalBoards(leftBoard, rightBoard, true);
     }
 
@@ -449,8 +430,8 @@ var board = (function () {
     }
 
     function funcSwapInitialPosition(repository, x1, y1, x2, y2) {
-        var item1 = getBoardItem(repository.initial, x1, y1);
-        var item2 = getBoardItem(repository.initial, x2, y2);
+        var item1 = getBoardItem(repository.initial_, x1, y1);
+        var item2 = getBoardItem(repository.initial_, x2, y2);
 
         if (funcIsItemMovable(item1) && funcIsItemMovable(item2)) {
             changeInitialItem(repository, x1, y1, item2);
@@ -490,7 +471,6 @@ var board = (function () {
         isAnimateSpawnItem: funcIsAnimateSpawnItem,
         isBaseItem: funcIsBaseItem,
         isItemMovable: funcIsItemMovable,
-//        refillBoard: funcRefillBoard,
         removeAdvancedItems: funcRemoveAdvancedItems,
         spawn: funcSpawn,
         spawnSolvable: funcSpawnSolvable,

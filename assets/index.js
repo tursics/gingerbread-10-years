@@ -10,9 +10,9 @@ function selfDebug() {
         var repository = board.copyRepositoryFromDesign(debugLevel.design);
         repository = solve.board(repository);
 
-        console.table(repository.initial);
-        console.table(repository.cleaned);
-        console.table(repository.animate);
+        console.table(repository.initial_.map(function(line) { return line.join(''); }));
+        console.table(repository.cleaned_.map(function(line) { return line.join(''); }));
+        console.table(repository.animate_.map(function(line) { return line.join(''); }));
     }
 }
 
@@ -23,7 +23,7 @@ function spawnBoardWithLevel(id) {
     repository = board.spawnSolvable(repository);
 
     if (config.debug) {
-        console.table(repository.cleaned);
+        console.table(repository.cleaned_.map(function(line) { return line.join(''); }));
     }
 
     return repository;

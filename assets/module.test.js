@@ -1113,7 +1113,7 @@ var test = (function () {
                 board.swapPosition(repository, oldX, oldY, newX, newY);
                 repository = solve.move(repository, newX, newY, oldX, oldY);
 
-                var changed = !board.equalBoards(savedRepository.animate, repository.animate);
+                var changed = !board.equalBoards(savedRepository.animate_, repository.animate_);
                 if (changed) {
                     ++countSuccess;
 
@@ -1161,24 +1161,24 @@ var test = (function () {
                 }
 
                 var success =
-                    (successInitial = board.equalBoardsWithLogging(repository.initial, testLevel.design)) &&
-                    (successCleaned = board.equalBoardsWithLogging(repository.cleaned, testLevel.expectedResult)) &&
-                    (successAnimate = board.equalBoardsWithLogging(repository.animate, testLevel.expectedAnimation));
+                    (successInitial = board.equalBoardsWithLogging(repository.initial_, testLevel.design)) &&
+                    (successCleaned = board.equalBoardsWithLogging(repository.cleaned_, testLevel.expectedResult)) &&
+                    (successAnimate = board.equalBoardsWithLogging(repository.animate_, testLevel.expectedAnimation));
 
                 if (!success) {
                     if (!successInitial) {
                         console.error('Test "' + testLevel.title + '" failed @ initial.');
-                        console.table(repository.initial);
+                        console.table(repository.initial_.map(function(line) { return line.join(''); }));
                         console.table(testLevel.design);
                     }
                     if (!successCleaned) {
                         console.error('Test "' + testLevel.title + '" failed @ cleaned.');
-                        console.table(repository.cleaned);
+                        console.table(repository.cleaned_.map(function(line) { return line.join(''); }));
                         console.table(testLevel.expectedResult);
                     }
                     if (!successAnimate) {
                         console.error('Test "' + testLevel.title + '" failed @ animate.');
-                        console.table(repository.animate);
+                        console.table(repository.animate_.map(function(line) { return line.join(''); }));
                         console.table(testLevel.expectedAnimation);
                     }
                 }

@@ -255,9 +255,9 @@ var solve = (function () {
                 repository = board.copyRepository1to1(sourceRepository);
 
                 board.swapPosition(repository, x, y, x - 1, y);
-                repository = solve.move(repository, x - 1, y, x, y);
+                repository = funcMove(repository, x - 1, y, x, y);
 
-                var changed = !board.equalBoards(sourceRepository.animate, repository.animate);
+                var changed = !board.equalBoards(sourceRepository.animate_, repository.animate_);
                 if (changed) {
                     ret.push({
                         x1: x - 1,
@@ -274,9 +274,9 @@ var solve = (function () {
                 repository = board.copyRepository1to1(sourceRepository);
 
                 board.swapPosition(repository, x, y, x, y - 1);
-                repository = solve.move(repository, x, y - 1, x, y);
+                repository = funcMove(repository, x, y - 1, x, y);
 
-                var changed = !board.equalBoards(sourceRepository.animate, repository.animate);
+                var changed = !board.equalBoards(sourceRepository.animate_, repository.animate_);
                 if (changed) {
                     ret.push({
                         x1: x,

@@ -134,7 +134,7 @@ var uiBoard = (function () {
         }
 
         uiLevel.set(solve.move(uiLevel.get(), endX, endY, startX, startY));
-        if (board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
+        if (board.equalBoards(uiLevel.get().initial_, uiLevel.get().cleaned_)) {
             switchItemsPreAnimation(startX, startY, endX, endY, true);
         } else {
             animateItems();
@@ -316,7 +316,7 @@ var uiBoard = (function () {
         repository = board.stepDropItems(repository);
         uiLevel.set(board.stepRefill(repository));
 
-        if (!board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
+        if (!board.equalBoards(uiLevel.get().initial_, uiLevel.get().cleaned_)) {
             refillItemsReorderSpawItems();
         } else {
             switchItemsDone();
@@ -439,7 +439,7 @@ var uiBoard = (function () {
 
     function switchItemsDonePaused() {
         uiLevel.set(solve.board(uiLevel.get()));
-        if (!board.equalBoards(uiLevel.get().initial, uiLevel.get().cleaned)) {
+        if (!board.equalBoards(uiLevel.get().initial_, uiLevel.get().cleaned_)) {
             animateItems();
 
             return;
