@@ -59,7 +59,8 @@ body, html {
 .board-item[data-item='🐷'],
 .board-item[data-item='🐖']
 {
-    background-size: 100%;
+    background-position: center;
+    background-size: 94%;
 }
 .board-item[data-item='🍎']::before,
 .board-item[data-item='🐷']::before,
@@ -92,6 +93,7 @@ body, html {
     background: #ff540080;
     border-radius: 10%;
     clip-path: polygon(0% 0%, 0% 100%, 10% 100%, 10% 10%, 90% 10%, 90% 90%, 10% 90%, 10% 100%, 100% 100%, 100% 0%);
+    outline: 0;
     pointer-events: none;
     position: absolute;
     transition: left 250ms ease-out, top 250ms ease-out, clip-path 250ms ease-out, opacity 250ms ease-out;
