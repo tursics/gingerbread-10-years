@@ -36,6 +36,13 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 - [ ] profile: save level state
 - [x] feature: show hint
 
+## Detailed documentation
+
+All decisions regarding the game's development are documented in ADRs. Here are the most important subpages:
+
+- [001 - Use ADR (Architectural Decision Records) to document decisions](doc/001-use-adr.md)
+
+
 ## z-index stack
 
 - 0..99 normal
