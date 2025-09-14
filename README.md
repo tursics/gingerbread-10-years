@@ -1,4 +1,4 @@
-# gingerbread-10-years
+# **Lebkuchenzauber** / **Gingerbread Magic**
 
 Playable version: https://tursics.github.io/gingerbread-10-years
 
@@ -41,7 +41,7 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 All decisions regarding the game's development are documented in ADRs. Here are the most important subpages:
 
 - [001 - Use ADR (Architectural Decision Records) to document decisions](doc/001-use-adr.md)
-
+- [003 - Change game name to **Gingerbread Magic**](doc/003-change-game-name.md)
 
 ## z-index stack
 

@@ -59,4 +59,4 @@ Consideration should be given to the feasibility of using a collaborative online
 
 Back   |Next
 -------|-------
-[001 - Use ADR (Architectural Decision Records) to document decisions](/doc/001-use-adr.md) |-
+[001 - Use ADR (Architectural Decision Records) to document decisions](/doc/001-use-adr.md) |[003 - Change game name to Gingerbread Magic](003-change-game-name.md)
