@@ -45,8 +45,8 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 
 ## Items and combinations
 
-item           | emoji | image | description | state
----------------|-------|-------|-------------|------
+item           | emoji          | image | description | state
+---------------|----------------|-------|-------------|------
 color          | 🍎 🍐 🍋 🫐 🍠 🥥 |    | basic item   | :white_check_mark: done
 row stripes    | 🐷 🐭 🐵 🐮 🐯 🐦 |    | special item | :white_check_mark: done
 column stripes | 🐖 🐁 🐒 🐄 🐅 🦢 |    | special item | :white_check_mark: done

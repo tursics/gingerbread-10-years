@@ -47,24 +47,54 @@ body, html {
 }
 
 .board-item[data-item='🍎'] {
+    background: no-repeat url('item.heart.svg');
+}
+.board-item[data-item='🍐'] {
+    background: no-repeat url('item.tree.svg');
+}
+.board-item[data-item='🍋'] {
     background: no-repeat url('item.star.svg');
 }
 .board-item[data-item='🐷'] {
+    background: no-repeat url('item.heart.stripe.h.svg');
+}
+.board-item[data-item='🐮'] {
+    background: no-repeat url('item.tree.stripe.h.svg');
+}
+.board-item[data-item='🐯'] {
     background: no-repeat url('item.star.stripe.h.svg');
 }
 .board-item[data-item='🐖'] {
+    background: no-repeat url('item.heart.stripe.v.svg');
+}
+.board-item[data-item='🐄'] {
+    background: no-repeat url('item.tree.stripe.v.svg');
+}
+.board-item[data-item='🐅'] {
     background: no-repeat url('item.star.stripe.v.svg');
 }
 .board-item[data-item='🍎'],
+.board-item[data-item='🍐'],
+.board-item[data-item='🍋'],
 .board-item[data-item='🐷'],
-.board-item[data-item='🐖']
+.board-item[data-item='🐮'],
+.board-item[data-item='🐯'],
+.board-item[data-item='🐖'],
+.board-item[data-item='🐄'],
+.board-item[data-item='🐅']
 {
     background-position: center;
     background-size: 94%;
 }
 .board-item[data-item='🍎']::before,
+.board-item[data-item='🍐']::before,
+.board-item[data-item='🍋']::before,
 .board-item[data-item='🐷']::before,
-.board-item[data-item='🐖']::before
+.board-item[data-item='🐮']::before,
+.board-item[data-item='🐯']::before,
+.board-item[data-item='🐖']::before,
+.board-item[data-item='🐄']::before,
+.board-item[data-item='🐅']::before
 {
     display: none;
 }
