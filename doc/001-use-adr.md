@@ -11,15 +11,15 @@ Important decisions must be made during software development. Transparent docume
 
 ## Decision Drivers
 
-- The first version of this game was created at a hackathon. The decisions made there are no longer fully understandable today.
-- The development of this game is already advanced and documentation is lacking.
+* The first version of this game was created at a hackathon. The decisions made there are no longer fully understandable today.
+* The development of this game is already advanced and documentation is lacking.
 
 ## Considered Options
 
-- The Readme in the project root can be used
-- Multiple thematic subpages in Markdown can be created
-- All decisions can be recorded using ADR templates
-- The GitHub wiki can be used
+* The Readme in the project root can be used
+* Multiple thematic subpages in Markdown can be created
+* All decisions can be recorded using ADR templates
+* The GitHub wiki can be used
 
 ## Decision Outcome
 
@@ -27,11 +27,11 @@ The **ADR** option is chosen because it is considered most advantageous to recor
 
 ### Consequences
 
-- The Readme can be kept slim
-- The complete documentation remains in the `/docs` folder
+* The Readme can be kept slim
+* The complete documentation remains in the `/docs` folder
 
 ---
 
 Back   |Next
 -------|-------
-[000 Template](000-template.md) |-
+[000 Template](000-template.md) |[002 - Game will be translated into several languages](002-translate-in-languages.md)
