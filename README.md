@@ -4,7 +4,7 @@ Playable version: https://tursics.github.io/gingerbread-10-years
 
 Source code repo: https://github.com/tursics/gingerbread-10-years
 
-![screenshot](/doc/emoji.png)
+![screenshot](/doc/simple-graphic.png)
 
 ## to do list
 
@@ -147,3 +147,7 @@ Back to 2025 I started from scratch. The first version only use the console of b
 The next iteration step displays the content on the browser canvas.
 
 ![screenshot](/doc/emoji.png)
+
+Followed by displaying simple gingerbread graphics
+
+![screenshot](/doc/simple-graphic.png)
