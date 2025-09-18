@@ -100,6 +100,9 @@ body, html {
 .board-item[data-item='🐒'] {
     background: no-repeat url('item.elk.stripe.v.svg');
 }
+.board-item[data-item='🏵️'] {
+    background: no-repeat url('item.sprinkles.svg');
+}
 .board-item[data-item='🍎'],
 .board-item[data-item='🍐'],
 .board-item[data-item='🍋'],
@@ -117,7 +120,8 @@ body, html {
 .board-item[data-item='🐅'],
 .board-item[data-item='🦢'],
 .board-item[data-item='🐁'],
-.board-item[data-item='🐒']
+.board-item[data-item='🐒'],
+.board-item[data-item='🏵️']
 {
     background-position: center;
     background-size: 94%;
@@ -139,7 +143,8 @@ body, html {
 .board-item[data-item='🐅']::before,
 .board-item[data-item='🦢']::before,
 .board-item[data-item='🐁']::before,
-.board-item[data-item='🐒']::before
+.board-item[data-item='🐒']::before,
+.board-item[data-item='🏵️']::before
 {
     display: none;
 }
