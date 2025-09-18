@@ -23,7 +23,7 @@ body, html {
 }
 
 #board {
-    background: #f4f4f4;
+    background: #B48752;
     border-radius: 5%;
     font-size: 3em;
     position:absolute;
@@ -144,6 +144,15 @@ body, html {
     display: none;
 }
 
+.board-item[data-item='🅾️'],
+.board-item[data-item='⬇️'] {
+    background: #95532B;
+}
+.board-item[data-item='🅾️']::before,
+.board-item[data-item='⬇️']::before {
+    display: none;
+}
+
 .board-item.animate {
     transition: left 250ms ease-out, top 250ms ease-out, opacity 250ms ease-out, transform 250ms ease-out;
 }
@@ -166,6 +175,7 @@ body, html {
 
 #board-item-keyboard-focus {
     background: #ff540080;
+    background: #6e250080;
     border-radius: 10%;
     clip-path: polygon(0% 0%, 0% 100%, 10% 100%, 10% 10%, 90% 10%, 90% 90%, 10% 90%, 10% 100%, 100% 100%, 100% 0%);
     outline: 0;
