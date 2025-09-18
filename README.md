@@ -12,7 +12,7 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 - [x] test set
 - [x] input type: keyboard
 - [x] input type: mouse
-- [ ] input type: touch
+- [x] input type: touch
 - [x] animation level: basic
 - [ ] animation level: advanced
 - [ ] animation level: particular effects
