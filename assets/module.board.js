@@ -102,6 +102,10 @@ var board = (function () {
         return (item === ANIMATE_MOVE_2RIGHT);
     }
 
+    function funcIsItemValid(item) {
+        return item !== ITEM_BUG;
+    }
+
     function funcIsBaseItem(item) {
         return (item === '🍎') || (item === '🍐') || (item === '🍋')
             || (item === '🥥') || (item === '🫐') || (item === '🍠');
@@ -122,9 +126,156 @@ var board = (function () {
         return ITEM_BUG;
     }
 
+    function funcGetBaseItem(item) {
+        if (funcIsBaseItem(item)) {
+            return item;
+        }
+
+        if (item === '🐷') {
+            return '🍎';
+        }
+        if (item === '🐖') {
+            return '🍎';
+        }
+        if (item === '🐮') {
+            return '🍐';
+        }
+        if (item === '🐄') {
+            return '🍐';
+        }
+        if (item === '🐯') {
+            return '🍋';
+        }
+        if (item === '🐅') {
+            return '🍋';
+        }
+        if (item === '🐦') {
+            return '🥥';
+        }
+        if (item === '🦢') {
+            return '🥥';
+        }
+        if (item === '🐭') {
+            return '🫐';
+        }
+        if (item === '🐁') {
+            return '🫐';
+        }
+        if (item === '🐵') {
+            return '🍠';
+        }
+        if (item === '🐒') {
+            return '🍠';
+        }
+
+        return ITEM_BUG;
+    }
+
+    function funcGetStripesHItem(item) {
+        if (item === '🍎') {
+            return '🐷';
+        }
+        if (item === '🍐') {
+            return '🐮';
+        }
+        if (item === '🍋') {
+            return '🐯';
+        }
+        if (item === '🥥') {
+            return '🐦';
+        }
+        if (item === '🫐') {
+            return '🐭';
+        }
+        if (item === '🍠') {
+            return '🐵';
+        }
+        return ITEM_BUG;
+    }
+
+    function funcGetStripesVItem(item) {
+        if (item === '🍎') {
+            return '🐖';
+        }
+        if (item === '🍐') {
+            return '🐄';
+        }
+        if (item === '🍋') {
+            return '🐅';
+        }
+        if (item === '🥥') {
+            return '🦢';
+        }
+        if (item === '🫐') {
+            return '🐁';
+        }
+        if (item === '🍠') {
+            return '🐒';
+        }
+        return ITEM_BUG;
+    }
+
+    function cleanLeft(repository, x, y) {
+        while (x > 0) {
+            --x;
+
+            var item = funcGetItem(repository, x, y);
+            if (funcIsItemMovable(item)) {
+                funcCleanItem(repository, x, y);
+            }
+        }
+    }
+
+    function cleanRight(repository, x, y) {
+        while (x < (funcGetCols(repository) - 1)) {
+            ++x;
+
+            var item = funcGetItem(repository, x, y);
+            if (funcIsItemMovable(item)) {
+                funcCleanItem(repository, x, y);
+            }
+        }
+    }
+
+    function cleanUp(repository, x, y) {
+        while (y > 0) {
+            --y;
+
+            var item = funcGetItem(repository, x, y);
+            if (funcIsItemMovable(item)) {
+                funcCleanItem(repository, x, y);
+            }
+        }
+    }
+
+    function cleanDown(repository, x, y) {
+        while (y < (board.getRows(repository) - 1)) {
+            ++y;
+
+            var item = funcGetItem(repository, x, y);
+            if (funcIsItemMovable(item)) {
+                funcCleanItem(repository, x, y);
+            }
+        }
+    }
+
     function funcCleanItem(repository, x, y) {
+        var item = repository.cleaned_[y][x];
+        var baseItem = funcGetBaseItem(item);
+        var stripeVItem = funcGetStripesVItem(baseItem);
+        var stripeHItem = funcGetStripesHItem(baseItem);
+
         repository.cleaned_[y][x] = ITEM_VOID;
         repository.animate_[y][x] = ANIMATE_REMOVE;
+
+        if ((ITEM_BUG !== stripeHItem) && (stripeHItem === item)) {
+            cleanLeft(repository, x, y);
+            cleanRight(repository, x, y);
+        }
+        if ((ITEM_BUG !== stripeVItem) && (stripeVItem === item)) {
+            cleanUp(repository, x, y);
+            cleanDown(repository, x, y);
+        }
     }
 
     function changeInitialItem(repository, x, y, item) {
@@ -454,9 +605,12 @@ var board = (function () {
         equalBoards: funcEqualBoards,
         equalBoardsWithLogging: funcEqualBoardsWithLogging,
         getAnimateItem: funcGetAnimateItem,
+        getBaseItem: funcGetBaseItem,
         getCols: funcGetCols,
         getItem: funcGetItem,
         getRows: funcGetRows,
+        getStripesHItem: funcGetStripesHItem,
+        getStripesVItem: funcGetStripesVItem,
         isAnimateChangeItem: funcIsAnimateChangeItem,
         isAnimateDropOneItem: funcIsAnimateDropOneItem,
         isAnimateMoveOneDownItem: funcIsAnimateMoveOneDownItem,
@@ -471,6 +625,7 @@ var board = (function () {
         isAnimateSpawnItem: funcIsAnimateSpawnItem,
         isBaseItem: funcIsBaseItem,
         isItemMovable: funcIsItemMovable,
+        isItemValid: funcIsItemValid,
         removeAdvancedItems: funcRemoveAdvancedItems,
         spawn: funcSpawn,
         spawnSolvable: funcSpawnSolvable,
