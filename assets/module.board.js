@@ -259,14 +259,10 @@ var board = (function () {
         }
     }
 
-    function funcCleanItem(repository, x, y) {
-        var item = repository.cleaned_[y][x];
+    function cleanRecursive(repository, x, y, item) {
         var baseItem = funcGetBaseItem(item);
         var stripeVItem = funcGetStripesVItem(baseItem);
         var stripeHItem = funcGetStripesHItem(baseItem);
-
-        repository.cleaned_[y][x] = ITEM_VOID;
-        repository.animate_[y][x] = ANIMATE_REMOVE;
 
         if ((ITEM_BUG !== stripeHItem) && (stripeHItem === item)) {
             cleanLeft(repository, x, y);
@@ -276,6 +272,15 @@ var board = (function () {
             cleanUp(repository, x, y);
             cleanDown(repository, x, y);
         }
+    }
+
+    function funcCleanItem(repository, x, y) {
+        var oldItem = repository.cleaned_[y][x];
+
+        repository.cleaned_[y][x] = ITEM_VOID;
+        repository.animate_[y][x] = ANIMATE_REMOVE;
+
+        cleanRecursive(repository, x, y, oldItem);
     }
 
     function changeInitialItem(repository, x, y, item) {
@@ -293,7 +298,7 @@ var board = (function () {
     }
 
     function funcAnimateItem(repository, startX, startY, targetX, targetY) {
-        repository.cleaned_[startY][startX] = ITEM_VOID;
+        var oldItem = repository.cleaned_[startY][startX];
 
         var item = ITEM_BUG;
         if (startX === targetX) {
@@ -311,7 +316,11 @@ var board = (function () {
                 case -2: item = ANIMATE_MOVE_2RIGHT; break;
             }
         }
+
+        repository.cleaned_[startY][startX] = ITEM_VOID;
         repository.animate_[startY][startX] = item;
+
+        cleanRecursive(repository, startX, startY, oldItem);
     }
 
     function dropItem(repository, startX, startY, targetX, targetY) {
@@ -535,8 +544,8 @@ var board = (function () {
                     }
 
                     if (logging && config.debug) {
-                        console.debug(leftBoard[y]);
-                        console.debug(rightBoard[y]);
+                        console.debug(leftBoard[y].join(''));
+                        console.debug(rightBoard[y].join(''));
                     }
                     return false;
                 }

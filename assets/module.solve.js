@@ -2,8 +2,6 @@ var solve = (function () {
     var solveFuncs = [];
 
     function init() {
-        solveFuncs.push(solve3colPlusStripe);
-        solveFuncs.push(solve3rowPlusStripe);
 //        solveFuncs.push( this.solveStripedStriped);
         solveFuncs.push(solve5col);
         solveFuncs.push(solve5row);
@@ -71,9 +69,9 @@ var solve = (function () {
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countDown = countSameItem(repository, x, y, 0, 1);
+                var countDown = countSameBaseColor(repository, x, y, 0, 1);
                 if (countDown === 2) {
-                    var item = board.getItem(repository, x, y);
+                    var item = board.getBaseItem(board.getItem(repository, x, y));
                     if (board.isBaseItem(item)) {
                         board.cleanItem(repository, x, y + 0);
                         board.cleanItem(repository, x, y + 1);
@@ -90,9 +88,9 @@ var solve = (function () {
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countRight = countSameItem(repository, x, y, 1, 0);
+                var countRight = countSameBaseColor(repository, x, y, 1, 0);
                 if (countRight === 2) {
-                    var item = board.getItem(repository, x, y);
+                    var item = board.getBaseItem(board.getItem(repository, x, y));
                     if (board.isBaseItem(item)) {
                         board.cleanItem(repository, x + 0, y);
                         board.cleanItem(repository, x + 1, y);
@@ -109,9 +107,9 @@ var solve = (function () {
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countDown = countSameItem(repository, x, y, 0, 1);
+                var countDown = countSameBaseColor(repository, x, y, 0, 1);
                 if (countDown === 3) {
-                    var item = board.getItem(repository, x, y);
+                    var item = board.getBaseItem(board.getItem(repository, x, y));
 
                     if (((x == newX) && ((y + 2) == newY)) || ((x == oldX) && ((y + 2) == oldY))) {
                         if (board.isBaseItem(item)) {
@@ -139,9 +137,9 @@ var solve = (function () {
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countRight = countSameItem(repository, x, y, 1, 0);
+                var countRight = countSameBaseColor(repository, x, y, 1, 0);
                 if (countRight === 3) {
-                    var item = board.getItem(repository, x, y);
+                    var item = board.getBaseItem(board.getItem(repository, x, y));
 
                     if((((x + 2) == newX) && (y == newY)) || (((x + 2) == oldX) && (y == oldY))) {
                         if (board.isBaseItem(item)) {
@@ -203,64 +201,6 @@ var solve = (function () {
 				}
 			}
 		}
-    }
-
-    function solve3colPlusStripe(repository) {
-        var rows = board.getRows(repository);
-        var cols = board.getCols(repository);
-
-        for (var y = 0; y < rows; ++y) {
-            for (var x = 0; x < cols; ++x) {
-                var countDown = countSameBaseColor(repository, x, y, 0, 1);
-                if (countDown === 2) {
-                    var baseItem = board.getBaseItem(board.getItem(repository, x, y));
-                    var stripeVItem = board.getStripesVItem(baseItem);
-                    var stripeHItem = board.getStripesHItem(baseItem);
-                    var found =
-                           board.getItem(repository, x, y + 0) === stripeVItem
-                        || board.getItem(repository, x, y + 0) === stripeHItem
-                        || board.getItem(repository, x, y + 1) === stripeVItem
-                        || board.getItem(repository, x, y + 1) === stripeHItem
-                        || board.getItem(repository, x, y + 2) === stripeVItem
-                        || board.getItem(repository, x, y + 2) === stripeHItem;
-
-                    if (found) {
-                        board.cleanItem(repository, x, y + 0);
-                        board.cleanItem(repository, x, y + 1);
-                        board.cleanItem(repository, x, y + 2);
-                    }
-                }
-            }
-        }
-    }
-
-    function solve3rowPlusStripe(repository) {
-        var rows = board.getRows(repository);
-        var cols = board.getCols(repository);
-
-        for (var y = 0; y < rows; ++y) {
-            for (var x = 0; x < cols; ++x) {
-                var countRight = countSameBaseColor(repository, x, y, 1, 0);
-                if (countRight === 2) {
-                    var baseItem = board.getBaseItem(board.getItem(repository, x, y));
-                    var stripeVItem = board.getStripesVItem(baseItem);
-                    var stripeHItem = board.getStripesHItem(baseItem);
-                    var found =
-                           board.getItem(repository, x + 0, y) === stripeVItem
-                        || board.getItem(repository, x + 0, y) === stripeHItem
-                        || board.getItem(repository, x + 1, y) === stripeVItem
-                        || board.getItem(repository, x + 1, y) === stripeHItem
-                        || board.getItem(repository, x + 2, y) === stripeVItem
-                        || board.getItem(repository, x + 2, y) === stripeHItem;
-
-                    if (found) {
-                        board.cleanItem(repository, x + 0, y);
-                        board.cleanItem(repository, x + 1, y);
-                        board.cleanItem(repository, x + 2, y);
-                    }
-                }
-            }
-        }
     }
 
     function solveBoard(repository, newX, newY, oldX, oldY) {
