@@ -115,15 +115,19 @@ var solve = (function () {
                         if (board.isBaseItem(item)) {
                             board.animateItem(repository, x, y + 0, x, y + 2);
                             board.animateItem(repository, x, y + 1, x, y + 2);
-                            board.changeItem (repository, x, y + 2, board.getStripesHItem(item));
+                            board.cleanItem  (repository, x, y + 2);
                             board.animateItem(repository, x, y + 3, x, y + 2);
+
+                            board.changeItem (repository, x, y + 2, board.getStripesHItem(item));
                         }
                     } else {
                         if (board.isBaseItem(item)) {
                             board.animateItem(repository, x, y + 0, x, y + 1);
-                            board.changeItem (repository, x, y + 1, board.getStripesHItem(item));
+                            board.cleanItem  (repository, x, y + 1);
                             board.animateItem(repository, x, y + 2, x, y + 1);
                             board.animateItem(repository, x, y + 3, x, y + 1);
+
+                            board.changeItem (repository, x, y + 1, board.getStripesHItem(item));
                         }
                     }
                 }
@@ -145,15 +149,19 @@ var solve = (function () {
                         if (board.isBaseItem(item)) {
                             board.animateItem(repository, x + 0, y, x + 2, y);
                             board.animateItem(repository, x + 1, y, x + 2, y);
-                            board.changeItem (repository, x + 2, y, board.getStripesVItem(item));
+                            board.cleanItem  (repository, x + 2, y);
                             board.animateItem(repository, x + 3, y, x + 2, y);
+
+                            board.changeItem (repository, x + 2, y, board.getStripesVItem(item));
                         }
                     } else {
                         if (board.isBaseItem(item)) {
                             board.animateItem(repository, x + 0, y, x + 1, y);
-                            board.changeItem (repository, x + 1, y, board.getStripesVItem(item));
+                            board.cleanItem  (repository, x + 1, y);
                             board.animateItem(repository, x + 2, y, x + 1, y);
                             board.animateItem(repository, x + 3, y, x + 1, y);
+
+                            board.changeItem (repository, x + 1, y, board.getStripesVItem(item));
                         }
                     }
                 }

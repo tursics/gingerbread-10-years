@@ -83,8 +83,8 @@ combination       | emoji | image | result      | state
 
 combination          | emoji | image | result      | state
 ---------------------|-------|-------|-------------|------
-row stipes in a new match | 🐷 + 🍎 + 🍎 |    | remove all items in the row | :construction_worker: TODO
-column stipes in a new match | 🐖 + 🍎 + 🍎 |    | remove all items in the column | :construction_worker: TODO
+row stipes in a new match | 🐷 + 🍎 + 🍎 |    | remove all items in the row | :white_check_mark: done
+column stipes in a new match | 🐖 + 🍎 + 🍎 |    | remove all items in the column | :white_check_mark: done
 cross in a new match | ✝️ + 🍎 + 🍎 |    | remove all items in the row and all items in the column | :construction_worker: TODO
 square in a new match | 🍀 + 🍎 + 🍎 |    | remove all items in a 3x3 sector | :construction_worker: TODO
 dynamite in a new match | 🧨 + 🍎 + 🍎 |    | remove all items in a small radius | :construction_worker: TODO
