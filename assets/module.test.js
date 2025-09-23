@@ -1269,7 +1269,7 @@ var test = (function () {
         },
         {
             'title': 'Solve v striped 4 items (#2)',
-            'method': 'swipe.bottom',
+            'method': 'swipe.left',
             'design': [
                 '🅾️⬇️⬇️⬇️⬇️⬇️🅾️',
                 '🅾️🍋🍠🍎🍋🍠🅾️',
