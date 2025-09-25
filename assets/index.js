@@ -1,6 +1,6 @@
 var config = {
-//    debug: false,
-    debug: true,
+    debug: false,
+//    debug: true,
 };
 
 function selfDebug() {

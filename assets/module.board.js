@@ -479,7 +479,7 @@ var board = (function () {
                 repository = funcCopyRepositoryFromRepository(repository);
                 repository = funcStepDropItems(repository);
                 repository = funcStepRefill(repository);
-                if (config.debug && !funcEqualBoards(repository.initial_, repository.cleaned_)) {
+                if (!funcEqualBoards(repository.initial_, repository.cleaned_)) {
                     refilled = true;
                 }
             } while (!funcEqualBoards(repository.initial_, repository.cleaned_));
