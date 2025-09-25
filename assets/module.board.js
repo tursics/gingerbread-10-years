@@ -4,6 +4,7 @@ var board = (function () {
         ITEM_SPAWNPOINT = '⬇️',
         ITEM_VOID = '⬜️',
         ITEM_WALL = '🅾️',
+        SET_CHANGE = '🔀',
         ANIMATE_CHANGE = '🔄',
         ANIMATE_DROP_1 = '1️⃣',
         ANIMATE_MOVE_1UP = '🔼',
@@ -56,6 +57,10 @@ var board = (function () {
 
     function funcIsAnimateRemoveItem(item) {
         return (item === ANIMATE_REMOVE);
+    }
+
+    function funcIsSetChangeItem(item) {
+        return (item === SET_CHANGE);
     }
 
     function funcIsAnimateChangeItem(item) {
@@ -290,6 +295,11 @@ var board = (function () {
     function funcChangeItem(repository, x, y, item) {
         repository.cleaned_[y][x] = item;
         repository.animate_[y][x] = ANIMATE_CHANGE;
+    }
+
+    function funcChangeItemNoAnimation(repository, x, y, item) {
+        repository.cleaned_[y][x] = item;
+        repository.animate_[y][x] = SET_CHANGE;
     }
 
     function spawnItem(repository, x, y, item) {
@@ -608,6 +618,7 @@ var board = (function () {
         animateItem: funcAnimateItem,
         cleanItem: funcCleanItem,
         changeItem: funcChangeItem,
+        changeItemNoAnimation: funcChangeItemNoAnimation,
         copyRepository1to1: funcCopyRepository1to1,
         copyRepositoryFromDesign: funcCopyRepositoryFromDesign,
         copyRepositoryFromRepository: funcCopyRepositoryFromRepository,
@@ -635,6 +646,7 @@ var board = (function () {
         isBaseItem: funcIsBaseItem,
         isItemMovable: funcIsItemMovable,
         isItemValid: funcIsItemValid,
+        isSetChangeItem: funcIsSetChangeItem,
         removeAdvancedItems: funcRemoveAdvancedItems,
         spawn: funcSpawn,
         spawnSolvable: funcSpawnSolvable,

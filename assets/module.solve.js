@@ -2,7 +2,7 @@ var solve = (function () {
     var solveFuncs = [];
 
     function init() {
-//        solveFuncs.push( this.solveStripedStriped);
+        solveFuncs.push(markStripedStriped);
         solveFuncs.push(solve5col);
         solveFuncs.push(solve5row);
 //        solveFuncs.push( this.solveCross);
@@ -21,7 +21,7 @@ var solve = (function () {
         solveFuncs.push(solve3row);
     }
 
-    function countSameItem(repository, startX, startY, diffX, diffY) {
+/*    function countSameItem(repository, startX, startY, diffX, diffY) {
         var item = board.getItem(repository, startX, startY);
         if (!board.isItemMovable(item)) {
             return 0;
@@ -40,7 +40,7 @@ var solve = (function () {
         }
 
         return count;
-    }
+    }*/
 
     function countSameBaseColor(repository, startX, startY, diffX, diffY) {
         var item = board.getBaseItem(board.getItem(repository, startX, startY));
@@ -213,6 +213,30 @@ var solve = (function () {
 				}
 			}
 		}
+    }
+
+    function markStripedStriped(repository, newX, newY, oldX, oldY) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
+
+        if((newX !== oldX) || (newY !== oldY)) {
+            var newItem = board.getItem(repository, newX, newY);
+            var baseItem = board.getBaseItem(newItem);
+            var stripeVItem = board.getStripesVItem(baseItem);
+            var stripeHItem = board.getStripesHItem(baseItem);
+
+            if ((board.isItemValid(stripeHItem) && (stripeHItem === newItem)) || (board.isItemValid(stripeVItem) && (stripeVItem === newItem))) {
+                var oldItem = board.getItem(repository, oldX, oldY);
+                baseItem = board.getBaseItem(oldItem);
+                stripeVItem = board.getStripesVItem(baseItem);
+                stripeHItem = board.getStripesHItem(baseItem);
+
+                if ((board.isItemValid(stripeHItem) && (stripeHItem === oldItem)) || (board.isItemValid(stripeVItem) && (stripeVItem === oldItem))) {
+                    board.changeItem(repository, newX, newY, '❤️‍🩹');
+                    board.changeItemNoAnimation(repository, oldX, oldY, oldItem);
+                }
+            }
+        }
     }
 
     function solveBoard(repository, newX, newY, oldX, oldY) {

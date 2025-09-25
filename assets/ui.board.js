@@ -239,6 +239,10 @@ var uiBoard = (function () {
                     div.style.left = funcGetItemDIV(x, 0).style.left;
                     div.removeAttribute('data-item');
                     div.style.removeProperty('z-index');
+                } else if (board.isSetChangeItem(item)) {
+                    var newItem = board.getItem(uiLevel.get(), x, y);
+                    var div = funcGetItemDIV(x, y);
+                    div.dataset.item = newItem;
                 }
             }
         }
