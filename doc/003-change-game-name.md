@@ -68,4 +68,4 @@ The name **Lebkuchenzauber** opens the door to exploring not just one, but many 
 
 Back   |Next
 -------|-------
-[002 - Game will be translated into several languages](002-translate-in-languages.md) |-
+[002 - Game will be translated into several languages](002-translate-in-languages.md) | [004 - The underlying basic game mechanics are developed test-driven](004-test-driven.md)
