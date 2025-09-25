@@ -175,15 +175,17 @@ var solve = (function () {
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countDown = countSameItem(repository, x, y, 0, 1);
+                var countDown = countSameBaseColor(repository, x, y, 0, 1);
 				if (countDown === 4) {
-                    var item = board.getItem(repository, x, y);
+                    var item = board.getBaseItem(board.getItem(repository, x, y));
                     if (board.isBaseItem(item)) {
                         board.animateItem(repository, x, y + 0, x, y + 2);
                         board.animateItem(repository, x, y + 1, x, y + 2);
-                        board.changeItem (repository, x, y + 2, '🏵️');
+                        board.cleanItem  (repository, x, y + 2);
                         board.animateItem(repository, x, y + 3, x, y + 2);
                         board.animateItem(repository, x, y + 4, x, y + 2);
+
+                        board.changeItem (repository, x, y + 2, '🏵️');
                     }
 				}
 			}
@@ -196,15 +198,17 @@ var solve = (function () {
 
         for (var y = 0; y < rows; ++y) {
             for (var x = 0; x < cols; ++x) {
-                var countRight = countSameItem(repository, x, y, 1, 0);
+                var countRight = countSameBaseColor(repository, x, y, 1, 0);
 				if (countRight === 4) {
-                    var item = board.getItem(repository, x, y);
+                    var item = board.getBaseItem(board.getItem(repository, x, y));
                     if (board.isBaseItem(item)) {
                         board.animateItem(repository, x + 0, y, x + 2, y);
                         board.animateItem(repository, x + 1, y, x + 2, y);
-                        board.changeItem (repository, x + 2, y, '🏵️');
+                        board.cleanItem  (repository, x + 2, y);
                         board.animateItem(repository, x + 3, y, x + 2, y);
                         board.animateItem(repository, x + 4, y, x + 2, y);
+
+                        board.changeItem (repository, x + 2, y, '🏵️');
                     }
 				}
 			}
