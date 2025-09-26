@@ -2,9 +2,9 @@ var solve = (function () {
     var solveFuncs = [];
 
     function init() {
-        solveFuncs.push(markStripedStriped);
         solveFuncs.push(solve5col);
         solveFuncs.push(solve5row);
+        solveFuncs.push(solveStripedStriped);
 //        solveFuncs.push( this.solveCross);
 //        solveFuncs.push( this.solveSquare);
 //        solveFuncs.push( this.solveLTopLeft);
@@ -215,10 +215,7 @@ var solve = (function () {
 		}
     }
 
-    function markStripedStriped(repository, newX, newY, oldX, oldY) {
-        var rows = board.getRows(repository);
-        var cols = board.getCols(repository);
-
+    function solveStripedStriped(repository, newX, newY, oldX, oldY) {
         if((newX !== oldX) || (newY !== oldY)) {
             var newItem = board.getItem(repository, newX, newY);
             var baseItem = board.getBaseItem(newItem);
@@ -232,8 +229,10 @@ var solve = (function () {
                 stripeHItem = board.getStripesHItem(baseItem);
 
                 if ((board.isItemValid(stripeHItem) && (stripeHItem === oldItem)) || (board.isItemValid(stripeVItem) && (stripeVItem === oldItem))) {
-                    board.changeItem(repository, newX, newY, '❤️‍🩹');
-                    board.changeItemNoAnimation(repository, oldX, oldY, oldItem);
+                    board.cleanItemOnly(repository, oldX, oldY);
+                    board.cleanItemOnly(repository, newX, newY);
+                    board.cleanColumn(repository, newX, newY);
+                    board.cleanRow(repository, newX, newY);
                 }
             }
         }

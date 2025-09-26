@@ -270,13 +270,26 @@ var board = (function () {
         var stripeHItem = funcGetStripesHItem(baseItem);
 
         if ((ITEM_BUG !== stripeHItem) && (stripeHItem === item)) {
-            cleanLeft(repository, x, y);
-            cleanRight(repository, x, y);
+            funcCleanColumn(repository, x, y);
         }
         if ((ITEM_BUG !== stripeVItem) && (stripeVItem === item)) {
-            cleanUp(repository, x, y);
-            cleanDown(repository, x, y);
+            funcCleanRow(repository, x, y);
         }
+    }
+
+    function funcCleanColumn(repository, x, y) {
+        cleanLeft(repository, x, y);
+        cleanRight(repository, x, y);
+    }
+
+    function funcCleanRow(repository, x, y) {
+        cleanUp(repository, x, y);
+        cleanDown(repository, x, y);
+    }
+
+    function funcCleanItemOnly(repository, x, y) {
+        repository.cleaned_[y][x] = ITEM_VOID;
+        repository.animate_[y][x] = ANIMATE_REMOVE;
     }
 
     function funcCleanItem(repository, x, y) {
@@ -616,7 +629,10 @@ var board = (function () {
 
     return {
         animateItem: funcAnimateItem,
+        cleanColumn: funcCleanColumn,
         cleanItem: funcCleanItem,
+        cleanItemOnly: funcCleanItemOnly,
+        cleanRow: funcCleanRow,
         changeItem: funcChangeItem,
         changeItemNoAnimation: funcChangeItemNoAnimation,
         copyRepository1to1: funcCopyRepository1to1,
