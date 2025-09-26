@@ -23,8 +23,8 @@ Source code repo: https://github.com/tursics/gingerbread-10-years
 - [ ] graphic: animated character
 - [ ] functional on: console (without browser DOM)
 - [x] functional in: browser (see /assets/ui.*.js)
-- [x] functional on: desktop / laptop
-- [ ] functional on: tabet devices
+- [x] functional on: desktop / laptop (mouse support)
+- [x] functional on: tabet devices (touch support)
 - [ ] functional on: mobile phones
 - [ ] functional on: tv devices
 - [ ] functional on: other (game consoles)
@@ -52,8 +52,8 @@ All decisions regarding the game's development are documented in ADRs. Here are 
 
 ## Items and combinations
 
-item           | emoji          | image | description | state
----------------|----------------|-------|-------------|------
+item           | emoji           | image | description | state
+---------------|-----------------|-------|-------------|------
 color          | 🍎 🍐 🍋 🫐 🍠 🥥 |    | basic item   | :white_check_mark: done
 row stripes    | 🐷 🐭 🐵 🐮 🐯 🐦 |    | special item | :white_check_mark: done
 column stripes | 🐖 🐁 🐒 🐄 🐅 🦢 |    | special item | :white_check_mark: done
@@ -64,48 +64,48 @@ dynamite       | 🧨              |    | power item   | :construction_worker: T
 color bomb     | 🏵️              |    | power item   | :white_check_mark: done
 magnet         | 🧲              |    | super item   | :hourglass: POSTPONED
 
-combination       | emoji | image | result      | state
-------------------|-------|-------|-------------|------
-3 in a row        | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
-3 in a column     | 🍎 + 🍎 + 🍎 = - |       | all 3 items removed | :white_check_mark: done
-4 in a row        | 🍎 + 🍎 + 🍎 + 🍎 = 🐷 |    | all 4 items removed and replaced by one `row stripes` | :white_check_mark: done
-4 in a column     | 🍎 + 🍎 + 🍎 + 🍎 = 🐖 |    | all 4 items removed and replaced by one `column stripes` | :white_check_mark: done
-4 in a diagonal   | 🍎 + 🍎 + 🍎 + 🍎 = ↙️ or ↘️ |    | all 4 items removed and replaced by one `diagonal` | :hourglass: POSTPONED
-5 in a row        | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🏵️ |    | all 5 items removed and replaces by one `color bomb` | :white_check_mark: done
-5 in a column     | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🏵️ |    | all 5 items removed and replaces by one `color bomb` | :white_check_mark: done
+combination       | emoji                          | image | result      | state
+------------------|--------------------------------|-------|-------------|------
+3 in a row        | 🍎 + 🍎 + 🍎 = -                |       | all 3 items removed | :white_check_mark: done
+3 in a column     | 🍎 + 🍎 + 🍎 = -                |       | all 3 items removed | :white_check_mark: done
+4 in a row        | 🍎 + 🍎 + 🍎 + 🍎 = 🐷          |    | all 4 items removed and replaced by one `row stripes` | :white_check_mark: done
+4 in a column     | 🍎 + 🍎 + 🍎 + 🍎 = 🐖          |    | all 4 items removed and replaced by one `column stripes` | :white_check_mark: done
+4 in a diagonal   | 🍎 + 🍎 + 🍎 + 🍎 = ↙️ or ↘️     |    | all 4 items removed and replaced by one `diagonal` | :hourglass: POSTPONED
+5 in a row        | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🏵️      |    | all 5 items removed and replaces by one `color bomb` | :white_check_mark: done
+5 in a column     | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🏵️      |    | all 5 items removed and replaces by one `color bomb` | :white_check_mark: done
 5 in a diagonal   | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = ↙️ or ↘️ |    | all 5 items removed and replaced by one `diagonal` | :hourglass: POSTPONED
-6 in a row        | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🧲 |    | all 6 items removed and replaces by one `magnet` | :hourglass: POSTPONED
-6 in a column     | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🧲 |    | all 6 items removed and replaces by one `magnet` | :hourglass: POSTPONED
+6 in a row        | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🧲  |    | all 6 items removed and replaces by one `magnet` | :hourglass: POSTPONED
+6 in a column     | 🍎 + 🍎 + 🍎 + 🍎 + 🍎 + 🍎 = 🧲  |    | all 6 items removed and replaces by one `magnet` | :hourglass: POSTPONED
 4 in a 2x2 figure | 🍎 + 🍎 and 🍎 + 🍎 = 🍀 |    | all 4 items removed and replaced by one `square` | :construction_worker: TODO
 5 in a `+` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 and 🍎 + 🍎 + 🍎 = ✝️ |    | all 5 items removed and replaces by one `cross` | :construction_worker: TODO
 5 in a `T` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 and 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
 5 in a `L` figure, 3 in a row, 3 in a column | 🍎 + 🍎 + 🍎 and 🍎 + 🍎 + 🍎 = 🧨 |    | all 5 items removed and replaces by one `dynamite` | :construction_worker: TODO
 
-combination          | emoji | image | result      | state
----------------------|-------|-------|-------------|------
-row stipes in a new match | 🐷 + 🍎 + 🍎 |    | remove all items in the row | :white_check_mark: done
+combination                  | emoji       | image | result      | state
+-----------------------------|-------------|-------|-------------|------
 column stipes in a new match | 🐖 + 🍎 + 🍎 |    | remove all items in the column | :white_check_mark: done
-cross in a new match | ✝️ + 🍎 + 🍎 |    | remove all items in the row and all items in the column | :construction_worker: TODO
-square in a new match | 🍀 + 🍎 + 🍎 |    | remove all items in a 3x3 sector | :construction_worker: TODO
-dynamite in a new match | 🧨 + 🍎 + 🍎 |    | remove all items in a small radius | :construction_worker: TODO
-diagonal in a new match | ↘️ + 🍎 + 🍎 |    | remove all items in a diagonal | :hourglass: POSTPONED
-color bomb and 1 color | 🏵️ + 🍎 |    | remove all items the same color from the board | :construction_worker: TODO
-magnet and 1 color | 🧲 + 🍎 |    | remove all items from the board, two times | :hourglass: POSTPONED
-cross and cross | ✝️ + ✝️ |    | remove all items in 2 rows and all items in 2 columns | :construction_worker: TODO
-cross and square | ✝️ + 🍀 |    | replace all items in a cross figure (cross in a complete row and column) with cross items and let them explode | :construction_worker: TODO
-cross and stipes | ✝️ + 🐷 |    | remove all items in 2 rows or in 2 columns | :construction_worker: TODO
-cross and dynamite | ✝️ + 🧨 |    | remove all items in a cross figure in a big radius | :construction_worker: TODO
-cross and a color bomb | ✝️ + 🏵️ |    | replace all items the same cross color with cross items and let them explode | :construction_worker: TODO
-square and square | 🍀 + 🍀 |    | remove all items in a gigantic radius | :construction_worker: TODO
-square and stipes | 🍀 + 🐷 |    | remove all items in the row and all items in the column | :construction_worker: TODO
-square and dynamite | 🍀 + 🧨 |    | remove all items in a big radius | :construction_worker: TODO
-square and a color bomb | 🍀 + 🏵️ |    | replace all items the same square color with square items and let them explode | :construction_worker: TODO
-stipes and stipes | 🐷 + 🐷 |    | remove all items in the row and all items in the column | :white_check_mark: 
-stipes and dynamite | 🐷 + 🧨 |    | remove all items in the row or column, plus a row or column next to both sides | :construction_worker: TODO
-stipes and a color bomb | 🐷 + 🏵️ |    | replace all items the same stripe color with stripe items and let them explode | :construction_worker: TODO
-dynamite and dynamite | 🧨 + 🧨 |    | remove all items in a big radius | :construction_worker: TODO
-dynamite and a color bomb | 🧨 + 🏵️ |    | replace all items the same dynamite color with dynamite and let them explode | :construction_worker: TODO
-color bomb and a color bomb | 🏵️ + 🏵️ |    | remove all items from the board | :construction_worker: TODO
+row stipes in a new match    | 🐷 + 🍎 + 🍎 |    | remove all items in the row | :white_check_mark: done
+stipes and stipes            | 🐷 + 🐷      |    | remove all items in the row and all items in the column | :white_check_mark: 
+color bomb and 1 color       | 🏵️ + 🍎      |    | remove all items the same color from the board | :construction_worker: TODO
+color bomb and a color bomb  | 🏵️ + 🏵️      |    | remove all items from the board | :construction_worker: TODO
+color bomb and stipes        | 🏵️ + 🐷      |    | replace all items the same stripe color with stripe items and let them explode | :construction_worker: TODO
+dynamite in a new match      | 🧨 + 🍎 + 🍎 |    | remove all items in a small radius | :construction_worker: TODO
+dynamite and dynamite        | 🧨 + 🧨      |    | remove all items in a big radius | :construction_worker: TODO
+dynamite and stipes          | 🧨 + 🐷      |    | remove all items in the row or column, plus a row or column next to both sides | :construction_worker: TODO
+dynamite and a color bomb    | 🧨 + 🏵️      |    | replace all items the same dynamite color with dynamite and let them explode | :construction_worker: TODO
+square in a new match        | 🍀 + 🍎 + 🍎 |    | remove all items in a 3x3 sector | :construction_worker: TODO
+square and square            | 🍀 + 🍀      |    | remove all items in a gigantic radius | :construction_worker: TODO
+square and stipes            | 🍀 + 🐷      |    | remove all items in the row and all items in the column | :construction_worker: TODO
+square and a color bomb      | 🍀 + 🏵️      |    | replace all items the same square color with square items and let them explode | :construction_worker: TODO
+square and dynamite          | 🍀 + 🧨      |    | remove all items in a big radius | :construction_worker: TODO
+cross in a new match         | ✝️ + 🍎 + 🍎 |    | remove all items in the row and all items in the column | :construction_worker: TODO
+cross and cross              | ✝️ + ✝️      |    | remove all items in 2 rows and all items in 2 columns | :construction_worker: TODO
+cross and stipes             | ✝️ + 🐷      |    | remove all items in 2 rows or in 2 columns | :construction_worker: TODO
+cross and a color bomb       | ✝️ + 🏵️      |    | replace all items the same cross color with cross items and let them explode | :construction_worker: TODO
+cross and dynamite           | ✝️ + 🧨      |    | remove all items in a cross figure in a big radius | :construction_worker: TODO
+cross and square             | ✝️ + 🍀      |    | replace all items in a cross figure (cross in a complete row and column) with cross items and let them explode | :construction_worker: TODO
+diagonal in a new match      | ↘️ + 🍎 + 🍎 |    | remove all items in a diagonal | :hourglass: POSTPONED
+magnet and 1 color           | 🧲 + 🍎      |    | remove all items from the board, two times | :hourglass: POSTPONED
 
 ## data
 
