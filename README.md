@@ -100,7 +100,7 @@ square and square | 🍀 + 🍀 |    | remove all items in a gigantic radius | :
 square and stipes | 🍀 + 🐷 |    | remove all items in the row and all items in the column | :construction_worker: TODO
 square and dynamite | 🍀 + 🧨 |    | remove all items in a big radius | :construction_worker: TODO
 square and a color bomb | 🍀 + 🏵️ |    | replace all items the same square color with square items and let them explode | :construction_worker: TODO
-stipes and stipes | 🐷 + 🐷 |    | remove all items in the row and all items in the column | :construction_worker: TODO
+stipes and stipes | 🐷 + 🐷 |    | remove all items in the row and all items in the column | :white_check_mark: 
 stipes and dynamite | 🐷 + 🧨 |    | remove all items in the row or column, plus a row or column next to both sides | :construction_worker: TODO
 stipes and a color bomb | 🐷 + 🏵️ |    | replace all items the same stripe color with stripe items and let them explode | :construction_worker: TODO
 dynamite and dynamite | 🧨 + 🧨 |    | remove all items in a big radius | :construction_worker: TODO
