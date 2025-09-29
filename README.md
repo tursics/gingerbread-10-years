@@ -86,7 +86,7 @@ combination                  | emoji       | image | result      | state
 column stipes in a new match | 🐖 + 🍎 + 🍎 |    | remove all items in the column | :white_check_mark: done
 row stipes in a new match    | 🐷 + 🍎 + 🍎 |    | remove all items in the row | :white_check_mark: done
 stipes and stipes            | 🐷 + 🐷      |    | remove all items in the row and all items in the column | :white_check_mark: 
-color bomb and 1 color       | 🏵️ + 🍎      |    | remove all items the same color from the board | :construction_worker: TODO
+color bomb and 1 color       | 🏵️ + 🍎      |    | remove all items the same color from the board | :white_check_mark: done
 color bomb and a color bomb  | 🏵️ + 🏵️      |    | remove all items from the board | :construction_worker: TODO
 color bomb and stipes        | 🏵️ + 🐷      |    | replace all items the same stripe color with stripe items and let them explode | :construction_worker: TODO
 dynamite in a new match      | 🧨 + 🍎 + 🍎 |    | remove all items in a small radius | :construction_worker: TODO

@@ -2,6 +2,7 @@ var solve = (function () {
     var solveFuncs = [];
 
     function init() {
+        solveFuncs.push(solveBombColor);
         solveFuncs.push(solve5col);
         solveFuncs.push(solve5row);
         solveFuncs.push(solveStripedStriped);
@@ -185,7 +186,7 @@ var solve = (function () {
                         board.animateItem(repository, x, y + 3, x, y + 2);
                         board.animateItem(repository, x, y + 4, x, y + 2);
 
-                        board.changeItem (repository, x, y + 2, '🏵️');
+                        board.changeItem (repository, x, y + 2, board.getBombItem());
                     }
 				}
 			}
@@ -208,7 +209,7 @@ var solve = (function () {
                         board.animateItem(repository, x + 3, y, x + 2, y);
                         board.animateItem(repository, x + 4, y, x + 2, y);
 
-                        board.changeItem (repository, x + 2, y, '🏵️');
+                        board.changeItem (repository, x + 2, y, board.getBombItem());
                     }
 				}
 			}
@@ -234,6 +235,41 @@ var solve = (function () {
                     board.cleanColumn(repository, newX, newY);
                     board.cleanRow(repository, newX, newY);
                 }
+            }
+        }
+    }
+
+    function setBombItems(repository, refItem, newItem) {
+        var rows = board.getRows(repository);
+        var cols = board.getCols(repository);
+
+        for (var y = 0; y < rows; ++y) {
+            for (var x = 0; x < cols; ++x) {
+                var item = board.getItem(repository, x, y);
+                if (item === refItem) {
+                    if (board.isBaseItem(newItem)) {
+                        board.cleanItem(repository, x, y);
+                    }
+                }
+			}
+		}
+    }
+
+    function solveBombColor(repository, newX, newY, oldX, oldY) {
+        if((newX !== oldX) || (newY !== oldY)) {
+            var newItem = board.getItem(repository, newX, newY);
+            var isNewBaseItem = board.isBaseItem(newItem);
+            var isNewBombItem = board.getBombItem() === newItem;
+            var oldItem = board.getItem(repository, oldX, oldY);
+            var isOldBaseItem = board.isBaseItem(oldItem);
+            var isOldBombItem = board.getBombItem() === oldItem;
+
+            if (isNewBaseItem && isOldBombItem) {
+                board.cleanItemOnly(repository, oldX, oldY);
+                setBombItems(repository, newItem, newItem);
+            } else if (isOldBaseItem && isNewBombItem) {
+                board.cleanItemOnly(repository, newX, newY);
+                setBombItems(repository, oldItem, oldItem);
             }
         }
     }

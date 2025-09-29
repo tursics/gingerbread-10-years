@@ -220,6 +220,10 @@ var board = (function () {
         return ITEM_BUG;
     }
 
+    function funcGetBombItem() {
+        return '🏵️';
+    }
+
     function cleanLeft(repository, x, y) {
         while (x > 0) {
             --x;
@@ -271,8 +275,7 @@ var board = (function () {
 
         if ((ITEM_BUG !== stripeHItem) && (stripeHItem === item)) {
             funcCleanColumn(repository, x, y);
-        }
-        if ((ITEM_BUG !== stripeVItem) && (stripeVItem === item)) {
+        } else if ((ITEM_BUG !== stripeVItem) && (stripeVItem === item)) {
             funcCleanRow(repository, x, y);
         }
     }
@@ -642,6 +645,7 @@ var board = (function () {
         equalBoardsWithLogging: funcEqualBoardsWithLogging,
         getAnimateItem: funcGetAnimateItem,
         getBaseItem: funcGetBaseItem,
+        getBombItem: funcGetBombItem,
         getCols: funcGetCols,
         getItem: funcGetItem,
         getRows: funcGetRows,
